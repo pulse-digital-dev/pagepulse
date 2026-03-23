@@ -13,12 +13,25 @@ UIは日本語。Chrome Web Store掲載文は英語メイン。
 ## ブランド
 
 - **Publisher name:** Pulse Digital（Chrome Web Store開発者アカウント）
-- **個人運営:** comrade-inc とは分離。連絡先は `contact@pagepulse.dev`
+- **個人運営:** comrade-inc とは完全分離
 - **今後のツール展開:** Pulse Digital ブランドで統一（FormPulse, AdPulse 等）
+- **連絡先:** `contact@pulse-digital.dev`（ドメイン取得後設定予定）
+
+## アカウント情報
+
+| 項目 | 値 |
+|------|----|
+| Chrome Web Store アカウント | `dz.ken55555@gmail.com` |
+| Publisher name | Pulse Digital |
+| EEA 区分 | トレーダー（将来の課金を考慮） |
+| GitHub Org（公開用） | `pulse-digital-dev`（Public: LP・プライバシーポリシー用） |
+| GitHub Org（ソースコード） | `knomoto-comrade`（Private: 開発用） |
+| ドメイン（予定） | `pulse-digital.dev` |
 
 ## リポジトリ
 
-- **GitHub:** https://github.com/knomoto-comrade/pagepulse （プライベート）
+- **開発用 (Private):** https://github.com/knomoto-comrade/pagepulse
+- **公開用 (Public):** https://github.com/pulse-digital-dev/pagepulse （LP・プライバシーポリシー公開用）
 - **ローカル:** `/Users/nomotokengo/COM/knomoto/20_新規ビジネス/pagepulse/`
 
 ## アーキテクチャ
@@ -71,7 +84,8 @@ pagepulse/
 | robots.txt / llms.txt チェックを削除 | `host_permissions` 除去により cross-origin fetch が不可に。FETCH_RESOURCE ハンドラも削除 |
 | analyzeLLMO を sync 関数に変更 | await 呼び出しがなくなったため |
 | background.js を最小構成に | FETCH_RESOURCE 削除後、onInstalled のみ |
-| アップグレードURL → `pagepulse.dev` | 個人運営のため comrade-inc ドメインを不使用 |
+| アップグレードURL → `pulse-digital.dev/pagepulse` | 個人運営のため comrade-inc ドメインを不使用。ブランド統一のためドメイン変更予定 |
+| manifest.json description を日本語化 | ストアの「パッケージの概要」がmanifestから自動取得されるため |
 
 ## 開発ルール
 
@@ -87,16 +101,19 @@ pagepulse/
 2. [x] プライバシーポリシー作成 (`docs/privacy-policy.md`)
 3. [x] ストア掲載文作成 (`docs/store-listing.md`)
 4. [x] スクリーンショット撮影 (`docs/screenshots/` 5枚)
-5. [ ] 開発者アカウント登録（$5, 個人Googleアカウント, Publisher: "Pulse Digital"）
-6. [ ] ZIPパッケージ作成（`.git`, `docs`, `.agent` を除外）
-7. [ ] Chrome Web Store ダッシュボードから申請
-8. [ ] 審査通過（1-3営業日）
+5. [x] 開発者アカウント登録（$5, `dz.ken55555@gmail.com`, Publisher: "Pulse Digital"）
+6. [x] manifest.json description を日本語化
+7. [x] ZIPパッケージ作成・アップロード
+8. [x] ストア掲載情報入力（日本語説明文・カテゴリ・SS・アイコン）
+9. [ ] プライバシーポリシーURLの公開（GitHub Pages `pulse-digital-dev` Org経由）
+10. [ ] 「プライバシーへの取り組み」タブ入力完了 → 審査に提出
+11. [ ] 審査通過（1-3営業日）
 
 ## ZIPパッケージ作成コマンド
 
 ```bash
 cd /Users/nomotokengo/COM/knomoto/20_新規ビジネス/pagepulse
-zip -r pagepulse-v1.0.0.zip . -x ".git/*" "docs/*" ".agent/*" ".DS_Store" ".gitignore"
+zip -r ~/Desktop/pagepulse-v1.0.0.zip . -x ".git/*" "docs/*" ".agent/*" ".DS_Store" ".gitignore" "README.md"
 ```
 
 ## 収益モデル
@@ -108,8 +125,9 @@ zip -r pagepulse-v1.0.0.zip . -x ".git/*" "docs/*" ".agent/*" ".DS_Store" ".giti
 
 ## 今後のロードマップ
 
-- [ ] Chrome Web Store 公開
-- [ ] pagepulse.dev LP作成 + プライバシーポリシー掲載
+- [ ] Chrome Web Store 公開（審査提出→通過）
+- [ ] `pulse-digital.dev` ドメイン取得
+- [ ] LP作成（GitHub Pages → 独自ドメイン移行）
 - [ ] v1.1: Export機能（PDF/CSV）
 - [ ] v1.2: Premium課金（ExtensionPay + Stripe）
 - [ ] v2.0: AI提案エンジン（Claude API連携）
