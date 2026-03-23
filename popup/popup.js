@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (!tab || !tab.url) {
-      showError('Unable to access this page.');
+      showError('このページにはアクセスできません。');
       return;
     }
 
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Check if we can inject
     if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('about:')) {
-      showError('Cannot analyze browser internal pages.');
+      showError('ブラウザ設定ページは分析できません。');
       return;
     }
 
@@ -46,12 +46,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       analysisData = result.result;
       renderResults();
     } else {
-      showError('Analysis returned no data.');
+      showError('分析データが取得できませんでした。');
     }
 
   } catch (err) {
     console.error('PagePulse error:', err);
-    showError('Failed to analyze page. Try refreshing.');
+    showError('ページの分析に失敗しました。再読み込みしてください。');
   }
 
   // ---- Render ----
@@ -72,14 +72,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       seo: calcCategoryScore(analysisData.seo),
       performance: calcCategoryScore(analysisData.performance),
       accessibility: calcCategoryScore(analysisData.accessibility),
-      structure: calcCategoryScore(analysisData.structure)
+      structure: calcCategoryScore(analysisData.structure),
+      llmo: calcCategoryScore(analysisData.llmo)
     };
 
     const total = Math.round(
-      scores.seo * 0.35 +
-      scores.performance * 0.25 +
-      scores.accessibility * 0.20 +
-      scores.structure * 0.20
+      scores.seo * 0.20 +
+      scores.performance * 0.20 +
+      scores.accessibility * 0.15 +
+      scores.structure * 0.15 +
+      scores.llmo * 0.30
     );
 
     const scoreNumber = $('#scoreNumber');
@@ -125,10 +127,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   function renderBadges() {
     const badgesContainer = $('#scoreBadges');
     const categories = [
+      { key: 'llmo', label: 'AI最適化', data: analysisData.llmo },
       { key: 'seo', label: 'SEO', data: analysisData.seo },
-      { key: 'performance', label: 'Speed', data: analysisData.performance },
-      { key: 'accessibility', label: 'A11y', data: analysisData.accessibility },
-      { key: 'structure', label: 'Structure', data: analysisData.structure }
+      { key: 'performance', label: 'スピード', data: analysisData.performance },
+      { key: 'accessibility', label: 'アクセシビリティ', data: analysisData.accessibility },
+      { key: 'structure', label: '構造', data: analysisData.structure }
     ];
 
     badgesContainer.innerHTML = categories.map(cat => {
@@ -139,7 +142,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function renderTabBadges() {
-    const categories = ['seo', 'performance', 'accessibility', 'structure'];
+    const categories = ['seo', 'performance', 'accessibility', 'structure', 'llmo'];
     categories.forEach(cat => {
       const data = analysisData[cat];
       const issues = data.filter(r => r.status === 'fail' || r.status === 'warn').length;
@@ -165,7 +168,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="result-card__header">
           <span class="result-card__status result-card__status--${item.status}"></span>
           <span class="result-card__title">${escapeHtml(item.title)}</span>
-          <span class="result-card__tag result-card__tag--free">FREE</span>
+          <span class="result-card__tag result-card__tag--free">無料診断</span>
         </div>
         <div class="result-card__body">
           ${escapeHtml(item.body)}
@@ -188,7 +191,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // ---- Upgrade Button ----
   $('#btnUpgrade').addEventListener('click', () => {
-    chrome.tabs.create({ url: 'https://pagepulse.dev/pro' });
+    chrome.tabs.create({ url: 'https://knomoto.comrade-inc.co.jp/contact' });
   });
 
   // ---- Utilities ----

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +25,7 @@
         </div>
         <h1 class="header__title">PagePulse</h1>
       </div>
-      <div class="header__url" id="pageUrl">Loading...</div>
+      <div class="header__url" id="pageUrl">読み込み中...</div>
     </header>
 
     <!-- Score Ring -->
@@ -47,7 +47,7 @@
     <!-- Loading -->
     <section class="loading" id="loadingSection">
       <div class="loading__spinner"></div>
-      <p class="loading__text">Analyzing page...</p>
+      <p class="loading__text">ページを分析中...</p>
     </section>
 
     <!-- Category Tabs -->
@@ -59,18 +59,23 @@
       </button>
       <button class="tab" data-category="performance">
         <span class="tab__icon">⚡</span>
-        <span class="tab__label">Speed</span>
+        <span class="tab__label">スピード</span>
         <span class="tab__badge" id="badge-performance">-</span>
       </button>
       <button class="tab" data-category="accessibility">
         <span class="tab__icon">♿</span>
-        <span class="tab__label">A11y</span>
+        <span class="tab__label">アクセシビリティ</span>
         <span class="tab__badge" id="badge-accessibility">-</span>
       </button>
       <button class="tab" data-category="structure">
         <span class="tab__icon">🏗️</span>
-        <span class="tab__label">Structure</span>
+        <span class="tab__label">構造</span>
         <span class="tab__badge" id="badge-structure">-</span>
+      </button>
+      <button class="tab" data-category="llmo">
+        <span class="tab__icon">🤖</span>
+        <span class="tab__label">AI最適化</span>
+        <span class="tab__badge" id="badge-llmo">-</span>
       </button>
     </nav>
 
@@ -82,9 +87,9 @@
     <!-- Footer -->
     <footer class="footer">
       <button class="btn-upgrade" id="btnUpgrade">
-        ✨ Unlock AI Suggestions & CRO Insights
+        ✨ ECサイト向け AI最適化レポートを作成(無料)
       </button>
-      <p class="footer__version">PagePulse v1.0.0</p>
+      <p class="footer__version">PagePulse v1.1.0</p>
     </footer>
   </div>
   <script src="popup.js"></script>
