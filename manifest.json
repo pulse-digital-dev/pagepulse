@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "PagePulse - AI Website Analyzer",
+  "version": "1.0.0",
+  "description": "Analyze any webpage instantly. Get actionable SEO, performance, and accessibility insights with one click.",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "content_scripts": [],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

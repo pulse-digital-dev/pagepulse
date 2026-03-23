@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PagePulse</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header__brand">
+        <div class="header__logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="url(#grad)" stroke-width="2.5" fill="none"/>
+            <path d="M12 6 L12 12 L16 14" stroke="url(#grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="grad" x1="0" y1="0" x2="24" y2="24">
+                <stop offset="0%" stop-color="#6C5CE7"/>
+                <stop offset="100%" stop-color="#00B4D8"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h1 class="header__title">PagePulse</h1>
+      </div>
+      <div class="header__url" id="pageUrl">Loading...</div>
+    </header>
+
+    <!-- Score Ring -->
+    <section class="score-section" id="scoreSection">
+      <div class="score-ring">
+        <svg viewBox="0 0 120 120" class="score-ring__svg">
+          <circle cx="60" cy="60" r="52" class="score-ring__bg"/>
+          <circle cx="60" cy="60" r="52" class="score-ring__fill" id="scoreRing"
+                  stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+        </svg>
+        <div class="score-ring__value">
+          <span class="score-ring__number" id="scoreNumber">--</span>
+          <span class="score-ring__label">/ 100</span>
+        </div>
+      </div>
+      <div class="score-badges" id="scoreBadges"></div>
+    </section>
+
+    <!-- Loading -->
+    <section class="loading" id="loadingSection">
+      <div class="loading__spinner"></div>
+      <p class="loading__text">Analyzing page...</p>
+    </section>
+
+    <!-- Category Tabs -->
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-category="seo">
+        <span class="tab__icon">🔍</span>
+        <span class="tab__label">SEO</span>
+        <span class="tab__badge" id="badge-seo">-</span>
+      </button>
+      <button class="tab" data-category="performance">
+        <span class="tab__icon">⚡</span>
+        <span class="tab__label">Speed</span>
+        <span class="tab__badge" id="badge-performance">-</span>
+      </button>
+      <button class="tab" data-category="accessibility">
+        <span class="tab__icon">♿</span>
+        <span class="tab__label">A11y</span>
+        <span class="tab__badge" id="badge-accessibility">-</span>
+      </button>
+      <button class="tab" data-category="structure">
+        <span class="tab__icon">🏗️</span>
+        <span class="tab__label">Structure</span>
+        <span class="tab__badge" id="badge-structure">-</span>
+      </button>
+    </nav>
+
+    <!-- Results -->
+    <section class="results" id="results">
+      <!-- Dynamically populated -->
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <button class="btn-upgrade" id="btnUpgrade">
+        ✨ Unlock AI Suggestions & CRO Insights
+      </button>
+      <p class="footer__version">PagePulse v1.0.0</p>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
