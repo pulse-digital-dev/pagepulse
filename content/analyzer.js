@@ -97,16 +97,11 @@
     // Images without dimensions
     const images = document.querySelectorAll('img');
     const imgsNoDims = [];
-    const imgsNoLazy = [];
-    const imgsNoAlt = [];
     let totalImages = images.length;
 
     images.forEach(img => {
       if (!img.getAttribute('width') && !img.getAttribute('height') && !img.style.width && !img.style.height) {
         imgsNoDims.push(img.src || img.dataset.src || '(inline)');
-      }
-      if (!img.loading && !img.getAttribute('loading')) {
-        imgsNoLazy.push(img.src ? img.src.split('/').pop() : '(unknown)');
       }
     });
 
@@ -129,8 +124,12 @@
       });
     }
 
-    // Lazy loading
-    const belowFoldImgs = Array.from(images).filter((img, i) => i > 2);
+    // Lazy loading — use viewport position instead of DOM index
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    const belowFoldImgs = Array.from(images).filter(img => {
+      const rect = img.getBoundingClientRect();
+      return rect.top > viewportHeight; // truly below the viewport
+    });
     const lazyCount = belowFoldImgs.filter(img => img.loading === 'lazy').length;
     if (belowFoldImgs.length > 0 && lazyCount < belowFoldImgs.length) {
       results.performance.push({
@@ -145,19 +144,20 @@
       });
     }
 
-    // Scripts
-    const scripts = document.querySelectorAll('script[src]');
-    const blockingScripts = Array.from(scripts).filter(s => !s.async && !s.defer && !s.type?.includes('module'));
+    // Scripts — only <head> scripts can truly render-block
+    const allScripts = document.querySelectorAll('script[src]');
+    const headScripts = document.head ? document.head.querySelectorAll('script[src]') : [];
+    const blockingScripts = Array.from(headScripts).filter(s => !s.async && !s.defer && !s.type?.includes('module'));
     if (blockingScripts.length > 0) {
       results.performance.push({
         id: 'script-blocking', status: 'warn', title: 'Render-Blocking Scripts',
-        body: `${blockingScripts.length} scripts may block page rendering`,
-        action: 'Add async or defer attributes to non-critical scripts to prevent render blocking.'
+        body: `${blockingScripts.length} scripts in <head> may block page rendering`,
+        action: 'Add async or defer attributes to non-critical scripts in <head> to prevent render blocking.'
       });
     } else {
       results.performance.push({
         id: 'script-ok', status: 'pass', title: 'Script Loading',
-        body: `${scripts.length} scripts \u2014 none are render-blocking`, action: ''
+        body: `${allScripts.length} scripts \u2014 none are render-blocking`, action: ''
       });
     }
 
