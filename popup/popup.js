@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (!tab || !tab.url) {
-      showError('このページにはアクセスできません。');
+      showError('\u3053\u306e\u30da\u30fc\u30b8\u306b\u306f\u30a2\u30af\u30bb\u30b9\u3067\u304d\u307e\u305b\u3093\u3002');
       return;
     }
 
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Check if we can inject
     if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('about:')) {
-      showError('ブラウザ設定ページは分析できません。');
+      showError('\u30d6\u30e9\u30a6\u30b6\u8a2d\u5b9a\u30da\u30fc\u30b8\u306f\u5206\u6790\u3067\u304d\u307e\u305b\u3093\u3002');
       return;
     }
 
@@ -46,12 +46,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       analysisData = result.result;
       renderResults();
     } else {
-      showError('分析データが取得できませんでした。');
+      showError('\u5206\u6790\u30c7\u30fc\u30bf\u304c\u53d6\u5f97\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f\u3002');
     }
 
   } catch (err) {
     console.error('PagePulse error:', err);
-    showError('ページの分析に失敗しました。再読み込みしてください。');
+    showError('\u30da\u30fc\u30b8\u306e\u5206\u6790\u306b\u5931\u6557\u3057\u307e\u3057\u305f\u3002\u518d\u8aad\u307f\u8fbc\u307f\u3057\u3066\u304f\u3060\u3055\u3044\u3002');
   }
 
   // ---- Render ----
@@ -127,11 +127,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   function renderBadges() {
     const badgesContainer = $('#scoreBadges');
     const categories = [
-      { key: 'llmo', label: 'AI最適化', data: analysisData.llmo },
+      { key: 'llmo', label: 'AI\u6700\u9069\u5316', data: analysisData.llmo },
       { key: 'seo', label: 'SEO', data: analysisData.seo },
-      { key: 'performance', label: 'スピード', data: analysisData.performance },
-      { key: 'accessibility', label: 'アクセシビリティ', data: analysisData.accessibility },
-      { key: 'structure', label: '構造', data: analysisData.structure }
+      { key: 'performance', label: '\u30b9\u30d4\u30fc\u30c9', data: analysisData.performance },
+      { key: 'accessibility', label: '\u30a2\u30af\u30bb\u30b7\u30d3\u30ea\u30c6\u30a3', data: analysisData.accessibility },
+      { key: 'structure', label: '\u69cb\u9020', data: analysisData.structure }
     ];
 
     badgesContainer.innerHTML = categories.map(cat => {
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="result-card__header">
           <span class="result-card__status result-card__status--${item.status}"></span>
           <span class="result-card__title">${escapeHtml(item.title)}</span>
-          <span class="result-card__tag result-card__tag--free">無料診断</span>
+          <span class="result-card__tag result-card__tag--free">\u7121\u6599\u8a3a\u65ad</span>
         </div>
         <div class="result-card__body">
           ${escapeHtml(item.body)}
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // ---- Upgrade Button ----
   $('#btnUpgrade').addEventListener('click', () => {
-    chrome.tabs.create({ url: 'https://knomoto.comrade-inc.co.jp/contact' });
+    chrome.tabs.create({ url: 'https://pagepulse.dev' });
   });
 
   // ---- Utilities ----
