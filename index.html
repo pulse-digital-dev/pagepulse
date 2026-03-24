@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PagePulse — AI Website Analyzer | Instant SEO, Performance & Accessibility Insights</title>
+  <meta name="description" content="Analyze any webpage instantly with PagePulse. Get actionable SEO, performance, accessibility, structure, and AI optimization insights — one click, zero data collection.">
+  <meta property="og:title" content="PagePulse — AI Website Analyzer">
+  <meta property="og:description" content="One click. Five dimensions. Zero data collection. Instant website analysis from your browser toolbar.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pulse-digital.dev">
+  <link rel="canonical" href="https://pulse-digital.dev">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-card: rgba(255, 255, 255, 0.04);
+      --bg-card-hover: rgba(255, 255, 255, 0.07);
+      --border-card: rgba(255, 255, 255, 0.08);
+      --text-primary: #f0f0f5;
+      --text-secondary: #8888a0;
+      --text-muted: #55556a;
+      --accent-blue: #4f8cff;
+      --accent-purple: #8b5cf6;
+      --accent-teal: #14b8a6;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-green: #22c55e;
+      --gradient-hero: linear-gradient(135deg, #4f8cff 0%, #8b5cf6 50%, #14b8a6 100%);
+      --gradient-subtle: linear-gradient(135deg, rgba(79,140,255,0.15), rgba(139,92,246,0.15));
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ===== Ambient background ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 20%, rgba(79,140,255,0.06) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 80%, rgba(139,92,246,0.05) 0%, transparent 50%),
+                  radial-gradient(circle at 50% 50%, rgba(20,184,166,0.03) 0%, transparent 50%);
+      z-index: -1;
+      animation: ambientMove 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-3%, -3%); }
+    }
+
+    /* ===== Container ===== */
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== Navigation ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 16px 0;
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-card);
+    }
+
+    .nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .nav-brand .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--gradient-hero);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+
+    .btn-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--accent-blue);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-nav:hover {
+      background: #3d7aee;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(79, 140, 255, 0.3);
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      padding: 160px 0 100px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: var(--gradient-subtle);
+      border: 1px solid rgba(79, 140, 255, 0.2);
+      border-radius: 100px;
+      font-size: 0.85rem;
+      color: var(--accent-blue);
+      font-weight: 500;
+      margin-bottom: 32px;
+    }
+
+    .hero-badge::before {
+      content: '✦';
+      animation: sparkle 2s ease-in-out infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 .gradient-text {
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: var(--gradient-hero);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 30px rgba(79, 140, 255, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px rgba(79, 140, 255, 0.4);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      margin-top: 64px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border-card);
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ===== Features Grid ===== */
+    .section {
+      padding: 100px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      position: relative;
+      padding: 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius);
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--card-accent, var(--accent-blue));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feature-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255,255,255,0.12);
+      transform: translateY(-4px);
+    }
+
+    .feature-card:hover::before { opacity: 1; }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+      background: var(--icon-bg, rgba(79,140,255,0.12));
+    }
+
+    .feature-card h3 {
+      font-size: 1.15rem;
+      font-weight: 650;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    .card-seo { --card-accent: var(--accent-blue); --icon-bg: rgba(79,140,255,0.12); }
+    .card-perf { --card-accent: var(--accent-amber); --icon-bg: rgba(245,158,11,0.12); }
+    .card-a11y { --card-accent: var(--accent-green); --icon-bg: rgba(34,197,94,0.12); }
+    .card-struct { --card-accent: var(--accent-purple); --icon-bg: rgba(139,92,246,0.12); }
+    .card-llmo { --card-accent: var(--accent-teal); --icon-bg: rgba(20,184,166,0.12); }
+
+    /* ===== How It Works ===== */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      position: relative;
+    }
+
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: 16%;
+      right: 16%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-teal));
+      opacity: 0.3;
+    }
+
+    .step {
+      text-align: center;
+      position: relative;
+    }
+
+    .step-number {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--gradient-subtle);
+      color: var(--accent-blue);
+      position: relative;
+      z-index: 1;
+    }
+
+    .step h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    /* ===== Pricing ===== */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      padding: 40px 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius);
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .pricing-card.featured {
+      border-color: rgba(79,140,255,0.3);
+      background: linear-gradient(135deg, rgba(79,140,255,0.06), rgba(139,92,246,0.06));
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: -12px;
+      right: 24px;
+      padding: 4px 14px;
+      background: var(--gradient-hero);
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .pricing-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .pricing-price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .pricing-price span {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .pricing-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--accent-green);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .pricing-features li.disabled {
+      color: var(--text-muted);
+    }
+
+    .pricing-features li.disabled::before {
+      content: '—';
+      color: var(--text-muted);
+    }
+
+    .btn-pricing {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .btn-pricing-free {
+      background: var(--bg-card-hover);
+      color: var(--text-primary);
+      border: 1px solid var(--border-card);
+    }
+
+    .btn-pricing-free:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .btn-pricing-premium {
+      background: var(--gradient-hero);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(79,140,255,0.25);
+    }
+
+    .btn-pricing-premium:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(79,140,255,0.35);
+    }
+
+    /* ===== Privacy Banner ===== */
+    .privacy-banner {
+      padding: 64px 0;
+      text-align: center;
+    }
+
+    .privacy-card {
+      padding: 48px;
+      background: var(--gradient-subtle);
+      border: 1px solid rgba(79,140,255,0.15);
+      border-radius: var(--radius);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .privacy-card h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .privacy-card p {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    .privacy-icons {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      margin-top: 32px;
+    }
+
+    .privacy-icon {
+      text-align: center;
+    }
+
+    .privacy-icon .emoji {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .privacy-icon span:last-child {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    /* ===== CTA Section ===== */
+    .cta-section {
+      padding: 100px 0;
+      text-align: center;
+    }
+
+    .cta-section h2 {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .cta-section p {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 36px;
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--border-card);
+    }
+
+    .footer .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .footer-brand .logo-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: var(--gradient-hero);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--text-secondary); }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    /* ===== Animations ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-in {
+      opacity: 0;
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+
+      .hero { padding: 120px 0 60px; }
+
+      .hero-stats {
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .steps::before { display: none; }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .privacy-icons {
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .footer .container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero-cta {
+        flex-direction: column;
+      }
+
+      .btn-primary, .btn-secondary {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="container">
+      <a href="/" class="nav-brand">
+        <div class="logo-icon">⚡</div>
+        PagePulse
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How it Works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+      <a href="https://chrome.google.com/webstore/detail/biihgmkmmdihocjmdfedmhmkdmepfcoc" class="btn-nav" id="cta-nav" target="_blank" rel="noopener">
+        <span>🌐</span> Add to Chrome
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge animate-in">Free Chrome Extension</div>
+      <h1 class="animate-in delay-1">
+        Instant Website Analysis<br>
+        <span class="gradient-text">Powered by Intelligence</span>
+      </h1>
+      <p class="hero-subtitle animate-in delay-2">
+        One click to analyze SEO, performance, accessibility, structure, and AI readiness. All insights run locally — zero data leaves your browser.
+      </p>
+      <div class="hero-cta animate-in delay-3">
+        <a href="https://chrome.google.com/webstore/detail/biihgmkmmdihocjmdfedmhmkdmepfcoc" class="btn-primary" target="_blank" rel="noopener">
+          <span>⬇️</span> Install Free — Chrome Web Store
+        </a>
+        <a href="#features" class="btn-secondary">
+          <span>↓</span> Learn More
+        </a>
+      </div>
+      <div class="hero-stats animate-in delay-4">
+        <div class="hero-stat">
+          <div class="hero-stat-value">5</div>
+          <div class="hero-stat-label">Analysis Dimensions</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">30+</div>
+          <div class="hero-stat-label">Checks Per Page</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">0</div>
+          <div class="hero-stat-label">Data Collected</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">&lt;2s</div>
+          <div class="hero-stat-label">Analysis Time</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Features</p>
+        <h2 class="section-title">Five Dimensions of Analysis</h2>
+        <p class="section-subtitle">Each page is scored across five critical dimensions. Actionable insights, not just scores.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card card-seo">
+          <div class="feature-icon">🔍</div>
+          <h3>SEO Analysis</h3>
+          <p>Title tags, meta descriptions, heading hierarchy, canonical URLs, and Open Graph tags — verified instantly against best practices.</p>
+        </div>
+        <div class="feature-card card-perf">
+          <div class="feature-icon">⚡</div>
+          <h3>Performance Check</h3>
+          <p>Detect render-blocking scripts, missing image dimensions, lazy loading gaps, and inline style bloat that slows your pages.</p>
+        </div>
+        <div class="feature-card card-a11y">
+          <div class="feature-icon">♿</div>
+          <h3>Accessibility Audit</h3>
+          <p>Alt text coverage, language attributes, form labels, empty links, and viewport settings — ensuring inclusivity for all users.</p>
+        </div>
+        <div class="feature-card card-struct">
+          <div class="feature-icon">🏗️</div>
+          <h3>Structure Review</h3>
+          <p>Schema.org structured data, robots meta tags, HTTPS status, favicon presence, and HTML document size analysis.</p>
+        </div>
+        <div class="feature-card card-llmo">
+          <div class="feature-icon">🤖</div>
+          <h3>AI Optimization (LLMO)</h3>
+          <p>Is your site ready for AI search engines? Evaluate E-E-A-T signals, EC structured data, and AI-friendliness factors.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="section" id="how-it-works" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">How It Works</p>
+        <h2 class="section-title">Three Steps to Better Websites</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Install</h3>
+          <p>Add PagePulse from the Chrome Web Store. No registration needed.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Click</h3>
+          <p>Navigate to any page and click the PagePulse icon in your toolbar.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Improve</h3>
+          <p>Review prioritized issues (Critical → Warning → Pass) and fix what matters most.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy Banner -->
+  <div class="privacy-banner">
+    <div class="container">
+      <div class="privacy-card">
+        <h2>🔒 Privacy First, Always</h2>
+        <p>PagePulse runs 100% client-side. Your data never leaves your browser. No tracking, no analytics, no accounts required.</p>
+        <div class="privacy-icons">
+          <div class="privacy-icon">
+            <span class="emoji">🚫</span>
+            <span>No Data Collection</span>
+          </div>
+          <div class="privacy-icon">
+            <span class="emoji">🔐</span>
+            <span>No Server Calls</span>
+          </div>
+          <div class="privacy-icon">
+            <span class="emoji">👤</span>
+            <span>No Account Needed</span>
+          </div>
+          <div class="privacy-icon">
+            <span class="emoji">📋</span>
+            <span>Minimal Permissions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pricing -->
+  <section class="section" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Pricing</p>
+        <h2 class="section-title">Start Free, Upgrade When Ready</h2>
+        <p class="section-subtitle">The free version gives you everything you need. Premium is for power users.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <p class="pricing-name">Free</p>
+          <p class="pricing-price">$0 <span>forever</span></p>
+          <p class="pricing-desc">Everything you need to analyze any website.</p>
+          <ul class="pricing-features">
+            <li>5-dimension analysis</li>
+            <li>30+ automated checks</li>
+            <li>Animated score ring</li>
+            <li>Issue prioritization</li>
+            <li>100% client-side</li>
+            <li class="disabled">AI-powered suggestions</li>
+            <li class="disabled">CRO diagnostics</li>
+            <li class="disabled">CSV/PDF export</li>
+          </ul>
+          <a href="https://chrome.google.com/webstore/detail/biihgmkmmdihocjmdfedmhmkdmepfcoc" class="btn-pricing btn-pricing-free" target="_blank" rel="noopener">Install Free</a>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-badge">Coming Soon</div>
+          <p class="pricing-name">Premium</p>
+          <p class="pricing-price">$9.90 <span>/month</span></p>
+          <p class="pricing-desc">Advanced analysis for professionals.</p>
+          <ul class="pricing-features">
+            <li>Everything in Free</li>
+            <li>AI-powered fix suggestions</li>
+            <li>CRO diagnostics</li>
+            <li>EC-specific deep analysis</li>
+            <li>CSV/PDF export</li>
+            <li>Priority support</li>
+          </ul>
+          <button class="btn-pricing btn-pricing-premium" disabled style="opacity: 0.6; cursor: not-allowed;">Coming Soon</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to Understand Your Website Better?</h2>
+      <p>Join developers and marketers who use PagePulse to build better websites.</p>
+      <a href="https://chrome.google.com/webstore/detail/biihgmkmmdihocjmdfedmhmkdmepfcoc" class="btn-primary" target="_blank" rel="noopener">
+        <span>⬇️</span> Add to Chrome — It's Free
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand">
+        <div class="logo-icon">⚡</div>
+        Pulse Digital
+      </div>
+      <ul class="footer-links">
+        <li><a href="/privacy-policy">Privacy Policy</a></li>
+        <li><a href="mailto:contact@pulse-digital.dev">Contact</a></li>
+        <li><a href="https://github.com/pulse-digital-dev" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+      <p class="footer-copy">&copy; 2026 Pulse Digital. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scroll Animation Observer -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.feature-card, .step, .pricing-card, .privacy-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
+    });
+
+    // Fix animation callback
+    const animObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          animObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.feature-card, .step, .pricing-card, .privacy-card').forEach((el, i) => {
+      el.style.transitionDelay = `${i * 0.08}s`;
+      animObserver.observe(el);
+    });
+  </script>
+
+</body>
+</html>
