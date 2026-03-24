@@ -9,15 +9,73 @@
     <!-- Open Graph Data -->
     <meta property="og:title" content="PagePulse - AIサイト分析ツール">
     <meta property="og:description" content="あなたのサイトの健康診断、わずか2秒。SEO・パフォーマンス・アクセシビリティをブラウザ完結で完全診断。データ送信ゼロのセキュアなChrome拡張機能。">
-    <meta property="og:image" content="header_15000x500.jpeg">
+    <meta property="og:image" content="https://pulse-digital.dev/ogp.jpg">
     <meta property="og:url" content="https://pulse-digital.dev">
+    <meta property="og:site_name" content="PagePulse">
+    <meta property="og:locale" content="ja_JP">
     <meta property="og:type" content="website">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pulsedigitaldev">
+    <meta name="twitter:creator" content="@pulsedigitaldev">
     <meta name="twitter:title" content="PagePulse - AIサイト分析ツール">
     <meta name="twitter:description" content="あなたのサイトの健康診断、わずか2秒。SEO・パフォーマンス・アクセシビリティをブラウザ完結で完全診断。データ送信ゼロのセキュアなChrome拡張機能。">
-    <meta name="twitter:image" content="header_15000x500.jpeg">
+    <meta name="twitter:image" content="https://pulse-digital.dev/ogp.jpg">
+
+    <!-- Schema.org / JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "PagePulse",
+      "operatingSystem": "Chrome, Edge, Brave",
+      "applicationCategory": "DeveloperApplication",
+      "description": "あなたのサイトの健康診断、わずか2秒。SEO・パフォーマンス・アクセシビリティをブラウザ完結で完全診断するChrome拡張機能。",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "JPY"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "ratingCount": "1"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "無料で利用し続けることはできますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "はい、Freeプランの機能（30項目以上の基本分析とエクスポート機能）はすべて永久無料でご利用いただけます。自動的に課金されることは一切ありません。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "イントラネットやローカル環境でも使えますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "可能です。PagePulseはブラウザにレンダリングされたDOMを直接解析するため、Basic認証下やVPN環境、ローカル環境でも完全に動作します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Lighthouseや他のSEOツールと何が違いますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "「ブラウザに表示されている最終状態（JS実行後）」をリアルタイムで手軽に評価できる点が最大の違いです。"
+          }
+        }
+      ]
+    }
+    </script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -117,7 +175,6 @@
         .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; transition: background 0.3s; padding: 16px 0; }
         .nav .container { display: flex; justify-content: space-between; align-items: center; }
         .nav-brand { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
-        .nav-brand svg { color: var(--accent-main); }
         .nav-links { display: flex; gap: 32px; align-items: center; }
         .nav-link { color: var(--text-secondary); font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
         .nav-link:hover { color: var(--text-primary); }
@@ -260,7 +317,7 @@
         .p-name { font-size: 1.25rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 16px; }
         .premium .p-name { color: var(--text-primary); }
         .p-price { font-size: 3rem; font-weight: 800; margin-bottom: 8px; color: white; display: flex; align-items: baseline; gap: 8px; }
-        .premium .p-price { background: var(--gradient-brand); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .premium .p-price { background: var(--gradient-brand); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .p-price span { font-size: 1rem; font-weight: 500; color: var(--text-muted); -webkit-text-fill-color: var(--text-muted); }
         .p-desc { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 32px; border-bottom: 1px solid var(--border-primary); padding-bottom: 32px; }
         
@@ -304,7 +361,6 @@
         .footer { border-top: 1px solid var(--border-primary); padding: 80px 0 40px; background: var(--bg-primary); }
         .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 64px; margin-bottom: 64px; }
         .f-brand { font-size: 1.5rem; font-weight: 800; color: white; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-        .f-brand svg { color: var(--accent-main); }
         .f-brand-desc { color: var(--text-muted); font-size: 0.95rem; max-width: 300px; line-height: 1.6; }
         
         .f-col h4 { color: white; font-weight: 600; margin-bottom: 24px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -395,7 +451,6 @@
     <nav class="nav glass" id="navbar">
         <div class="container">
             <a href="/" class="nav-brand">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                 PagePulse
             </a>
             
@@ -428,7 +483,7 @@
                     完全無料 Chrome拡張機能
                 </div>
                 <h1>あなたのサイトの健康診断、<br><span class="text-gradient">わずか2秒。</span></h1>
-                <p>SEO、パフォーマンス、アクセシビリティをブラウザ完結で完全診断。もう、改善点を探すために時間を無駄にする必要はありません。</p>
+                <p>SEO、パフォーマンス、アクセシビリティを<br class="sp-only">ブラウザ完結で完全診断。<br class="pc-only">もう、改善点を探すために<br class="sp-only">時間を無駄にする<wbr>必要は<wbr>ありません。</p>
                 
                 <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: inherit;">
                     <a href="https://chrome.google.com/webstore/detail/biihgmkmmdihocjmdfedmhmkdmepfcoc" class="btn btn-primary" target="_blank" rel="noopener">
@@ -507,8 +562,8 @@
         <div class="container">
             <div class="section-header reveal">
                 <div class="section-label">Features</div>
-                <h2 class="section-title">5つの視点で、死角ゼロのサイト診断</h2>
-                <p class="section-desc">検索順位、離脱率、法的リスク。あらゆる角度からサイトのパフォーマンスを可視化し、具体的な改善アクションを提案します。</p>
+                <h2 class="section-title">5つの視点で、<br class="sp-only">死角ゼロのサイト診断</h2>
+                <p class="section-desc">検索順位、離脱率、法的リスク。<br class="sp-only">あらゆる角度からサイトのパフォーマンスを<br class="pc-only">可視化し、<br class="sp-only">具体的な改善アクションを提案します。</p>
             </div>
             
             <div class="features-grid">
@@ -560,8 +615,8 @@
         <div class="container">
             <div class="section-header reveal">
                 <div class="section-label">Workflow</div>
-                <h2 class="section-title">今日から、改善サイクルが加速する</h2>
-                <p class="section-desc">複雑な設定やマニュアルは不要。拡張機能を入れて、調べたいページでクリックするだけ。</p>
+                <h2 class="section-title">今日から、<br class="sp-only">改善サイクルが加速する</h2>
+                <p class="section-desc">複雑な設定やマニュアルは不要。<br class="sp-only">拡張機能を入れて、<br class="pc-only">調べたいページで<br class="sp-only">クリックするだけ。</p>
             </div>
             
             <div class="steps-grid reveal">
@@ -589,8 +644,8 @@
         <div class="container">
             <div class="section-header reveal">
                 <div class="section-label">Privacy</div>
-                <h2 class="section-title">あなたのデータは、あなたのブラウザの中だけ。</h2>
-                <p class="section-desc">PagePulseは100%ローカル処理。診断したURLやコンテンツが外部サーバーに送信されることは絶対にありません。</p>
+                <h2 class="section-title">あなたのデータは、<br class="sp-only">あなたのブラウザの中だけ。</h2>
+                <p class="section-desc">PagePulseは100%ローカル処理。<br class="sp-only">診断したURLやコンテンツが<br class="pc-only">外部サーバーに送信されることは<br class="sp-only">絶対にありません。</p>
             </div>
             
             <div class="privacy-grid reveal">
@@ -624,8 +679,8 @@
         <div class="container">
             <div class="section-header reveal">
                 <div class="section-label">Pricing</div>
-                <h2 class="section-title">用途に合わせたシンプルなプラン</h2>
-                <p class="section-desc">個人開発者からエンタープライズのWeb担当者まで、最高の体験を提供します。</p>
+                <h2 class="section-title">用途に合わせた<br class="sp-only">シンプルなプラン</h2>
+                <p class="section-desc">個人開発者からエンタープライズのWeb担当者まで、<br class="sp-only">最高の体験を提供します。</p>
             </div>
             
             <div class="pricing-grid reveal">
@@ -731,8 +786,8 @@
         <div class="container reveal">
             <div class="cta-bottom">
                 <div class="cta-content">
-                    <h2>プロの診断を、あなたのブラウザに。</h2>
-                    <p>改善の機会を見逃さない。今すぐ数秒でサイトの健康診断を始めましょう。</p>
+                    <h2>プロの診断を、<br class="sp-only">あなたのブラウザに。</h2>
+                    <p>改善の機会を見逃さない。<br class="sp-only">今すぐ数秒でサイトの<br class="pc-only">健康診断を始めましょう。</p>
                     <a href="https://chrome.google.com/webstore/detail/biihgmkmmdihocjmdfedmhmkdmepfcoc" class="btn btn-primary" target="_blank" rel="noopener" style="display:inline-flex;">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/></svg>
                         無料でChromeに追加する
@@ -748,7 +803,6 @@
             <div class="footer-grid">
                 <div class="f-col" style="grid-column: 1;">
                     <a href="/" class="f-brand">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                         PagePulse
                     </a>
                     <p class="f-brand-desc">AI Website Analyzer.<br> Instant SEO, Performance & Accessibility Insights directly in your browser.</p>
