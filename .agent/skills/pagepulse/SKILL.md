@@ -105,9 +105,14 @@ pagepulse/
 6. [x] manifest.json description を日本語化
 7. [x] ZIPパッケージ作成・アップロード
 8. [x] ストア掲載情報入力（日本語説明文・カテゴリ・SS・アイコン）
-9. [ ] プライバシーポリシーURLの公開（GitHub Pages `pulse-digital-dev` Org経由）
-10. [ ] 「プライバシーへの取り組み」タブ入力完了 → 審査に提出
-11. [ ] 審査通過（1-3営業日）
+9. [x] プライバシーポリシーURL公開（`https://pulse-digital-dev.github.io/pagepulse/privacy-policy`）
+10. [x] 「プライバシーへの取り組み」タブ入力完了
+11. [x] **審査に提出済み（2026-03-24）** — 審査待ち（1-3営業日）
+
+## Chrome Web Store ダッシュボード
+
+- URL: https://chrome.google.com/webstore/devconsole
+- Extension ID: `biihgmkmmdihocjmdfedmhmkdmepfcoc`
 
 ## ZIPパッケージ作成コマンド
 
@@ -120,13 +125,20 @@ zip -r ~/Desktop/pagepulse-v1.0.0.zip . -x ".git/*" "docs/*" ".agent/*" ".DS_Sto
 
 | プラン | 価格 | 機能 |
 |---|---|---|
-| Free | ¥0 | 5カテゴリ基本分析 + スコア |
-| Premium | ¥1,480/月 | AI提案、CRO診断、EC特化、CSV出力 |
+| Free | \u00a50 | 5カテゴリ基本分析 + スコア |
+| Premium | \u00a51,480/月 | AI提案、CRO診断、EC特化、CSV出力 |
+
+## ドメイン計画
+
+- **候補:** `pulse-digital.dev`（ハイフン入り）
+- **推奨レジストラ:** Cloudflare（原価販売 ~$10.18/年 ≈ \u00a51,530）
+- **用途:** LP + プライバシーポリシー + 連絡先メール
+- **ホスティング:** GitHub Pages → Cloudflare Pages（将来移行）
 
 ## 今後のロードマップ
 
-- [ ] Chrome Web Store 公開（審査提出→通過）
-- [ ] `pulse-digital.dev` ドメイン取得
+- [/] Chrome Web Store 審査待ち（1-3営業日）
+- [ ] `pulse-digital.dev` ドメイン取得（Cloudflare推奨）
 - [ ] LP作成（GitHub Pages → 独自ドメイン移行）
 - [ ] v1.1: Export機能（PDF/CSV）
 - [ ] v1.2: Premium課金（ExtensionPay + Stripe）
