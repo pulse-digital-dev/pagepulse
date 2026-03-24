@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   let analysisData = null;
   let activeCategory = 'seo';
+  const exportBar = $('#exportBar');
 
   // ---- Initialize ----
   scoreSection.classList.add('hidden');
@@ -60,6 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     scoreSection.classList.remove('hidden');
     tabs.classList.remove('hidden');
     resultsContainer.classList.remove('hidden');
+    exportBar.classList.remove('hidden');
 
     renderScoreRing();
     renderBadges();
@@ -191,8 +193,111 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // ---- Upgrade Button ----
   $('#btnUpgrade').addEventListener('click', () => {
-    chrome.tabs.create({ url: 'https://pagepulse.dev' });
+    chrome.tabs.create({ url: 'https://pulse-digital.dev' });
   });
+
+  // ---- Export Buttons ----
+  $('#btnExportCSV').addEventListener('click', () => {
+    if (!analysisData) return;
+    const csv = generateCSV();
+    downloadFile(csv, `pagepulse-report-${getTimestamp()}.csv`, 'text/csv;charset=utf-8');
+    showExportDone($('#btnExportCSV'), 'CSVダウンロード');
+  });
+
+  $('#btnExportJSON').addEventListener('click', () => {
+    if (!analysisData) return;
+    const json = generateJSON();
+    downloadFile(json, `pagepulse-report-${getTimestamp()}.json`, 'application/json;charset=utf-8');
+    showExportDone($('#btnExportJSON'), 'JSON');
+  });
+
+  function generateCSV() {
+    const BOM = '\uFEFF';
+    const header = 'カテゴリ,ステータス,チェック項目,説明,改善アクション';
+    const categoryNames = {
+      seo: 'SEO',
+      performance: 'パフォーマンス',
+      accessibility: 'アクセシビリティ',
+      structure: '構造',
+      llmo: 'AI最適化'
+    };
+    const rows = [header];
+    for (const [cat, items] of Object.entries(analysisData)) {
+      if (cat === 'url') continue;
+      const catName = categoryNames[cat] || cat;
+      items.forEach(item => {
+        rows.push([
+          catName,
+          item.status || '',
+          csvEscape(item.title || ''),
+          csvEscape(item.body || ''),
+          csvEscape(item.action || '')
+        ].join(','));
+      });
+    }
+    return BOM + rows.join('\n');
+  }
+
+  function generateJSON() {
+    const categoryNames = {
+      seo: 'SEO',
+      performance: 'Performance',
+      accessibility: 'Accessibility',
+      structure: 'Structure',
+      llmo: 'AI Optimization (LLMO)'
+    };
+    const report = {
+      tool: 'PagePulse v1.1.0',
+      url: analysisData.url || '',
+      exportedAt: new Date().toISOString(),
+      scores: {},
+      details: {}
+    };
+    for (const [cat, items] of Object.entries(analysisData)) {
+      if (cat === 'url') continue;
+      const name = categoryNames[cat] || cat;
+      report.scores[name] = calcCategoryScore(items);
+      report.details[name] = items;
+    }
+    return JSON.stringify(report, null, 2);
+  }
+
+  function csvEscape(str) {
+    if (!str) return '';
+    if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+      return '"' + str.replace(/"/g, '""') + '"';
+    }
+    return str;
+  }
+
+  function downloadFile(content, filename, mimeType) {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function getTimestamp() {
+    const d = new Date();
+    return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  function showExportDone(btn, originalText) {
+    const icon = btn.querySelector('.btn-export__icon');
+    const label = btn.querySelector('span:last-child');
+    const prevIcon = icon.textContent;
+    icon.textContent = '✅';
+    label.textContent = 'ダウンロード完了';
+    btn.classList.add('btn-export--done');
+    setTimeout(() => {
+      icon.textContent = prevIcon;
+      label.textContent = originalText;
+      btn.classList.remove('btn-export--done');
+    }, 2000);
+  }
 
   // ---- Utilities ----
   function calcCategoryScore(items) {

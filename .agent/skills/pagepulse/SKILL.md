@@ -15,7 +15,7 @@ UIは日本語。Chrome Web Store掲載文は英語メイン。
 - **Publisher name:** Pulse Digital（Chrome Web Store開発者アカウント）
 - **個人運営:** comrade-inc とは完全分離
 - **今後のツール展開:** Pulse Digital ブランドで統一（FormPulse, AdPulse 等）
-- **連絡先:** `contact@pulse-digital.dev`（ドメイン取得後設定予定）
+- **連絡先:** `contact@pulse-digital.dev`（Cloudflare Email Routing → `dz.ken55555@gmail.com` 転送設定済み）
 
 ## アカウント情報
 
@@ -24,15 +24,27 @@ UIは日本語。Chrome Web Store掲載文は英語メイン。
 | Chrome Web Store アカウント | `dz.ken55555@gmail.com` |
 | Publisher name | Pulse Digital |
 | EEA 区分 | トレーダー（将来の課金を考慮） |
-| GitHub Org（公開用） | `pulse-digital-dev`（Public: LP・プライバシーポリシー用） |
+| GitHub Org（公開用） | `pulse-digital-dev`（Public: LP・プライバシーポリシー用）**※Pulseアカウント管理** |
 | GitHub Org（ソースコード） | `knomoto-comrade`（Private: 開発用） |
-| ドメイン（予定） | `pulse-digital.dev` |
+| ドメイン | `pulse-digital.dev`（Cloudflare Registrar, 取得済み） |
 
 ## リポジトリ
 
 - **開発用 (Private):** https://github.com/knomoto-comrade/pagepulse
 - **公開用 (Public):** https://github.com/pulse-digital-dev/pagepulse （LP・プライバシーポリシー公開用）
 - **ローカル:** `/Users/nomotokengo/COM/knomoto/20_新規ビジネス/pagepulse/`
+
+## Git運用ルール（重要）
+
+| リポジトリ | GitHubアカウント | GitHub MCP | push方法 |
+|---|---|---|---|
+| `knomoto-comrade/pagepulse` | knomoto-comrade | ✅ 使用可 | `mcp_github_push_files` or ローカルgit |
+| `pulse-digital-dev/pagepulse` | **Pulseアカウント** | ❌ 操作不可 | **ユーザーがローカルgitで手動push** |
+
+> **注意:** `pulse-digital-dev` org は Pulse専用GitHubアカウントで管理。
+> Antigravityの GitHub MCP トークンは `knomoto-comrade` 用のため、
+> `pulse-digital-dev` への push/操作は一切できない。
+> LPファイル等をpushする際は `/tmp/` にファイルを準備し、ユーザーに手動push手順を案内する。
 
 ## アーキテクチャ
 
@@ -92,8 +104,9 @@ pagepulse/
 1. **UI言語:** 日本語（ターゲットユーザーは日本のWeb担当者・EC運営者）
 2. **Manifest V3** 準拠を厳守
 3. **依存なし:** Vanilla JS/CSS のみ（バンドル不要）
-4. **git push:** GitHub MCP `mcp_github_push_files` 経由推奨（サンドボックス制約時）
-5. **日本語文字列:** Unicodeエスケープ (`\uXXXX`) でJSファイルに記述（GitHub MCP経由push時の文字化け防止）
+4. **git push（開発用）:** GitHub MCP `mcp_github_push_files` 経由推奨（サンドボックス制約時）
+5. **git push（公開用）:** `pulse-digital-dev` へはユーザーが手動push（MCPトークン対象外）
+6. **日本語文字列:** Unicodeエスケープ (`\uXXXX`) でJSファイルに記述（GitHub MCP経由push時の文字化け防止）
 
 ## Chrome Web Store 公開手順
 
@@ -135,11 +148,30 @@ zip -r ~/Desktop/pagepulse-v1.0.0.zip . -x ".git/*" "docs/*" ".agent/*" ".DS_Sto
 - **用途:** LP + プライバシーポリシー + 連絡先メール
 - **ホスティング:** GitHub Pages → Cloudflare Pages（将来移行）
 
+## ドメイン・インフラ
+
+- **ドメイン:** `pulse-digital.dev` ✅ 取得完了（2026-03-24, Cloudflare, $12.20/年）
+- **Cloudflareアカウント:** `dz.ken55555@gmail.com`
+- **WHOIS登録者:** Kengo Nomoto / Pulse Digital
+- **自動更新:** ON（2027-03-24期限、60日前に自動更新）
+- **ホスティング:** Cloudflare Pages（無料）
+- **メール:** ✅ Cloudflare Email Routing設定済み（`contact@pulse-digital.dev` → `dz.ken55555@gmail.com`）
+
+## ランディングページ
+
+- **ファイル:** `/tmp/pagepulse-lp/index.html`（単一ファイル構成、ダークモードデザイン）
+- **Privacy Policy:** `/tmp/pagepulse-lp/privacy-policy/index.html`（統一デザイン）
+- **デプロイ先:** Cloudflare Pages（`pulse-digital-dev/pagepulse` リポジトリ連携）
+- **ステータス:** HTMLファイル作成済み → GitHub pushとCloudflare Pages連携が必要
+
 ## 今後のロードマップ
 
 - [/] Chrome Web Store 審査待ち（1-3営業日）
-- [ ] `pulse-digital.dev` ドメイン取得（Cloudflare推奨）
-- [ ] LP作成（GitHub Pages → 独自ドメイン移行）
+- [x] `pulse-digital.dev` ドメイン取得（Cloudflare, $12.20/年）
+- [x] Cloudflare Email Routing設定（contact@pulse-digital.dev）
+- [x] LP作成（HTML/CSS）
+- [x] LP → `pulse-digital-dev/pagepulse` にpush済み
+- [x] Cloudflare Pages設定（LP公開済み: https://pulse-digital.dev）
 - [ ] v1.1: Export機能（PDF/CSV）
 - [ ] v1.2: Premium課金（ExtensionPay + Stripe）
 - [ ] v2.0: AI提案エンジン（Claude API連携）
