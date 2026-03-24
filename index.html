@@ -122,7 +122,7 @@
 
         /* Essential Resets */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; font-family: var(--font-sans); background-color: var(--bg-primary); color: var(--text-primary); }
+        html { scroll-behavior: smooth; scroll-padding-top: 100px; font-family: var(--font-sans); background-color: var(--bg-primary); color: var(--text-primary); }
         body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; line-height: 1.6; overflow-x: hidden; }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
@@ -698,17 +698,23 @@
             </div>
             <div class="features-grid reveal">
                 <div class="feature-card" style="text-align: center;">
-                    <div class="step-num" style="margin: 0 auto 20px; font-size: 2rem; border-color: transparent; background: rgba(59,130,246,0.1); color: #3b82f6;">👨‍💻</div>
+                    <div class="f-icon-wrap" style="margin: 0 auto 20px; color: #3b82f6; background: rgba(59,130,246,0.1);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    </div>
                     <h3>Web制作・エンジニア</h3>
                     <p style="text-align: left;">納品前の品質チェック（SEO/A11y/Core Web Vitals）を自動化し、ヒューマンエラーによる実装漏れを防ぎます。</p>
                 </div>
                 <div class="feature-card" style="text-align: center;">
-                    <div class="step-num" style="margin: 0 auto 20px; font-size: 2rem; border-color: transparent; background: rgba(245,158,11,0.1); color: #f59e0b;">📈</div>
+                    <div class="f-icon-wrap" style="margin: 0 auto 20px; color: #f59e0b; background: rgba(245,158,11,0.1);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    </div>
                     <h3>マーケター・SEO担当</h3>
                     <p style="text-align: left;">競合サイトのメタタグや構造化データを一瞬で丸裸に。自社の改善サイクルを圧倒的スピードで回せます。</p>
                 </div>
                 <div class="feature-card" style="text-align: center;">
-                    <div class="step-num" style="margin: 0 auto 20px; font-size: 2rem; border-color: transparent; background: rgba(139,92,246,0.1); color: #8b5cf6;">👔</div>
+                    <div class="f-icon-wrap" style="margin: 0 auto 20px; color: #8b5cf6; background: rgba(139,92,246,0.1);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/></svg>
+                    </div>
                     <h3>Webディレクター</h3>
                     <p style="text-align: left;">難しいツールを開かずに、クライアントのサイトの健康状態をその場で即座に診断・報告できます。</p>
                 </div>
@@ -847,7 +853,7 @@
                     <a href="/" class="f-brand">
                         PagePulse
                     </a>
-                    <p class="f-brand-desc">AI Website Analyzer.<br> Instant SEO, Performance & Accessibility Insights directly in your browser.</p>
+                    <p class="f-brand-desc">AIサイト分析ツール。<br>SEO・パフォーマンス・アクセシビリティを<br>ブラウザ完結で瞬時に診断。</p>
                 </div>
                 <div class="f-col">
                     <h4>プロダクト</h4>
@@ -863,17 +869,14 @@
                         <li><a href="https://x.com/pulsedigitaldev" target="_blank" rel="noopener">公式 X (Twitter)</a></li>
                         <li><a href="mailto:contact@pulse-digital.dev">お問い合わせ</a></li>
                         <li><a href="/privacy-policy">プライバシーポリシー</a></li>
-                        <li><a href="https://comrade-inc.co.jp/" target="_blank" rel="noopener">運営会社 (Comrade)</a></li>
+
                     </ul>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <div class="footer-copy">&copy; 2026 Pulse Digital. All rights reserved.</div>
+                <div class="footer-copy">&copy; Pulse Digital. All rights reserved.</div>
                 <div class="footer-social">
-                    <a href="https://github.com/pulse-digital-dev" aria-label="GitHub" target="_blank" rel="noopener">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                    </a>
                     <a href="https://x.com/pulsedigitaldev" aria-label="X (Twitter)" target="_blank" rel="noopener">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>
                     </a>
