@@ -217,10 +217,19 @@
         }
         .mockup-title { font-size: 0.85rem; font-weight: 600; color: #fff; display: flex; align-items: center; gap:8px;}
         .mockup-body { padding: 20px; display: flex; flex-direction: column; gap: 12px; background: #1e1e24; }
+        @keyframes slideUpFade {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
         .m-card {
             background: #2a2a32; border-radius: 10px; padding: 14px; border: 1px solid rgba(255,255,255,0.04);
             display: flex; justify-content: space-between; align-items: center;
+            opacity: 0; animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+        .m-card:nth-child(1) { animation-delay: 0.2s; }
+        .m-card:nth-child(2) { animation-delay: 0.4s; }
+        .m-card:nth-child(3) { animation-delay: 0.6s; }
+        .m-card:nth-child(4) { animation-delay: 0.8s; }
         .m-info { display: flex; flex-direction: column; gap: 4px; }
         .m-label { font-size: 0.8rem; color: #a1a1aa; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
         .m-score { font-size: 1.25rem; font-weight: 800; }
@@ -263,9 +272,9 @@
 
         /* How It Works Steps */
         .steps-section { background: var(--bg-secondary); border-top: 1px solid var(--border-primary); border-bottom: 1px solid var(--border-primary); }
-        .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; position: relative; }
+        .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; position: relative; }
         .steps-grid::before {
-            content: ''; position: absolute; top: 32px; left: 15%; right: 15%; height: 2px;
+            content: ''; position: absolute; top: 32px; left: 10%; right: 10%; height: 2px;
             background: repeating-linear-gradient(90deg, var(--border-primary) 0, var(--border-primary) 6px, transparent 6px, transparent 12px);
             z-index: 0;
         }
@@ -483,7 +492,7 @@
                     完全無料 Chrome拡張機能
                 </div>
                 <h1>あなたのサイトの<br class="sp-only">健康診断、<br><span class="text-gradient">わずか2秒。</span></h1>
-                <p>SEO、パフォーマンス、アクセシビリティを<br class="sp-only">ブラウザ完結で完全診断。<br class="pc-only">もう、改善点を探すために<br class="sp-only"><span style="display:inline-block">時間を無駄にする</span><span style="display:inline-block">必要はありません。</span></p>
+                <p>ChromeネイティブAPIと最新のLighthouse指標を活用し、<br class="pc-only">SEO・パフォーマンス・アクセシビリティをブラウザ完結で完全診断。<br class="pc-only">もう、改善点を探すために<br class="sp-only"><span style="display:inline-block">時間を無駄にする</span><span style="display:inline-block">必要はありません。</span></p>
                 
                 <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: inherit;">
                     <a href="https://chrome.google.com/webstore/detail/biihgmkmmdihocjmdfedmhmkdmepfcoc" class="btn btn-primary" target="_blank" rel="noopener">
@@ -491,7 +500,7 @@
                         Chromeに追加 — 無料
                     </a>
                     <a href="#features" class="btn btn-outline" style="padding-left: 20px; padding-right: 20px;">
-                        詳細を見る
+                        分析機能を見る
                     </a>
                 </div>
 
@@ -623,15 +632,20 @@
                 <div class="step-item">
                     <div class="step-num">1</div>
                     <h3>Chromeに追加</h3>
-                    <p>公式ウェブストアから無料インストール。面倒なアカウント登録は一切不要ですぐに利用開始できます。</p>
+                    <p>公式ストアから無料インストール。面倒なアカウント登録は一切不要ですぐに利用開始できます。</p>
                 </div>
                 <div class="step-item">
                     <div class="step-num">2</div>
-                    <h3>ページで診断実行</h3>
-                    <p>競合サイトでも、自社の開発中（ローカル環境）ページでも。診断したいページを開いた状態でアイコンをクリック。</p>
+                    <h3>ツールバーに固定</h3>
+                    <p>インストール後、拡張機能メニュー（パズルのアイコン）から「ピン留め」すると、いつでもワンクリックで呼び出せます。</p>
                 </div>
                 <div class="step-item">
                     <div class="step-num">3</div>
+                    <h3>ページで診断実行</h3>
+                    <p>競合サイトでも、開発中のローカル環境でも。診断したいページを開いた状態でアイコンをクリック。</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4</div>
                     <h3>TODOを即座に把握</h3>
                     <p>エラー、要改善項目、合格項目が色分けされ、次にやるべき具体的なアクションが明確になります。</p>
                 </div>
@@ -669,6 +683,34 @@
                     </div>
                     <h3>セキュアな設計</h3>
                     <p>最小限の権限のみ要求。社内ネットワークやローカル環境でも安心して利用可能です。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="section usecases-section" id="usecases" style="background: var(--bg-secondary); border-top: 1px solid var(--border-primary);">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Use Cases</div>
+                <h2 class="section-title">プロの業務を、<br class="sp-only">ワンクリックで効率化</h2>
+                <p class="section-desc">様々なWebプロフェッショナルの生産性を劇的に向上させます。</p>
+            </div>
+            <div class="features-grid reveal">
+                <div class="feature-card" style="text-align: center;">
+                    <div class="step-num" style="margin: 0 auto 20px; font-size: 2rem; border-color: transparent; background: rgba(59,130,246,0.1); color: #3b82f6;">👨‍💻</div>
+                    <h3>Web制作・エンジニア</h3>
+                    <p style="text-align: left;">納品前の品質チェック（SEO/A11y/Core Web Vitals）を自動化し、ヒューマンエラーによる実装漏れを防ぎます。</p>
+                </div>
+                <div class="feature-card" style="text-align: center;">
+                    <div class="step-num" style="margin: 0 auto 20px; font-size: 2rem; border-color: transparent; background: rgba(245,158,11,0.1); color: #f59e0b;">📈</div>
+                    <h3>マーケター・SEO担当</h3>
+                    <p style="text-align: left;">競合サイトのメタタグや構造化データを一瞬で丸裸に。自社の改善サイクルを圧倒的スピードで回せます。</p>
+                </div>
+                <div class="feature-card" style="text-align: center;">
+                    <div class="step-num" style="margin: 0 auto 20px; font-size: 2rem; border-color: transparent; background: rgba(139,92,246,0.1); color: #8b5cf6;">👔</div>
+                    <h3>Webディレクター</h3>
+                    <p style="text-align: left;">難しいツールを開かずに、クライアントのサイトの健康状態をその場で即座に診断・報告できます。</p>
                 </div>
             </div>
         </div>
@@ -752,9 +794,9 @@
                         </li>
                     </ul>
                     
-                    <button class="btn btn-primary" style="opacity: 0.7; cursor: not-allowed; width: 100%;">
-                        近日公開予定
-                    </button>
+                    <a href="mailto:contact@pulse-digital.dev?subject=PagePulse%20Pro%20Waitlist" class="btn btn-outline" style="width: 100%; border-color: rgba(139,92,246,0.5); color: #c4b5fd; display: flex; justify-content: center;">
+                        事前登録（ウェイトリスト）に参加
+                    </a>
                 </div>
             </div>
         </div>
