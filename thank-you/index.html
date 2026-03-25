@@ -299,29 +299,36 @@
         </div>
     </main>
 
-    <!-- GA4: Purchase conversion tracking -->
+    <!-- Security: Redirect if no Stripe session_id -->
     <script>
-        // Push purchase event to dataLayer for GTM
-        // Stripe Checkout session_id is passed as URL parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const sessionId = urlParams.get('session_id') || 'direct_access';
+        (function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var sessionId = urlParams.get('session_id');
 
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-            'event': 'purchase',
-            'ecommerce': {
-                'transaction_id': sessionId,
-                'value': 980,
-                'currency': 'JPY',
-                'items': [{
-                    'item_id': 'ga4-ecommerce-checklist-ja',
-                    'item_name': 'GA4 Eコマース計測チェックリスト',
-                    'price': 980,
-                    'quantity': 1,
-                    'item_category': 'Digital Template'
-                }]
+            // session_idが無い場合はLPトップにリダイレクト
+            if (!sessionId) {
+                window.location.replace('/');
+                return;
             }
-        });
+
+            // GA4: Purchase conversion tracking (session_id存在時のみ発火)
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'purchase',
+                'ecommerce': {
+                    'transaction_id': sessionId,
+                    'value': 980,
+                    'currency': 'JPY',
+                    'items': [{
+                        'item_id': 'ga4-ecommerce-checklist-ja',
+                        'item_name': 'GA4 Eコマース計測チェックリスト',
+                        'price': 980,
+                        'quantity': 1,
+                        'item_category': 'Digital Template'
+                    }]
+                }
+            });
+        })();
     </script>
 </body>
 </html>
