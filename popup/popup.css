@@ -434,6 +434,85 @@ body::-webkit-scrollbar-thumb {
   color: var(--text-muted);
 }
 
+/* ---- Pro Upgrade Banner ---- */
+.pro-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  margin: 8px 16px;
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.12), rgba(0, 180, 216, 0.08));
+  border: 1px solid rgba(108, 92, 231, 0.25);
+  border-radius: var(--radius-md);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.pro-banner__content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pro-banner__icon {
+  font-size: 20px;
+}
+
+.pro-banner__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pro-banner__text strong {
+  font-size: 12px;
+  color: var(--text-primary);
+}
+
+.pro-banner__text span {
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.pro-banner__btn {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--gradient-main);
+  color: white;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.pro-banner__btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.4);
+}
+
+/* ---- Pro Status Badge ---- */
+.pro-status {
+  display: flex;
+  justify-content: center;
+  padding: 6px 16px;
+}
+
+.pro-status__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.2), rgba(0, 180, 216, 0.15));
+  border: 1px solid rgba(108, 92, 231, 0.3);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-purple);
+}
+
 /* ---- Export Bar ---- */
 .export-bar {
   display: flex;

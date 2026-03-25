@@ -27,6 +27,7 @@ UIは日本語。Chrome Web Store掲載文は英語メイン。
 | GitHub Org（公開用） | `pulse-digital-dev`（Public: LP・プライバシーポリシー用）**※Pulseアカウント管理** |
 | GitHub Org（ソースコード） | `knomoto-comrade`（Private: 開発用） |
 | ドメイン | `pulse-digital.dev`（Cloudflare Registrar, 取得済み） |
+| X (Twitter) | [@pulsedigitaldev](https://x.com/pulsedigitaldev) |
 
 ## リポジトリ
 

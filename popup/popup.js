@@ -15,7 +15,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   let analysisData = null;
   let activeCategory = 'seo';
+  let isPro = false;
   const exportBar = $('#exportBar');
+  const proBanner = $('#proBanner');
+  const proStatus = $('#proStatus');
 
   // ---- Initialize ----
   scoreSection.classList.add('hidden');
@@ -53,6 +56,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (err) {
     console.error('PagePulse error:', err);
     showError('\u30da\u30fc\u30b8\u306e\u5206\u6790\u306b\u5931\u6557\u3057\u307e\u3057\u305f\u3002\u518d\u8aad\u307f\u8fbc\u307f\u3057\u3066\u304f\u3060\u3055\u3044\u3002');
+  }
+
+  // ---- Check Payment Status ----
+  try {
+    const response = await chrome.runtime.sendMessage({ type: 'CHECK_PAYMENT_STATUS' });
+    if (response && response.paid) {
+      isPro = true;
+      proStatus.classList.remove('hidden');
+      proBanner.classList.add('hidden');
+    } else {
+      isPro = false;
+      proBanner.classList.remove('hidden');
+      proStatus.classList.add('hidden');
+    }
+  } catch (err) {
+    console.warn('Payment check failed:', err);
+    proBanner.classList.remove('hidden');
   }
 
   // ---- Render ----
@@ -170,7 +190,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="result-card__header">
           <span class="result-card__status result-card__status--${item.status}"></span>
           <span class="result-card__title">${escapeHtml(item.title)}</span>
-          <span class="result-card__tag result-card__tag--free">\u7121\u6599\u8a3a\u65ad</span>
+          <span class="result-card__tag result-card__tag--${isPro ? 'pro' : 'free'}">${isPro ? 'Pro\u5206\u6790' : '\u7121\u6599\u8a3a\u65ad'}</span>
         </div>
         <div class="result-card__body">
           ${escapeHtml(item.body)}
@@ -191,9 +211,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
-  // ---- Upgrade Button ----
+  // ---- Upgrade Buttons ----
   $('#btnUpgrade').addEventListener('click', () => {
     chrome.tabs.create({ url: 'https://pulse-digital.dev' });
+  });
+
+  // Pro upgrade banner button
+  $('#btnUpgradePro').addEventListener('click', () => {
+    chrome.runtime.sendMessage({ type: 'OPEN_PAYMENT_PAGE' });
+  });
+
+  // Listen for payment status changes (real-time upgrade)
+  chrome.runtime.onMessage.addListener((message) => {
+    if (message.type === 'PAYMENT_STATUS_CHANGED' && message.paid) {
+      isPro = true;
+      proBanner.classList.add('hidden');
+      proStatus.classList.remove('hidden');
+      // Re-render with Pro features
+      if (analysisData) renderCategory(activeCategory);
+    }
   });
 
   // ---- Export Buttons ----

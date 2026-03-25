@@ -1,0 +1,179 @@
+{
+  "tool": "PagePulse v1.1.0",
+  "url": "https://github.com/settings/tokens",
+  "exportedAt": "2026-03-24T04:50:30.538Z",
+  "scores": {
+    "Accessibility": 80,
+    "AI Optimization (LLMO)": 25,
+    "Performance": 83,
+    "SEO": 83,
+    "Structure": 88
+  },
+  "details": {
+    "Accessibility": [
+      {
+        "action": "",
+        "body": "すべての画像（1枚）にalt属性が設定されています",
+        "id": "img-alt-ok",
+        "status": "pass",
+        "title": "画像の代替テキスト(alt)"
+      },
+      {
+        "action": "",
+        "body": "言語が \"en\" に設定されています",
+        "id": "lang-ok",
+        "status": "pass",
+        "title": "言語設定"
+      },
+      {
+        "action": "読み上げソフトを利用するユーザーのため、すべての入力欄に <label for=\"id\"> または aria-label を追加してください。",
+        "body": "2個の入力フィールドにラベルが関連付けられていません",
+        "id": "form-label-missing",
+        "status": "warn",
+        "title": "ラベルのないフォーム入力"
+      },
+      {
+        "action": "リンク先が何であるかをユーザーが理解できるよう、説明テキストまたは aria-label を追加してください。",
+        "body": "6個のリンクにアクセス可能なテキストがありません",
+        "id": "link-empty",
+        "status": "warn",
+        "title": "テキストのないリンク"
+      },
+      {
+        "action": "",
+        "body": "Viewportメタタグによるモバイル最適化設定あり",
+        "id": "viewport-ok",
+        "status": "pass",
+        "title": "Viewportメタタグ"
+      },
+      {
+        "action": "",
+        "body": "インタラクティブ要素の合計: 71個（リンク: 32, ボタン: 29, 入力: 10）",
+        "id": "interactive-count",
+        "status": "info",
+        "title": "インタラクティブ要素"
+      }
+    ],
+    "AI Optimization (LLMO)": [
+      {
+        "action": "AIエンジンが「これは商品ページである」と正確に理解できるよう、構造化データを追加してください。",
+        "body": "ProductやOfferなどのEC向けSchemaが見つかりません",
+        "id": "llmo-ec-schema-missing",
+        "status": "fail",
+        "title": "EC用構造化データなし"
+      },
+      {
+        "action": "AI回答の引用元として選ばれる確率を上げるため、運営者情報(Organization)等をマークアップに含めてください。",
+        "body": "運営元や公開日・更新日が明確にマークアップされていません",
+        "id": "llmo-eeat-missing",
+        "status": "warn",
+        "title": "E-E-A-T シグナル不足"
+      }
+    ],
+    "Performance": [
+      {
+        "action": "",
+        "body": "ページ内に1枚の画像が見つかりました",
+        "id": "img-count",
+        "status": "info",
+        "title": "総画像数"
+      },
+      {
+        "action": "",
+        "body": "すべての画像にwidth/height指定があります",
+        "id": "img-dims-ok",
+        "status": "pass",
+        "title": "画像サイズの指定"
+      },
+      {
+        "action": "",
+        "body": "全53個のスクリプト — レンダリングをブロックするものはありません",
+        "id": "script-ok",
+        "status": "pass",
+        "title": "スクリプト読み込み"
+      },
+      {
+        "action": "キャッシュ効率とメンテナンス性を高めるため、インラインスタイルをCSSクラスに移行してください。",
+        "body": "インラインスタイルを持つ要素が34個見つかりました",
+        "id": "inline-styles",
+        "status": "warn",
+        "title": "インラインスタイルの多用"
+      }
+    ],
+    "SEO": [
+      {
+        "action": "",
+        "body": "\"Personal Access Tokens (Classic)\" (32文字)",
+        "id": "title-ok",
+        "status": "pass",
+        "title": "ページタイトル"
+      },
+      {
+        "action": "",
+        "body": "142文字",
+        "id": "meta-desc-ok",
+        "status": "pass",
+        "title": "メタディスクリプション",
+        "value": "GitHub is where people build software. More than 150 million people use GitHub to discover, fork, and contribute to over 420 million projects."
+      },
+      {
+        "action": "最も重要な見出しをH1とし、それ以外はH2やH3に変更してください。",
+        "body": "6個のH1タグが見つかりました。H1は1ページにつき1つが最適です。",
+        "id": "h1-multiple",
+        "status": "warn",
+        "title": "複数のH1タグ"
+      },
+      {
+        "action": "<link rel=\"canonical\"> を追加し、このページの正規URLを指定してください。",
+        "body": "Canonical URLが定義されていません。重複コンテンツの問題を引き起こす可能性があります。",
+        "id": "canonical-missing",
+        "status": "warn",
+        "title": "Canonical URLなし"
+      },
+      {
+        "action": "",
+        "body": "og:title, og:description, og:image がすべて設定されています",
+        "id": "ogp-ok",
+        "status": "pass",
+        "title": "OGPタグ (SNSシェア設定)"
+      },
+      {
+        "action": "",
+        "body": "12個の見出し（階層構造に問題なし）",
+        "id": "heading-ok",
+        "status": "pass",
+        "title": "見出し構造"
+      }
+    ],
+    "Structure": [
+      {
+        "action": "検索エンジンがコンテンツを正確に理解し、リッチリザルトを表示できるようSchema.org構造化データを追加してください。",
+        "body": "JSON-LD形式の構造化データが見つかりません",
+        "id": "schema-missing",
+        "status": "warn",
+        "title": "構造化データ (Schema.org) なし"
+      },
+      {
+        "action": "",
+        "body": "ファビコン設定あり",
+        "id": "favicon-ok",
+        "status": "pass",
+        "title": "ファビコン (Favicon)"
+      },
+      {
+        "action": "",
+        "body": "安全な接続 (セキュア通信)",
+        "id": "https-ok",
+        "status": "pass",
+        "title": "HTTPS対応"
+      },
+      {
+        "action": "",
+        "body": "170 KB",
+        "id": "page-size",
+        "status": "pass",
+        "title": "HTMLドキュメントサイズ"
+      }
+    ]
+  }
+}
