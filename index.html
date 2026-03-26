@@ -39,11 +39,21 @@
       "operatingSystem": "Chrome, Edge, Brave",
       "applicationCategory": "DeveloperApplication",
       "description": "あなたのサイトの健康診断、わずか2秒。SEO・パフォーマンス・アクセシビリティをブラウザ完結で完全診断するChrome拡張機能。",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "JPY"
-      },
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Free",
+          "price": "0",
+          "priceCurrency": "JPY"
+        },
+        {
+          "@type": "Offer",
+          "name": "Pro",
+          "price": "980",
+          "priceCurrency": "JPY",
+          "billingIncrement": "P1M"
+        }
+      ],
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "5.0",
@@ -764,15 +774,15 @@
                         </li>
                         <li>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                            診断結果のCSV / JSONエクスポート
+                            CSV / JSONエクスポート
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Pro分析のチラ見せ体験（最重要項目1件を無料表示）
                         </li>
                         <li class="disabled">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                            AIによる具体的な修正コード自動生成
-                        </li>
-                        <li class="disabled">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                            CRO（コンバージョン最適化）診断モジュール
+                            CRO / EC特化分析・PDFレポート
                         </li>
                     </ul>
                     
@@ -781,12 +791,12 @@
                     </a>
                 </div>
                 
-                <!-- Premium Plan -->
+                <!-- Pro Plan -->
                 <div class="price-card premium">
-                    <div class="badge-premium">Pre-register Now</div>
-                    <div class="p-name">Premium</div>
-                    <div class="p-price">¥1,480 <span>/ 月（予定）</span></div>
-                    <div class="p-desc">レポート作成や顧客提案を行うプロフェッショナル向け</div>
+                    <div class="badge-premium">MOST POPULAR</div>
+                    <div class="p-name">Pro</div>
+                    <div class="p-price">¥980 <span>/ 月</span></div>
+                    <div class="p-desc">実務レベルのサイト改善を効率化したいプロ向け</div>
                     
                     <ul class="p-features">
                         <li>
@@ -795,25 +805,30 @@
                         </li>
                         <li>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                            プロジェクト単位のドメイン履歴保存
+                            CRO診断（CTA・フォーム・信頼性要素・モバイルUX）
                         </li>
                         <li>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                            生成AIによる具体的な修正コード自動生成
+                            EC特化分析（商品画像・価格表示・カート導線・特商法）
                         </li>
                         <li>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                            EC・メディア特化のCRO診断モジュール
+                            PDFレポート出力（クライアント提出用）
                         </li>
                         <li>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                            優先メールサポート
+                            分析履歴（最大50件保存）
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            全項目にコピペ可能なHTMLコード例
                         </li>
                     </ul>
                     
-                    <a href="mailto:contact@pulse-digital.dev?subject=PagePulse%20Pro%20Waitlist" class="btn btn-outline" style="width: 100%; border-color: rgba(139,92,246,0.5); color: #c4b5fd; display: flex; justify-content: center;">
-                        事前登録（ウェイトリスト）に参加
+                    <a href="https://chrome.google.com/webstore/detail/biihgmkmmdihocjmdfedmhmkdmepfcoc" class="btn btn-primary" target="_blank" rel="noopener" style="width: 100%;">
+                        Chromeに追加してProにアップグレード
                     </a>
+                    <p style="margin-top: 12px; font-size: 0.8rem; color: var(--text-muted); text-align: center;">拡張機能内からワンクリックでアップグレード</p>
                 </div>
             </div>
         </div>
