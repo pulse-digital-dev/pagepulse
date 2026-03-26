@@ -127,12 +127,89 @@
     }
   }
 
+  // ---- 7. Platform Detection ----
+  function analyzePlatform() {
+    const htmlString = document.documentElement.innerHTML;
+    let platform = '';
+
+    if (window.Shopify || htmlString.includes('cdn.shopify.com')) platform = 'Shopify';
+    else if (window.MakeShop || htmlString.includes('makeshop.jp') || htmlString.includes('ssl.makeshop.jp')) platform = 'MakeShop';
+    else if (htmlString.includes('ec-cube') || htmlString.includes('ECCUBE')) platform = 'EC-CUBE';
+    else if (htmlString.includes('base.in') || htmlString.includes('thebase.in')) platform = 'BASE';
+    else if (htmlString.includes('stores.jp')) platform = 'STORES';
+    else if (htmlString.includes('wp-content/plugins/woocommerce')) platform = 'WooCommerce';
+    else if (htmlString.includes('colorme') || htmlString.includes('shop-pro.jp')) platform = 'ColorMe Shop';
+    else if (htmlString.includes('future-shop') || htmlString.includes('fs-')) platform = 'FutureShop2';
+    else if (htmlString.includes('bcart.jp')) platform = 'B-Cart (BtoB)';
+
+    if (platform) {
+      addResult('カートシステム検知', `このサイトは「${platform}」で構築されている可能性が高いです。`, 'info', '', platform);
+    } else {
+      addResult('カートシステム検知', '主要なSaaS型・パッケージ型のカートシステムは検知されませんでした（独自システムか非対応カートの可能性があります）。', 'info');
+    }
+  }
+
+  // ---- 8. SKU / Product ID ----
+  function analyzeSKU() {
+    if (pageType !== 'product') return;
+    const skuPatterns = /(\u5546\u54c1\u30b3\u30fc\u30c9|SKU|\u578b\u756a|\u54c1\u756a|item.?code)/i;
+    const hasSKUClass = document.querySelector('[class*="sku"], [class*="product-code"], [itemprop="sku"]');
+    
+    if (skuPatterns.test(body) || hasSKUClass) {
+      addResult('SKU表記あり', '商品に対する固有コード（SKUや型番）の表示が検知されました。', 'pass');
+    } else {
+      addResult('SKUが見当たりません', 'この商品固有のSKU・型番が見つかりません。', 'warn', '顧客からの問い合わせ時やSNSでの言及時に特定しやすくするため、商品番号を明記してください。');
+    }
+  }
+
+  // ---- 9. Wishlist ----
+  function analyzeWishlist() {
+    const wishlistPatterns = /(\u304a\u6c17\u306b\u5165\u308a|wishlist|\u30a6\u30a3\u30c3\u30b7\u30e5)/i;
+    const hasHeart = document.querySelector('[class*="heart"], [class*="wishlist"], [class*="favorite"], i[class*="fa-heart"]');
+    
+    if (wishlistPatterns.test(body) || hasHeart) {
+      addResult('お気に入り機能あり', 'お気に入りへの追加やウィッシュリスト導線が検知されました。', 'pass');
+    } else {
+      const status = pageType === 'product' ? 'warn' : 'info'; // High priority on product pages
+      addResult('お気に入り導線なし', 'お気に入りボタンやウィッシュリスト機能が見つかりません。', status, 'アパレルや家具など、検討期間が長い商材では「とりあえずお気に入り」の機能がCVRを下支えします。');
+    }
+  }
+
+  // ---- 10. Related / Cross-sell ----
+  function analyzeRelatedProducts() {
+    if (pageType !== 'product') return;
+    const relatedPatterns = /(\u95a2\u9023\u5546\u54c1|\u304a\u3059\u3059\u3081|\u3053\u306e\u5546\u54c1\u3092\u8cb7\u3063\u305f\u4eba|\u3088\u304f\u4e00\u7dd2\u306b\u8cfc\u5165|related.?products|you.?might.?also.?like)/i;
+    
+    if (relatedPatterns.test(body) || document.querySelector('[class*="related"], [class*="recommend"]')) {
+      addResult('関連商品・クロスセル領域あり', '「関連商品」や「おすすめ」などのクロスセル導線が検知されました。', 'pass');
+    } else {
+      addResult('クロスセル枠が見当たりません', '商品ページにクロスセル・アップセルのための関連商品枠が見つかりません。', 'warn', '客単価（LTV）を上げるため、現在見ている商品と親和性の高いアイテムをレコメンド表示してください。');
+    }
+  }
+
+  // ---- 11. Payment Methods ----
+  function analyzePaymentMethods() {
+    const paymentPatterns = /(クレジットカード|Visa|Mastercard|JCB|AMEX|Din|PayPay|Amazon.?Pay|Apple.?Pay|Google.?Pay|PayPal|\u4ee3\u91d1\u5f15\u63db|\u9280\u884c\u632f\u8fbc)/i;
+    const paymentIcons = document.querySelector('img[src*="visa" i], img[src*="master" i], img[src*="jcb" i], [class*="payment-icon"], [class*="pay-icon"]');
+
+    if (paymentPatterns.test(body) || paymentIcons) {
+      addResult('決済手段の事前明示あり', 'フッター等で利用可能な決済手段（クレカ、Pay等）が明示されています。', 'pass');
+    } else {
+      addResult('決済手段の明記が見当たりません', '利用できる決済手段（Visa, PayPayなど）の明記が検知されませんでした。', 'warn', '決済手段がわからないとカート投入前に離脱する原因になります。フッターの全ページ共通エリアにロゴ等で配置してください。');
+    }
+  }
+
   analyzeProductImages();
   analyzePriceDisplay();
   analyzeCartButton();
   analyzeShippingInfo();
   analyzeBreadcrumbs();
   analyzeReturnPolicy();
+  analyzePlatform();
+  analyzeSKU();
+  analyzeWishlist();
+  analyzeRelatedProducts();
+  analyzePaymentMethods();
 
   return results;
 })();

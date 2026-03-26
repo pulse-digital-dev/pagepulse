@@ -147,13 +147,114 @@
     }
   }
 
+  // ---- 8. Heading Structure ----
+  function analyzeHeadings() {
+    const h1s = document.querySelectorAll('h1');
+    if (h1s.length === 0) {
+      addResult('H1タグがありません', 'ページ内にH1（大見出し）が存在しません。', 'warn', 'SEOとアクセシビリティのため、ページの内容を端的に表すH1を1つ配置してください。');
+    } else if (h1s.length > 1) {
+      addResult('H1タグが複数あります', `ページ内にH1が${h1s.length}個存在します。`, 'warn', 'HTML5では許容されますが、SEOのベストプラクティスとしては各ページに主要なH1を1つに絞るのが理想的です。', `${h1s.length}個`);
+    } else {
+      addResult('H1タグ（単一）', 'H1タグが正しく1つだけ配置されています。', 'pass');
+    }
+
+    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    let previousLevel = 0;
+    let skipped = false;
+    headings.forEach(h => {
+      const level = parseInt(h.tagName.substring(1));
+      if (previousLevel > 0 && level - previousLevel > 1) {
+        skipped = true; // e.g., H2 followed by H4
+      }
+      previousLevel = level;
+    });
+    if (skipped) {
+      addResult('見出しの順序スキップ', 'H2の次にH4が来るなど、見出しレベルのスキップが検出されました。', 'info', 'スクリーンリーダーでの読み上げやSEOシグナルのため、見出しはH1→H2→H3と順序立ててネストしてください。');
+    }
+  }
+
+  // ---- 9. Image Alt Text ----
+  function analyzeImageAlt() {
+    const images = document.querySelectorAll('img');
+    let missingAltCount = 0;
+    images.forEach(img => {
+      // Ignore tiny tracking pixels
+      if (img.width <= 1 || img.height <= 1) return;
+      if (!img.hasAttribute('alt') || img.getAttribute('alt').trim() === '') {
+        missingAltCount++;
+      }
+    });
+
+    if (images.length === 0) return;
+
+    if (missingAltCount > 0) {
+      // Allow some decorative images, but warn if too many
+      const status = missingAltCount > (images.length * 0.5) ? 'fail' : 'warn';
+      addResult('画像のalt属性抜け漏れ', `${images.length}枚中、${missingAltCount}枚の画像にalt（代替テキスト）が設定されていません。`, status, '意味のある画像には具体的なテキストを、装飾用の画像には空の alt="" を明示的に設定してください。', `${missingAltCount}枚`);
+    } else {
+      addResult('画像のalt属性完備', 'すべての主要な画像にalt属性が適切に設定されています。', 'pass');
+    }
+  }
+
+  // ---- 10. Sticky CTA ----
+  function analyzeStickyCTA() {
+    const interactives = document.querySelectorAll('a, button, [role="button"], .btn, .cta, [class*="cv-"], [id*="cv-"]');
+    let hasStickyCTA = false;
+    interactives.forEach(el => {
+      if (hasStickyCTA) return;
+      // Check the element itself or its immediate generic wrappers
+      let current = el;
+      for (let i = 0; i < 4; i++) {
+        if (!current || current === document.body) break;
+        const compStyle = window.getComputedStyle(current);
+        if (compStyle.position === 'fixed' || compStyle.position === 'sticky') {
+          // It's sticky/fixed, now check if it's placed near bottom/top
+          const rect = current.getBoundingClientRect();
+          if (rect.bottom >= window.innerHeight - 80 || rect.top <= 80) {
+             hasStickyCTA = true;
+          }
+        }
+        current = current.parentElement;
+      }
+    });
+
+    if (hasStickyCTA) {
+      addResult('追従型CTA（Sticky CTA）あり', '画面スクロールに追従するボタンやバナーが検出されました。', 'pass');
+    } else {
+      const status = (pageType === 'product' || pageType === 'top') ? 'warn' : 'info';
+      addResult('追従型CTAが見出せません', 'スクロール追従するフローティングCTAが検出されませんでした。', status, '特にスマホ閲覧時、画面下部に「カートに入れる」や「お問い合わせ」ボタンを固定表示（Sticky CTA）するとCVRが大きく向上します。');
+    }
+  }
+
+  // ---- 11. Text Density ----
+  function analyzeTextDensity() {
+    const paragraphs = document.querySelectorAll('p, .text, .desc, .description');
+    let longBlocks = 0;
+    paragraphs.forEach(p => {
+      const text = p.innerText.trim();
+      // Roughly 200 characters without line breaks is hard to read on mobile
+      if (text.length > 200 && p.querySelectorAll('br').length < (text.length / 100)) {
+        longBlocks++;
+      }
+    });
+
+    if (longBlocks > 3) {
+      addResult('テキスト密度が高い段落あり', `改行が少なく文字が密集している段落が${longBlocks}箇所あります。`, 'warn', 'スマホでは画面が文字で埋まってしまい離脱の原因になります。適度な改行やmargin設定、箇条書きを取り入れて視覚的な余白を作ってください。', `${longBlocks}箇所`);
+    } else if (longBlocks > 0) {
+      addResult('やや長い段落あり', `文字が詰まった段落が${longBlocks}箇所あります。`, 'info', 'スマホでの可読性を高めるため、意識して改行や行間（line-height）の余白を追加することをおすすめします。');
+    }
+  }
+
   analyzeCTAs();
-  analyzeForms();
   analyzeTrustSignals();
   analyzeUrgency();
   analyzePricing();
   analyzeContactMethods();
   analyzeMobileUX();
+  analyzeHeadings();
+  analyzeImageAlt();
+  analyzeStickyCTA();
+  analyzeTextDensity();
 
   return results;
 })();
