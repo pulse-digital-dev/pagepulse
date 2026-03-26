@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           ${escapeHtml(item.body)}
           ${item.value ? `<span class="result-card__value">${escapeHtml(item.value)}</span>` : ''}
         </div>
-        ${item.action ? `<div class="result-card__action">${escapeHtml(item.action)}</div>` : ''}
+        ${item.action ? formatAction(item.action) : ''}
       </div>
     `).join('');
   }
@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           ${escapeHtml(item.body)}
           ${item.value ? `<span class="result-card__value">${escapeHtml(item.value)}</span>` : ''}
         </div>
-        ${item.action ? `<div class="result-card__action">${escapeHtml(item.action)}</div>` : ''}
+        ${item.action ? formatAction(item.action) : ''}
       </div>
     `).join('');
   }
@@ -543,6 +543,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="result-card__title" style="font-size:14px;">${escapeHtml(msg)}</div>
       </div>
     `;
+  }
+
+  function formatAction(actionStr) {
+    if (!actionStr) return '';
+    const marker = '\n\ud83d\udcdd';
+    const idx = actionStr.indexOf(marker);
+    if (idx === -1) {
+      return `<div class="result-card__action">${escapeHtml(actionStr)}</div>`;
+    }
+    const advice = actionStr.substring(0, idx);
+    const codeRaw = actionStr.substring(idx + marker.length).trim();
+    return `<div class="result-card__action">${escapeHtml(advice)}</div><div class="result-card__code">${escapeHtml(codeRaw)}</div>`;
   }
 
   function escapeHtml(str) {
