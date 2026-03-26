@@ -51,14 +51,20 @@ UIは日本語。Chrome Web Store掲載文は英語メイン。
 
 ```
 pagepulse/
-├── manifest.json          # Manifest V3 (v1.0.0)
-├── background.js          # Service Worker（最小構成）
+├── manifest.json          # Manifest V3 (v1.3.0)
+├── background.js          # Service Worker + ExtPay統合
+├── ExtPay.js              # ExtensionPayライブラリ
 ├── popup/
 │   ├── popup.html         # UI構造 (lang="ja")
 │   ├── popup.css          # ダークモード + Glassmorphism
-│   └── popup.js           # コントローラー（タブ切替、スコア算出、結果描画）
+│   └── popup.js           # コントローラー（課金ゲーティング含む）
 ├── content/
-│   └── analyzer.js        # ページ分析ロジック（5カテゴリ）
+│   ├── analyzer.js        # ページ分析ロジック（5カテゴリ）
+│   ├── cro-analyzer.js    # CRO診断（Pro）
+│   └── ec-analyzer.js     # EC特化分析（Pro）
+├── lib/
+│   ├── jspdf.umd.min.js   # jsPDF v2.5.2（ローカルバンドル）
+│   └── pdf-generator.js   # PDFレポート生成（Pro）
 ├── icons/
 │   ├── icon16.png         # ツールバー用
 │   ├── icon48.png         # 拡張管理画面用
@@ -132,7 +138,7 @@ pagepulse/
 
 ```bash
 cd /Users/nomotokengo/COM/knomoto/20_新規ビジネス/pagepulse
-zip -r ~/Desktop/pagepulse-v1.0.0.zip . -x ".git/*" "docs/*" ".agent/*" ".DS_Store" ".gitignore" "README.md"
+zip -r ~/Desktop/pagepulse-v1.3.0.zip . -x ".git/*" "docs/*" ".agent/*" ".DS_Store" ".gitignore" "README.md" "pagepulse-v*.zip"
 ```
 
 ## 収益モデル（3段階プラン）
@@ -162,7 +168,7 @@ zip -r ~/Desktop/pagepulse-v1.0.0.zip . -x ".git/*" "docs/*" ".agent/*" ".DS_Sto
 | CRO診断（CTA分析・フォーム・電話リンク・信頼性要素・タッチターゲット） | ✅ |
 | EC特化分析（商品画像・価格表示・カート導線・配送情報・パンくず・特商法） | ✅ |
 | 改善アドバイス強化（全項目にコピペ可能なHTMLコードスニペット） | ✅ |
-| PDFレポート出力（jsPDF、標準テンプレート） | ❌ 未実装 |
+| PDFレポート出力（jsPDF v2.5.2、標準テンプレート） | ✅ |
 
 ### Team（¥2,980/月 / ¥29,800/年）— クライアントワーク向け
 
@@ -208,9 +214,9 @@ zip -r ~/Desktop/pagepulse-v1.0.0.zip . -x ".git/*" "docs/*" ".agent/*" ".DS_Sto
 - [x] 改善アドバイス強化（全項目にコード例）
 - [x] SVGアイコン化（絵文字→インラインSVG）
 - [x] Free版Proティーザー（ロック表示 + アップセルUI）
-- [ ] UIブラッシュアップ（結果カード間のマージン改善等）
-- [ ] PDFレポート出力（jsPDF）
-- [ ] Chrome Web Store v1.3.0 再パッケージ＆再提出
+- [x] UIブラッシュアップ（カード間隔拡大 + ステータス別セクションヘッダー追加）
+- [x] PDFレポート出力（jsPDF v2.5.2、Pro限定、lib/pdf-generator.js）
+- [ ] Chrome Web Store v1.3.0 再パッケージ＆再提出（ZIPは手動作成 → CWSダッシュボードへアップロード）
 
 ### Phase 2: Team基盤（v2.0 — Pro課金5件以上で着手）
 - [ ] AI改善提案（Claude Haiku API）

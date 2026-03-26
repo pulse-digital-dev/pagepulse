@@ -225,24 +225,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   function renderCategory(category) {
     const data = analysisData[category];
     if (!data) return;
-
-    const order = { fail: 0, warn: 1, pass: 2, info: 3 };
-    const sorted = [...data].sort((a, b) => (order[a.status] || 3) - (order[b.status] || 3));
-
-    resultsContainer.innerHTML = sorted.map(item => `
-      <div class="result-card">
-        <div class="result-card__header">
-          <span class="result-card__status result-card__status--${item.status}"></span>
-          <span class="result-card__title">${escapeHtml(item.title)}</span>
-          <span class="result-card__tag result-card__tag--${isPro ? 'pro' : 'free'}">${isPro ? 'Pro\u5206\u6790' : '\u7121\u6599\u8a3a\u65ad'}</span>
-        </div>
-        <div class="result-card__body">
-          ${escapeHtml(item.body)}
-          ${item.value ? `<span class="result-card__value">${escapeHtml(item.value)}</span>` : ''}
-        </div>
-        ${item.action ? formatAction(item.action) : ''}
-      </div>
-    `).join('');
+    resultsContainer.innerHTML = buildGroupedCards(data, isPro ? 'pro' : 'free');
   }
 
   // ---- Tab Switching ----
@@ -316,23 +299,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function renderProResults(data) {
-    const order = { fail: 0, warn: 1, pass: 2, info: 3 };
-    const sorted = [...data].sort((a, b) => (order[a.status] || 3) - (order[b.status] || 3));
-
-    resultsContainer.innerHTML = sorted.map(item => `
-      <div class="result-card">
-        <div class="result-card__header">
-          <span class="result-card__status result-card__status--${item.status}"></span>
-          <span class="result-card__title">${escapeHtml(item.title)}</span>
-          <span class="result-card__tag result-card__tag--pro">Pro\u5206\u6790</span>
-        </div>
-        <div class="result-card__body">
-          ${escapeHtml(item.body)}
-          ${item.value ? `<span class="result-card__value">${escapeHtml(item.value)}</span>` : ''}
-        </div>
-        ${item.action ? formatAction(item.action) : ''}
-      </div>
-    `).join('');
+    resultsContainer.innerHTML = buildGroupedCards(data, 'pro');
   }
 
   function showProTabs() {
@@ -402,6 +369,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     const json = generateJSON();
     downloadFile(json, `pagepulse-report-${getTimestamp()}.json`, 'application/json;charset=utf-8');
     showExportDone($('#btnExportJSON'), 'JSON');
+  });
+
+  // PDF Export (Pro only)
+  $('#btnExportPDF').addEventListener('click', () => {
+    if (!isPro) {
+      chrome.runtime.sendMessage({ type: 'OPEN_PAYMENT_PAGE' });
+      return;
+    }
+    if (!analysisData) return;
+    try {
+      const url = pageUrlEl.textContent || '';
+      window.PagePulsePDF.generate(analysisData, url, calcCategoryScore);
+      showExportDone($('#btnExportPDF'), 'PDF Report');
+    } catch (err) {
+      console.error('PDF generation error:', err);
+    }
   });
 
   function generateCSV() {
@@ -615,6 +598,35 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="result-card__title" style="font-size:14px;">${escapeHtml(msg)}</div>
       </div>
     `;
+  }
+
+  // ---- Grouped Card Builder ----
+  function buildGroupedCards(data, tagType) {
+    const order = { fail: 0, warn: 1, pass: 2, info: 3 };
+    const sorted = [...data].sort((a, b) => (order[a.status] || 3) - (order[b.status] || 3));
+    const groups = {};
+    sorted.forEach(item => {
+      const s = item.status || 'info';
+      if (!groups[s]) groups[s] = [];
+      groups[s].push(item);
+    });
+    const sectionLabels = {
+      fail: '\u8981\u4fee\u6b63',
+      warn: '\u6ce8\u610f',
+      pass: '\u5408\u683c',
+      info: '\u53c2\u8003\u60c5\u5831'
+    };
+    const tagLabel = tagType === 'pro' ? 'Pro\u5206\u6790' : '\u7121\u6599\u8a3a\u65ad';
+    let html = '';
+    ['fail', 'warn', 'pass', 'info'].forEach(status => {
+      const items = groups[status];
+      if (!items || items.length === 0) return;
+      html += `<div class="result-section-header"><span class="result-section-header__dot result-section-header__dot--${status}"></span><span class="result-section-header__label">${sectionLabels[status]}</span><span class="result-section-header__line"></span><span class="result-section-header__count">${items.length}</span></div>`;
+      items.forEach(item => {
+        html += `<div class="result-card"><div class="result-card__header"><span class="result-card__status result-card__status--${item.status}"></span><span class="result-card__title">${escapeHtml(item.title)}</span><span class="result-card__tag result-card__tag--${tagType}">${tagLabel}</span></div><div class="result-card__body">${escapeHtml(item.body)}${item.value ? `<span class="result-card__value">${escapeHtml(item.value)}</span>` : ''}</div>${item.action ? formatAction(item.action) : ''}</div>`;
+      });
+    });
+    return html;
   }
 
   function formatAction(actionStr) {
