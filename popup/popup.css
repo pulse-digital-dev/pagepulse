@@ -257,6 +257,7 @@ body::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: va
 .teaser-cta { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 16px; margin-top: -8px; text-align: center; animation: fadeIn 0.3s ease-out; }
 .teaser-cta__stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .teaser-cta__stat { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: var(--radius-full); font-size: 11px; font-weight: 600; }
+.teaser-cta__stat--fail { background: rgba(255, 107, 107, 0.12); color: var(--accent-red); }
 .teaser-cta__stat--warn { background: rgba(255, 217, 61, 0.12); color: var(--accent-yellow); }
 .teaser-cta__stat--pass { background: rgba(0, 214, 143, 0.12); color: var(--accent-green); }
 .teaser-cta__stat--info { background: rgba(0, 180, 216, 0.12); color: var(--accent-blue); }

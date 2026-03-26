@@ -297,39 +297,45 @@ document.addEventListener('DOMContentLoaded', async () => {
       resultsContainer.innerHTML = buildGroupedCards(data, 'pro');
       return;
     }
-    // Free user teaser: show only fail items + blurred rest
+    // Free user teaser: show the WORST 1 item + blur rest
     const fails = data.filter(item => item.status === 'fail');
     const warns = data.filter(item => item.status === 'warn');
     const passes = data.filter(item => item.status === 'pass');
     const infos = data.filter(item => item.status === 'info');
-    const hiddenCount = warns.length + passes.length + infos.length;
+
+    // Pick the single worst item: first fail, or first warn
+    const worstItem = fails[0] || warns[0];
+    const remainingCount = data.length - (worstItem ? 1 : 0);
 
     let html = '';
 
-    // Show fail items fully visible
-    if (fails.length > 0) {
-      html += `<div class="result-section-header"><span class="result-section-header__dot result-section-header__dot--fail"></span><span class="result-section-header__label">\u8981\u4fee\u6b63</span><span class="result-section-header__line"></span><span class="result-section-header__count">${fails.length}</span></div>`;
-      fails.forEach(item => {
-        html += `<div class="result-card"><div class="result-card__header"><span class="result-card__status result-card__status--fail"></span><span class="result-card__title">${escapeHtml(item.title)}</span><span class="result-card__tag result-card__tag--pro">Pro\u5206\u6790</span></div><div class="result-card__body">${escapeHtml(item.body)}${item.value ? `<span class="result-card__value">${escapeHtml(item.value)}</span>` : ''}</div>${item.action ? formatAction(item.action) : ''}</div>`;
-      });
+    // Show the worst item fully visible
+    if (worstItem) {
+      const statusLabel = worstItem.status === 'fail' ? '\u8981\u4fee\u6b63' : '\u6ce8\u610f';
+      html += `<div class="result-section-header"><span class="result-section-header__dot result-section-header__dot--${worstItem.status}"></span><span class="result-section-header__label">${statusLabel}</span><span class="result-section-header__line"></span></div>`;
+      html += `<div class="result-card"><div class="result-card__header"><span class="result-card__status result-card__status--${worstItem.status}"></span><span class="result-card__title">${escapeHtml(worstItem.title)}</span><span class="result-card__tag result-card__tag--pro">Pro\u5206\u6790</span></div><div class="result-card__body">${escapeHtml(worstItem.body)}${worstItem.value ? `<span class="result-card__value">${escapeHtml(worstItem.value)}</span>` : ''}</div>${worstItem.action ? formatAction(worstItem.action) : ''}</div>`;
     }
 
     // Blurred placeholder cards for hidden items
-    if (hiddenCount > 0) {
+    if (remainingCount > 0) {
       html += `<div class="teaser-blur-wrapper">`;
-      // Show 2-3 blurred fake cards
-      const previewCount = Math.min(hiddenCount, 3);
+      const previewCount = Math.min(remainingCount, 3);
+      const statusOrder = ['fail', 'warn', 'pass', 'info'];
       for (let i = 0; i < previewCount; i++) {
-        html += `<div class="result-card result-card--blurred"><div class="result-card__header"><span class="result-card__status result-card__status--${i === 0 ? 'warn' : 'pass'}"></span><span class="result-card__title">\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588</span></div><div class="result-card__body">\u2588\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588</div></div>`;
+        const s = statusOrder[Math.min(i, statusOrder.length - 1)];
+        html += `<div class="result-card result-card--blurred"><div class="result-card__header"><span class="result-card__status result-card__status--${s}"></span><span class="result-card__title">\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588</span></div><div class="result-card__body">\u2588\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588</div></div>`;
       }
       html += `<div class="teaser-blur-overlay"></div>`;
       html += `</div>`;
     }
 
-    // Upgrade CTA
+    // Upgrade CTA with remaining counts
     html += `<div class="teaser-cta">`;
     html += `<div class="teaser-cta__stats">`;
-    if (warns.length > 0) html += `<span class="teaser-cta__stat teaser-cta__stat--warn">\u26a0 \u6ce8\u610f ${warns.length}\u4ef6</span>`;
+    const failRemain = fails.length - (worstItem && worstItem.status === 'fail' ? 1 : 0);
+    const warnRemain = warns.length - (worstItem && worstItem.status === 'warn' ? 1 : 0);
+    if (failRemain > 0) html += `<span class="teaser-cta__stat teaser-cta__stat--fail">\u274c \u8981\u4fee\u6b63 \u4ed6${failRemain}\u4ef6</span>`;
+    if (warnRemain > 0) html += `<span class="teaser-cta__stat teaser-cta__stat--warn">\u26a0 \u6ce8\u610f \u4ed6${warnRemain}\u4ef6</span>`;
     if (passes.length > 0) html += `<span class="teaser-cta__stat teaser-cta__stat--pass">\u2713 \u5408\u683c ${passes.length}\u4ef6</span>`;
     if (infos.length > 0) html += `<span class="teaser-cta__stat teaser-cta__stat--info">\u2139 \u53c2\u8003 ${infos.length}\u4ef6</span>`;
     html += `</div>`;
