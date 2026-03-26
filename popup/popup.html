@@ -77,11 +77,37 @@
         <span class="tab__label">AI最適化</span>
         <span class="tab__badge" id="badge-llmo">-</span>
       </button>
+      <button class="tab tab--pro hidden" data-category="cro" id="tabCro">
+        <span class="tab__icon">📈</span>
+        <span class="tab__label">CRO</span>
+        <span class="tab__badge tab__badge--pro">Pro</span>
+      </button>
+      <button class="tab tab--pro hidden" data-category="ec" id="tabEc">
+        <span class="tab__icon">🛒</span>
+        <span class="tab__label">EC</span>
+        <span class="tab__badge tab__badge--pro">Pro</span>
+      </button>
+      <button class="tab tab--pro hidden" data-category="history" id="tabHistory">
+        <span class="tab__icon">📜</span>
+        <span class="tab__label">履歴</span>
+        <span class="tab__badge tab__badge--pro">Pro</span>
+      </button>
     </nav>
 
     <!-- Results -->
     <section class="results" id="results">
       <!-- Dynamically populated -->
+    </section>
+
+    <!-- History (Pro only) -->
+    <section class="history hidden" id="historySection">
+      <div class="history__header">
+        <span class="history__title">分析履歴</span>
+        <button class="history__clear" id="btnClearHistory">クリア</button>
+      </div>
+      <div class="history__list" id="historyList">
+        <!-- Dynamically populated -->
+      </div>
     </section>
 
     <!-- Pro Upgrade Banner (shown to free users) -->
@@ -118,7 +144,7 @@
       <button class="btn-upgrade" id="btnUpgrade">
         ✨ ECサイト向け AI最適化レポートを作成(無料)
       </button>
-      <p class="footer__version">PagePulse v1.2.0</p>
+      <p class="footer__version">PagePulse v1.3.0</p>
     </footer>
   </div>
   <script src="popup.js"></script>
