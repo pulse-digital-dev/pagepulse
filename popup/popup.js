@@ -234,17 +234,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       const cat = tab.dataset.category;
       const isProCategory = cat === 'cro' || cat === 'ec' || cat === 'history';
 
-      // Free user clicking a Pro tab → show upsell
-      if (isProCategory && !isPro) {
-        $$('.tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        activeCategory = cat;
-        resultsContainer.classList.add('hidden');
-        historySection.classList.add('hidden');
-        showProUpsell(cat);
-        return;
-      }
-
       $$('.tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       activeCategory = cat;
@@ -253,7 +242,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (activeCategory === 'history') {
         resultsContainer.classList.add('hidden');
         historySection.classList.remove('hidden');
-        renderHistory();
+        if (isPro) {
+          renderHistory();
+        } else {
+          historySection.classList.add('hidden');
+          showProUpsell(cat);
+        }
       } else if (activeCategory === 'cro' || activeCategory === 'ec') {
         historySection.classList.add('hidden');
         resultsContainer.classList.remove('hidden');
@@ -299,7 +293,59 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function renderProResults(data) {
-    resultsContainer.innerHTML = buildGroupedCards(data, 'pro');
+    if (isPro) {
+      resultsContainer.innerHTML = buildGroupedCards(data, 'pro');
+      return;
+    }
+    // Free user teaser: show only fail items + blurred rest
+    const fails = data.filter(item => item.status === 'fail');
+    const warns = data.filter(item => item.status === 'warn');
+    const passes = data.filter(item => item.status === 'pass');
+    const infos = data.filter(item => item.status === 'info');
+    const hiddenCount = warns.length + passes.length + infos.length;
+
+    let html = '';
+
+    // Show fail items fully visible
+    if (fails.length > 0) {
+      html += `<div class="result-section-header"><span class="result-section-header__dot result-section-header__dot--fail"></span><span class="result-section-header__label">\u8981\u4fee\u6b63</span><span class="result-section-header__line"></span><span class="result-section-header__count">${fails.length}</span></div>`;
+      fails.forEach(item => {
+        html += `<div class="result-card"><div class="result-card__header"><span class="result-card__status result-card__status--fail"></span><span class="result-card__title">${escapeHtml(item.title)}</span><span class="result-card__tag result-card__tag--pro">Pro\u5206\u6790</span></div><div class="result-card__body">${escapeHtml(item.body)}${item.value ? `<span class="result-card__value">${escapeHtml(item.value)}</span>` : ''}</div>${item.action ? formatAction(item.action) : ''}</div>`;
+      });
+    }
+
+    // Blurred placeholder cards for hidden items
+    if (hiddenCount > 0) {
+      html += `<div class="teaser-blur-wrapper">`;
+      // Show 2-3 blurred fake cards
+      const previewCount = Math.min(hiddenCount, 3);
+      for (let i = 0; i < previewCount; i++) {
+        html += `<div class="result-card result-card--blurred"><div class="result-card__header"><span class="result-card__status result-card__status--${i === 0 ? 'warn' : 'pass'}"></span><span class="result-card__title">\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588</span></div><div class="result-card__body">\u2588\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588</div></div>`;
+      }
+      html += `<div class="teaser-blur-overlay"></div>`;
+      html += `</div>`;
+    }
+
+    // Upgrade CTA
+    html += `<div class="teaser-cta">`;
+    html += `<div class="teaser-cta__stats">`;
+    if (warns.length > 0) html += `<span class="teaser-cta__stat teaser-cta__stat--warn">\u26a0 \u6ce8\u610f ${warns.length}\u4ef6</span>`;
+    if (passes.length > 0) html += `<span class="teaser-cta__stat teaser-cta__stat--pass">\u2713 \u5408\u683c ${passes.length}\u4ef6</span>`;
+    if (infos.length > 0) html += `<span class="teaser-cta__stat teaser-cta__stat--info">\u2139 \u53c2\u8003 ${infos.length}\u4ef6</span>`;
+    html += `</div>`;
+    html += `<p class="teaser-cta__text">\u5168${data.length}\u4ef6\u306e\u5206\u6790\u7d50\u679c\u3068\u6539\u5584\u30b3\u30fc\u30c9\u3092\u898b\u308b</p>`;
+    html += `<button class="pro-upsell__btn teaser-cta__btn" id="btnTeaserUpgrade"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Pro\u306b\u30a2\u30c3\u30d7\u30b0\u30ec\u30fc\u30c9</button>`;
+    html += `</div>`;
+
+    resultsContainer.innerHTML = html;
+
+    // Bind upgrade button
+    const teaserBtn = document.getElementById('btnTeaserUpgrade');
+    if (teaserBtn) {
+      teaserBtn.addEventListener('click', () => {
+        chrome.runtime.sendMessage({ type: 'OPEN_PAYMENT_PAGE' });
+      });
+    }
   }
 
   function showProTabs() {
@@ -313,10 +359,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function hideProTabs() {
-    // Don't hide — show as locked (visible but greyed out)
-    tabHistory.classList.add('tab--locked');
-    tabCro.classList.add('tab--locked');
-    tabEc.classList.add('tab--locked');
+    // No longer lock tabs — free users can click to see teaser
+    // Tab badges remain as "Pro" to indicate premium
   }
 
   function showProUpsell(category) {
