@@ -135,19 +135,52 @@ cd /Users/nomotokengo/COM/knomoto/20_新規ビジネス/pagepulse
 zip -r ~/Desktop/pagepulse-v1.0.0.zip . -x ".git/*" "docs/*" ".agent/*" ".DS_Store" ".gitignore" "README.md"
 ```
 
-## 収益モデル
+## 収益モデル（3段階プラン）
 
-| プラン | 価格 | 機能 |
-|---|---|---|
-| Free | \u00a50 | 5カテゴリ基本分析 + スコア |
-| Premium | \u00a51,480/月 | AI提案、CRO診断、EC特化、CSV出力 |
+> [!IMPORTANT]
+> 機能追加・変更時は、必ずこのプラン表と照合してFree/Pro/Teamの境界を逸脱していないか確認すること。
 
-## ドメイン計画
+### Free（¥0）— 日常使いの入り口
 
-- **候補:** `pulse-digital.dev`（ハイフン入り）
-- **推奨レジストラ:** Cloudflare（原価販売 ~$10.18/年 ≈ \u00a51,530）
-- **用途:** LP + プライバシーポリシー + 連絡先メール
-- **ホスティング:** GitHub Pages → Cloudflare Pages（将来移行）
+| 機能 | 実装状態 |
+|------|---------|
+| 5カテゴリ基本分析（SEO / パフォーマンス / a11y / 構造 / LLMO） | ✅ |
+| 100点満点スコアリング | ✅ |
+| CSV / JSONエクスポート | ✅ |
+| 分析回数制限なし | ✅ |
+| 改善アドバイス + コード例表示 | ✅ |
+| SVGアイコンUI | ✅ |
+| CRO/EC/履歴タブのロック表示（Proティーザー） | ✅ |
+
+### Pro（¥980/月 / ¥7,800/年）— 個人の実務ツール
+
+> 外部APIなしで完結する機能中心。¥980/月の利益率を維持
+
+| 機能 | 実装状態 |
+|------|---------|
+| 分析履歴（最大50件、chrome.storage.local） | ✅ |
+| CRO診断（CTA分析・フォーム・電話リンク・信頼性要素・タッチターゲット） | ✅ |
+| EC特化分析（商品画像・価格表示・カート導線・配送情報・パンくず・特商法） | ✅ |
+| 改善アドバイス強化（全項目にコピペ可能なHTMLコードスニペット） | ✅ |
+| PDFレポート出力（jsPDF、標準テンプレート） | ❌ 未実装 |
+
+### Team（¥2,980/月 / ¥29,800/年）— クライアントワーク向け
+
+> Pro課金が5件以上になったら着手
+
+| 機能 | 実装状態 |
+|------|---------|
+| Pro全機能 | — |
+| AI改善提案（Claude Haiku API） | ❌ 未実装 |
+| 一括URL診断 | ❌ 未実装 |
+| ホワイトラベルPDF（企業ロゴ・カラー入り） | ❌ 未実装 |
+| 競合比較（2サイト横並び比較） | ❌ 未実装 |
+
+### 決済基盤
+
+- **ExtensionPay** + **Stripe** で課金管理
+- ExtensionPayは1プロダクト1プランが基本。Teamプランは別決済フローの可能性あり
+- Stripeアカウント: 本人確認済み
 
 ## ドメイン・インフラ
 
@@ -160,19 +193,28 @@ zip -r ~/Desktop/pagepulse-v1.0.0.zip . -x ".git/*" "docs/*" ".agent/*" ".DS_Sto
 
 ## ランディングページ
 
-- **ファイル:** `/tmp/pagepulse-lp/index.html`（単一ファイル構成、ダークモードデザイン）
-- **Privacy Policy:** `/tmp/pagepulse-lp/privacy-policy/index.html`（統一デザイン）
-- **デプロイ先:** Cloudflare Pages（`pulse-digital-dev/pagepulse` リポジトリ連携）
-- **ステータス:** HTMLファイル作成済み → GitHub pushとCloudflare Pages連携が必要
+- **リポジトリ:** `pulse-digital-dev/pagepulse`（GitHub Pages経由）
+- **URL:** https://pulse-digital.dev
+- **Privacy Policy:** https://pulse-digital.dev/privacy-policy
+- **特商法表記:** https://pulse-digital.dev/tokushoho
+- **デプロイ:** Cloudflare Pages自動デプロイ
 
 ## 今後のロードマップ
 
-- [/] Chrome Web Store 審査待ち（1-3営業日）
-- [x] `pulse-digital.dev` ドメイン取得（Cloudflare, $12.20/年）
-- [x] Cloudflare Email Routing設定（contact@pulse-digital.dev）
-- [x] LP作成（HTML/CSS）
-- [x] LP → `pulse-digital-dev/pagepulse` にpush済み
-- [x] Cloudflare Pages設定（LP公開済み: https://pulse-digital.dev）
-- [ ] v1.1: Export機能（PDF/CSV）
-- [ ] v1.2: Premium課金（ExtensionPay + Stripe）
-- [ ] v2.0: AI提案エンジン（Claude API連携）
+### Phase 1: Pro基盤（v1.3 — 進行中）
+- [x] CRO診断（cro-analyzer.js）
+- [x] EC特化分析（ec-analyzer.js）
+- [x] 分析履歴（chrome.storage.local）
+- [x] 改善アドバイス強化（全項目にコード例）
+- [x] SVGアイコン化（絵文字→インラインSVG）
+- [x] Free版Proティーザー（ロック表示 + アップセルUI）
+- [ ] UIブラッシュアップ（結果カード間のマージン改善等）
+- [ ] PDFレポート出力（jsPDF）
+- [ ] Chrome Web Store v1.3.0 再パッケージ＆再提出
+
+### Phase 2: Team基盤（v2.0 — Pro課金5件以上で着手）
+- [ ] AI改善提案（Claude Haiku API）
+- [ ] 一括URL診断
+- [ ] ホワイトラベルPDF
+- [ ] 競合比較
+
