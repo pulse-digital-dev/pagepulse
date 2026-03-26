@@ -10,6 +10,13 @@
     results.push({ title, body, status, action: action || '', value: value || '' });
   }
 
+  // ---- Page Type Detection ----
+  const path = location.pathname.toLowerCase();
+  const isTopPage = path === '/' || path === '/index.html' || path === '/index.php' || /^\/[^/]*\.(html?|php)$/.test(path);
+  const isProductPage = /\/(product|item|goods|shop|detail|p\/)/i.test(path) || document.querySelector('[class*="product-detail"], [class*="item-detail"], [itemtype*="Product"]');
+  const isCategoryPage = /\/(category|collection|catalog|list|archive|c\/)/i.test(path) || document.querySelector('[class*="product-list"], [class*="item-list"]');
+  const pageType = isProductPage ? 'product' : isCategoryPage ? 'category' : isTopPage ? 'top' : 'other';
+
   const body = document.body.innerText || '';
   const html = document.body.innerHTML || '';
 
@@ -27,7 +34,9 @@
         return rect.width > 150 && rect.height > 150;
       });
       if (largeImages.length < 3) {
-        addResult('\u5546\u54c1\u753b\u50cf\u304c\u5c11\u306a\u3044', `\u5927\u304d\u306a\u753b\u50cf\u304c${largeImages.length}\u679a\u306e\u307f\u3067\u3059\u3002`, 'warn',
+        // TOP/category pages naturally have fewer product-specific images
+        const imgStatus = (pageType === 'top' || pageType === 'category') ? 'info' : 'warn';
+        addResult('\u5546\u54c1\u753b\u50cf\u304c\u5c11\u306a\u3044', `\u5927\u304d\u306a\u753b\u50cf\u304c${largeImages.length}\u679a\u306e\u307f\u3067\u3059\u3002`, imgStatus,
           'EC\u30b5\u30a4\u30c8\u3067\u306f\u5546\u54c1\u753b\u50cf\u30923\u679a\u4ee5\u4e0a\u63b2\u8f09\u3059\u308b\u306e\u304c\u6a19\u6e96\u3067\u3059\u3002', `${largeImages.length}\u679a`);
       } else {
         addResult('\u5546\u54c1\u753b\u50cf\u6570', `\u5927\u304d\u306a\u753b\u50cf\u304c${largeImages.length}\u679a\u691c\u51fa\u3055\u308c\u307e\u3057\u305f\u3002`, 'pass', '', `${largeImages.length}\u679a`);
@@ -70,7 +79,9 @@
     if (found) {
       addResult('\u8cfc\u5165\u30dc\u30bf\u30f3\u3042\u308a', '\u8cfc\u5165\u30dc\u30bf\u30f3\u304c\u691c\u51fa\u3055\u308c\u307e\u3057\u305f\u3002', 'pass');
     } else {
-      addResult('\u8cfc\u5165\u30dc\u30bf\u30f3\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093', '\u8cfc\u5165\u5c0e\u7dda\u304c\u691c\u51fa\u3055\u308c\u307e\u305b\u3093\u3067\u3057\u305f\u3002', 'warn',
+      // Cart button is only expected on product pages
+      const cartStatus = (pageType === 'product') ? 'warn' : 'info';
+      addResult('\u8cfc\u5165\u30dc\u30bf\u30f3\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093', '\u8cfc\u5165\u5c0e\u7dda\u304c\u691c\u51fa\u3055\u308c\u307e\u305b\u3093\u3067\u3057\u305f\u3002', cartStatus,
         '\u5546\u54c1\u30da\u30fc\u30b8\u306b\u306f\u660e\u78ba\u306a\u8cfc\u5165CTA\u3092\u914d\u7f6e\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <button class="add-to-cart" style="padding:14px 28px; background:#e74c3c; color:#fff; border:none; border-radius:6px; font-size:16px; font-weight:bold; cursor:pointer;">\ud83d\uded2 \u30ab\u30fc\u30c8\u306b\u5165\u308c\u308b</button>');
     }
   }
@@ -80,7 +91,9 @@
     if (shippingPatterns.test(body)) {
       addResult('\u914d\u9001\u60c5\u5831\u3042\u308a', '\u9001\u6599\u30fb\u914d\u9001\u30fb\u5728\u5eab\u306b\u95a2\u3059\u308b\u60c5\u5831\u304c\u691c\u51fa\u3055\u308c\u307e\u3057\u305f\u3002', 'pass');
     } else {
-      addResult('\u914d\u9001\u60c5\u5831\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093', '\u914d\u9001\u60c5\u5831\u304c\u691c\u51fa\u3055\u308c\u307e\u305b\u3093\u3067\u3057\u305f\u3002', 'warn',
+      // Shipping info is mainly relevant on product pages
+      const shipStatus = (pageType === 'product') ? 'warn' : 'info';
+      addResult('\u914d\u9001\u60c5\u5831\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093', '\u914d\u9001\u60c5\u5831\u304c\u691c\u51fa\u3055\u308c\u307e\u305b\u3093\u3067\u3057\u305f\u3002', shipStatus,
         '\u9001\u6599\u7121\u6599\u6761\u4ef6\u3001\u914d\u9001\u65e5\u306e\u76ee\u5b89\u3001\u5728\u5eab\u72b6\u6cc1\u306e\u8868\u793a\u306f\u8cfc\u5165\u6c7a\u5b9a\u3092\u5f8c\u62bc\u3057\u3057\u307e\u3059\u3002\n\ud83d\udcdd <div class="shipping-info">\n  \ud83d\ude9a \u9001\u6599\u7121\u6599\uff083,980\u5186\u4ee5\u4e0a\uff09\n  \ud83d\udce6 \u6700\u77ed\u7fcc\u65e5\u304a\u5c4a\u3051\n  \u2705 \u5728\u5eab\u3042\u308a\n</div>');
     }
   }

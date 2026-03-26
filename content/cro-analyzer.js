@@ -10,6 +10,14 @@
     results.push({ title, body, status, action: action || '', value: value || '' });
   }
 
+  // ---- Page Type Detection ----
+  const url = location.href.toLowerCase();
+  const path = location.pathname.toLowerCase();
+  const isTopPage = path === '/' || path === '/index.html' || path === '/index.php' || /^\/[^/]*\.(html?|php)$/.test(path);
+  const isProductPage = /\/(product|item|goods|shop|detail|p\/)/i.test(path) || document.querySelector('[class*="product-detail"], [class*="item-detail"], [itemtype*="Product"]');
+  const isCategoryPage = /\/(category|collection|catalog|list|archive|c\/)/i.test(path) || document.querySelector('[class*="product-list"], [class*="item-list"]');
+  const pageType = isProductPage ? 'product' : isCategoryPage ? 'category' : isTopPage ? 'top' : 'other';
+
   // ---- 1. CTA Detection ----
   function analyzeCTAs() {
     const buttons = document.querySelectorAll('button, [role="button"], input[type="submit"], input[type="button"], .btn, .button, [class*="cta"], [class*="CTA"]');
@@ -66,7 +74,9 @@
     if (phoneLinks.length > 0) {
       addResult('\u96fb\u8a71\u756a\u53f7\u30ea\u30f3\u30af\u3042\u308a', `tel:\u30ea\u30f3\u30af\u304c${phoneLinks.length}\u500b\u898b\u3064\u304b\u308a\u307e\u3057\u305f\u3002`, 'pass', '', `${phoneLinks.length}\u500b`);
     } else {
-      addResult('\u96fb\u8a71\u756a\u53f7\u30ea\u30f3\u30af\u306a\u3057', '\u30e2\u30d0\u30a4\u30eb\u3067\u30bf\u30c3\u30d7\u3067\u304d\u308btel:\u30ea\u30f3\u30af\u304c\u3042\u308a\u307e\u305b\u3093\u3002', 'warn',
+      // EC product/category/top pages often don't need phone links
+      const phoneStatus = (pageType === 'product' || pageType === 'category' || pageType === 'top') ? 'info' : 'warn';
+      addResult('\u96fb\u8a71\u756a\u53f7\u30ea\u30f3\u30af\u306a\u3057', '\u30e2\u30d0\u30a4\u30eb\u3067\u30bf\u30c3\u30d7\u3067\u304d\u308btel:\u30ea\u30f3\u30af\u304c\u3042\u308a\u307e\u305b\u3093\u3002', phoneStatus,
         'BtoB\u3084\u5e97\u8217\u7cfb\u30b5\u30a4\u30c8\u3067\u306f\u96fb\u8a71\u756a\u53f7\u3092\u30bf\u30c3\u30d7\u53ef\u80fd\u306b\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <a href="tel:03-1234-5678">\u260e 03-1234-5678</a>');
     }
     const reviewPatterns = /(\u53e3\u30b3\u30df|\u30ec\u30d3\u30e5\u30fc|\u304a\u5ba2\u69d8\u306e\u58f0|\u4e8b\u4f8b|\u5b9f\u7e3e|review|testimonial|rating|\u661f|\u2605|\u2606)/i;
