@@ -215,3 +215,21 @@ body::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: va
 /* Pro tab badge */
 .tab__badge--pro { background: linear-gradient(135deg, rgba(108, 92, 231, 0.2), rgba(0, 180, 216, 0.15)); color: var(--accent-purple); font-size: 8px; letter-spacing: 0.5px; }
 .tab--pro { border-left: 1px solid var(--border-color); margin-left: 2px; padding-left: 6px; }
+
+/* Locked Pro tabs (free users) */
+.tab--locked { opacity: 0.5; position: relative; }
+.tab--locked:hover { opacity: 0.75; }
+.tab--locked .tab__badge--pro { background: linear-gradient(135deg, rgba(108, 92, 231, 0.25), rgba(0, 180, 216, 0.2)); animation: pulse-badge 2s ease-in-out infinite; }
+@keyframes pulse-badge { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+/* ---- Pro Upsell Section ---- */
+.pro-upsell { display: flex; flex-direction: column; align-items: center; padding: 28px 24px 20px; text-align: center; animation: fadeIn 0.3s ease-out; }
+.pro-upsell__icon { margin-bottom: 12px; opacity: 0.8; }
+.pro-upsell__title { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+.pro-upsell__desc { font-size: 11px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px; max-width: 300px; }
+.pro-upsell__features { list-style: none; padding: 0; margin: 0 0 20px; display: flex; flex-direction: column; gap: 8px; text-align: left; width: 100%; max-width: 280px; }
+.pro-upsell__features li { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-secondary); line-height: 1.4; }
+.pro-upsell__features li::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--gradient-main); flex-shrink: 0; }
+.pro-upsell__btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border: none; border-radius: var(--radius-full); background: var(--gradient-main); color: white; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; transition: var(--transition); box-shadow: 0 4px 16px rgba(108, 92, 231, 0.3); }
+.pro-upsell__btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(108, 92, 231, 0.45); }
+.pro-upsell__btn svg { opacity: 0.9; }

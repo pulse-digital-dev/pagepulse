@@ -24,8 +24,45 @@ document.addEventListener('DOMContentLoaded', async () => {
   const tabHistory = $('#tabHistory');
   const tabCro = $('#tabCro');
   const tabEc = $('#tabEc');
+  const proUpsell = $('#proUpsell');
+  const proUpsellTitle = $('#proUpsellTitle');
+  const proUpsellDesc = $('#proUpsellDesc');
+  const proUpsellFeatures = $('#proUpsellFeatures');
   let croData = null;
   let ecData = null;
+
+  // Pro category descriptions for upsell teaser
+  const proCategoryInfo = {
+    cro: {
+      title: 'CRO\u8a3a\u65ad',
+      desc: 'CTA\u5206\u6790\u30fb\u30d5\u30a9\u30fc\u30e0\u6700\u9069\u5316\u30fb\u4fe1\u983c\u6027\u30c1\u30a7\u30c3\u30af\u7b49\u3001\u30b3\u30f3\u30d0\u30fc\u30b8\u30e7\u30f3\u6539\u5584\u306b\u7279\u5316\u3057\u305f\u8a3a\u65ad',
+      features: [
+        'CTA\u6570\u30fb\u914d\u7f6e\u306e\u6700\u9069\u5316\u30c1\u30a7\u30c3\u30af',
+        '\u96fb\u8a71\u756a\u53f7\u30ea\u30f3\u30af\u30fbtel:\u5c5e\u6027\u306e\u691c\u51fa',
+        '\u4fe1\u983c\u6027\u8981\u7d20\uff08\u30ec\u30d3\u30e5\u30fc\u30fb\u5b9f\u7e3e\u30fb\u30d0\u30c3\u30b8\uff09\u306e\u5206\u6790',
+        '\u30bf\u30c3\u30c1\u30bf\u30fc\u30b2\u30c3\u30c8\u30b5\u30a4\u30ba\u306e\u691c\u8a3c'
+      ]
+    },
+    ec: {
+      title: 'EC\u7279\u5316\u5206\u6790',
+      desc: '\u5546\u54c1\u30da\u30fc\u30b8\u306e\u8cfc\u5165\u5c0e\u7dda\u30fb\u4fa1\u683c\u8868\u793a\u30fb\u6cd5\u4ee4\u9075\u5b88\u3092\u81ea\u52d5\u30c1\u30a7\u30c3\u30af',
+      features: [
+        '\u5546\u54c1\u753b\u50cf\u679a\u6570\u30fb\u4fa1\u683c\u8868\u793a\u306e\u691c\u51fa',
+        '\u8cfc\u5165\u30dc\u30bf\u30f3\u30fb\u30ab\u30fc\u30c8\u5c0e\u7dda\u306e\u6709\u7121',
+        '\u9001\u6599\u30fb\u914d\u9001\u60c5\u5831\u306e\u8868\u793a\u30c1\u30a7\u30c3\u30af',
+        '\u7279\u5546\u6cd5\u8868\u8a18\u30fb\u8fd4\u54c1\u30dd\u30ea\u30b7\u30fc\u306e\u691c\u51fa'
+      ]
+    },
+    history: {
+      title: '\u5206\u6790\u5c65\u6b74',
+      desc: '\u904e\u53bb\u306e\u5206\u6790\u7d50\u679c\u3092\u81ea\u52d5\u4fdd\u5b58\u3002\u6539\u5584\u306e\u9032\u6357\u3092\u53ef\u8996\u5316',
+      features: [
+        '\u6700\u592750\u4ef6\u306e\u5206\u6790\u5c65\u6b74\u3092\u81ea\u52d5\u4fdd\u5b58',
+        'URL\u5225\u30b9\u30b3\u30a2\u63a8\u79fb\u306e\u78ba\u8a8d',
+        '\u30ef\u30f3\u30af\u30ea\u30c3\u30af\u3067\u904e\u53bb\u306e\u5206\u6790\u3092\u518d\u8868\u793a'
+      ]
+    }
+  };
   let currentTabId = null;
 
   // ---- Initialize ----
@@ -211,9 +248,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   // ---- Tab Switching ----
   $$('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
+      const cat = tab.dataset.category;
+      const isProCategory = cat === 'cro' || cat === 'ec' || cat === 'history';
+
+      // Free user clicking a Pro tab → show upsell
+      if (isProCategory && !isPro) {
+        $$('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        activeCategory = cat;
+        resultsContainer.classList.add('hidden');
+        historySection.classList.add('hidden');
+        showProUpsell(cat);
+        return;
+      }
+
       $$('.tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
-      activeCategory = tab.dataset.category;
+      activeCategory = cat;
+      proUpsell.classList.add('hidden');
 
       if (activeCategory === 'history') {
         resultsContainer.classList.add('hidden');
@@ -284,15 +336,29 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function showProTabs() {
-    tabHistory.classList.remove('hidden');
-    tabCro.classList.remove('hidden');
-    tabEc.classList.remove('hidden');
+    tabHistory.classList.remove('tab--locked');
+    tabCro.classList.remove('tab--locked');
+    tabEc.classList.remove('tab--locked');
+    // Update badges to show counts instead of "Pro"
+    $('#badge-cro').textContent = '-';
+    $('#badge-ec').textContent = '-';
+    $('#badge-history').textContent = '-';
   }
 
   function hideProTabs() {
-    tabHistory.classList.add('hidden');
-    tabCro.classList.add('hidden');
-    tabEc.classList.add('hidden');
+    // Don't hide — show as locked (visible but greyed out)
+    tabHistory.classList.add('tab--locked');
+    tabCro.classList.add('tab--locked');
+    tabEc.classList.add('tab--locked');
+  }
+
+  function showProUpsell(category) {
+    const info = proCategoryInfo[category];
+    if (!info) return;
+    proUpsellTitle.textContent = info.title;
+    proUpsellDesc.textContent = info.desc;
+    proUpsellFeatures.innerHTML = info.features.map(f => `<li>${escapeHtml(f)}</li>`).join('');
+    proUpsell.classList.remove('hidden');
   }
 
   // ---- Upgrade Buttons ----
@@ -305,11 +371,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     chrome.runtime.sendMessage({ type: 'OPEN_PAYMENT_PAGE' });
   });
 
+  // Pro upsell section button
+  $('#btnUpsellPro').addEventListener('click', () => {
+    chrome.runtime.sendMessage({ type: 'OPEN_PAYMENT_PAGE' });
+  });
+
   // Listen for payment status changes (real-time upgrade)
   chrome.runtime.onMessage.addListener((message) => {
     if (message.type === 'PAYMENT_STATUS_CHANGED' && message.paid) {
       isPro = true;
       proBanner.classList.add('hidden');
+      proUpsell.classList.add('hidden');
       proStatus.classList.remove('hidden');
       showProTabs();
       // Re-render with Pro features
