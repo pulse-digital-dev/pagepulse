@@ -10,6 +10,15 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-NDF8CV6Z');</script>
     <!-- End Google Tag Manager -->
+    <!-- Language Redirect: non-Japanese browsers → /en/ -->
+    <script>
+    (function(){
+      if(sessionStorage.getItem('lc'))return;
+      sessionStorage.setItem('lc','1');
+      var l=navigator.language||navigator.userLanguage||'';
+      if(!l.startsWith('ja'))window.location.replace('/en/');
+    })();
+    </script>
     <title>PagePulse - AIサイト分析ツール | プロ仕様の健康診断を瞬時に</title>
     <meta name="description" content="あなたのサイトの健康診断、わずか2秒。SEO・パフォーマンス・アクセシビリティをブラウザ完結で完全診断。データ送信ゼロのセキュアなChrome拡張機能。">
     
