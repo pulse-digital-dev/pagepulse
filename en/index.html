@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NDF8CV6Z');</script>
+    <!-- End Google Tag Manager -->
+    <title>PagePulse - AI Website Analyzer | Instant Site Health Check</title>
+    <meta name="description" content="Instant website health check in 2 seconds. Analyze SEO, performance, and accessibility entirely in your browser. Zero data transmission. Secure Chrome extension.">
+    
+    <!-- Open Graph Data -->
+    <meta property="og:title" content="PagePulse - AI Website Analyzer">
+    <meta property="og:description" content="Instant website health check in 2 seconds. Analyze SEO, performance, and accessibility entirely in your browser. Zero data transmission. Secure Chrome extension.">
+    <meta property="og:image" content="https://pulse-digital.dev/ogp.jpg">
+    <meta property="og:url" content="https://pulse-digital.dev/en/">
+    <meta property="og:site_name" content="PagePulse">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pulsedigitaldev">
+    <meta name="twitter:creator" content="@pulsedigitaldev">
+    <meta name="twitter:title" content="PagePulse - AI Website Analyzer">
+    <meta name="twitter:description" content="Instant website health check in 2 seconds. Analyze SEO, performance, and accessibility entirely in your browser. Zero data transmission. Secure Chrome extension.">
+    <meta name="twitter:image" content="https://pulse-digital.dev/ogp.jpg">
+
+    <!-- Schema.org / JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "PagePulse",
+      "operatingSystem": "Chrome, Edge, Brave",
+      "applicationCategory": "DeveloperApplication",
+      "description": "Instant website health check in 2 seconds. A Chrome extension that analyzes SEO, performance, and accessibility entirely in your browser.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Free",
+          "price": "0",
+          "priceCurrency": "JPY"
+        },
+        {
+          "@type": "Offer",
+          "name": "Pro",
+          "price": "980",
+          "priceCurrency": "JPY",
+          "billingIncrement": "P1M"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "ratingCount": "1"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can I use it for free forever?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, all Free plan features (30+ analysis checks and export) are completely free forever. You will never be charged automatically."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work on intranets and local environments?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. PagePulse analyzes the rendered DOM directly in your browser, so it works perfectly behind Basic Auth, VPNs, and on localhost."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is PagePulse different from Lighthouse or other SEO tools?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The key difference is that PagePulse evaluates the final rendered state (post-JavaScript execution) in real-time, making it effortless to analyze SPAs and dynamic content."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Theme Colors - Sophisticated Dark Slate */
+            --bg-primary: #09090b;      /* zinc-950 */
+            --bg-secondary: #18181b;    /* zinc-900 */
+            --bg-tertiary: #27272a;     /* zinc-800 */
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-card-hover: rgba(255, 255, 255, 0.06);
+            --border-primary: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.15);
+            
+            /* Typography */
+            --text-primary: #fafafa;    /* zinc-50 */
+            --text-secondary: #a1a1aa;  /* zinc-400 */
+            --text-muted: #71717a;      /* zinc-500 */
+            
+            /* Accents - Tech Gradient */
+            --accent-main: #3b82f6;     /* blue-500 */
+            --accent-secondary: #8b5cf6;/* purple-500 */
+            --accent-tertiary: #14b8a6; /* teal-500 */
+            --gradient-brand: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #14b8a6 100%);
+            --gradient-subtle: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(139,92,246,0.15));
+            --gradient-glow: radial-gradient(circle at center, rgba(59,130,246,0.2) 0%, transparent 70%);
+
+            /* Semantic */
+            --success: #34d399; /* emerald-400 */
+            --warning: #fbbf24; /* amber-400 */
+            --error: #f87171;   /* red-400 */
+            
+            /* Geometry */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-full: 9999px;
+            --font-sans: 'Inter', system-ui, sans-serif;
+            --max-w-base: 1200px;
+        }
+
+        /* Essential Resets */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; scroll-padding-top: 100px; font-family: var(--font-sans); background-color: var(--bg-primary); color: var(--text-primary); }
+        body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; line-height: 1.6; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img, svg { max-width: 100%; height: auto; display: block; }
+        button { font-family: inherit; border: none; cursor: pointer; }
+
+        /* Typography Utilities */
+        .text-gradient {
+            background: var(--gradient-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+
+        /* Layout Utilities */
+        .container { width: 100%; max-width: var(--max-w-base); margin: 0 auto; padding: 0 24px; }
+        .section { padding: 120px 0; position: relative; }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(9, 9, 11, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        /* Reusable Buttons */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 14px 28px; border-radius: var(--radius-md); font-weight: 600; font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;
+        }
+        .btn-primary {
+            background: var(--gradient-brand); color: white;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3); border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px); box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+        }
+        .btn-outline {
+            background: var(--bg-card); border: 1px solid var(--border-primary); color: var(--text-primary);
+        }
+        .btn-outline:hover {
+            background: var(--bg-card-hover); border-color: var(--border-hover);
+        }
+        .btn svg { width: 18px; height: 18px; }
+
+        /* Custom Navigation */
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; transition: background 0.3s; padding: 16px 0; }
+        .nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .nav-brand { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-link { color: var(--text-secondary); font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+        .nav-link:hover { color: var(--text-primary); }
+        .mobile-toggle { display: none; background: transparent; color: var(--text-primary); padding: 8px; }
+
+        /* Nav Mobile Menu */
+        .nav-menu-wrapper { display: flex; align-items: center; gap: 32px; }
+
+        /* Hero Section */
+        .hero { position: relative; padding: 180px 0 100px; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
+        /* Hero Background Glows */
+        .hero-glow-1 { position: absolute; top: -10%; left: -10%; width: 500px; height: 500px; background: rgba(59, 130, 246, 0.15); filter: blur(100px); border-radius: 50%; z-index: -1; pointer-events: none;}
+        .hero-glow-2 { position: absolute; top: 20%; right: -10%; width: 600px; height: 600px; background: rgba(139, 92, 246, 0.1); filter: blur(120px); border-radius: 50%; z-index: -1; pointer-events: none;}
+        
+        .hero .container { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: var(--radius-full);
+            background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);
+            color: #60a5fa; font-size: 0.85rem; font-weight: 600; margin-bottom: 24px;
+        }
+        .hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 24px; }
+        .hero p { font-size: 1.125rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 40px; max-width: 540px; }
+        
+        .hero-metrics { display: flex; gap: 32px; margin-top: 48px; border-top: 1px solid var(--border-primary); padding-top: 32px; }
+        .hero-metric strong { display: block; font-size: 1.5rem; font-weight: 800; color: var(--text-primary); }
+        .hero-metric span { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+
+        /* UI Mockup in Hero */
+        .hero-mockup-wrapper { perspective: 1200px; position: relative; }
+        .hero-mockup {
+            background: #1e1e24; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+            transform: rotateY(-8deg) rotateX(4deg); transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%; max-width: 440px; margin-left: auto; overflow: hidden;
+        }
+        .hero-mockup:hover { transform: rotateY(0) rotateX(0); }
+        .mockup-header {
+            background: #2a2a32; padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .mockup-title { font-size: 0.85rem; font-weight: 600; color: #fff; display: flex; align-items: center; gap:8px;}
+        .mockup-body { padding: 20px; display: flex; flex-direction: column; gap: 12px; background: #1e1e24; }
+        @keyframes slideUpFade {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .m-card {
+            background: #2a2a32; border-radius: 10px; padding: 14px; border: 1px solid rgba(255,255,255,0.04);
+            display: flex; justify-content: space-between; align-items: center;
+            opacity: 0; animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .m-card:nth-child(1) { animation-delay: 0.2s; }
+        .m-card:nth-child(2) { animation-delay: 0.4s; }
+        .m-card:nth-child(3) { animation-delay: 0.6s; }
+        .m-card:nth-child(4) { animation-delay: 0.8s; }
+        .m-info { display: flex; flex-direction: column; gap: 4px; }
+        .m-label { font-size: 0.8rem; color: #a1a1aa; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .m-score { font-size: 1.25rem; font-weight: 800; }
+        
+        .m-card.good { border-left: 3px solid var(--success); }
+        .m-card.good .m-score { color: var(--success); }
+        .m-card.warn { border-left: 3px solid var(--warning); }
+        .m-card.warn .m-score { color: var(--warning); }
+        .m-card.err { border: 1px solid rgba(248,113,113,0.3); background: rgba(248,113,113,0.05); border-left: 3px solid var(--error); }
+        .m-card.err .m-label { color: var(--error); }
+        .m-err-desc { font-size: 0.75rem; color: #a1a1aa; }
+
+        /* Section Titles */
+        .section-header { text-align: center; margin-bottom: 64px; max-width: 700px; margin-inline: auto; }
+        .section-label { font-size: 0.875rem; font-weight: 700; color: var(--accent-main); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
+        .section-title { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 24px; line-height: 1.2;}
+        .section-desc { font-size: 1.125rem; color: var(--text-secondary); }
+
+        /* Features Grid */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+        .feature-card {
+            background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: var(--radius-lg);
+            padding: 32px; transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .feature-card:hover {
+            background: var(--bg-card-hover); border-color: var(--border-hover); transform: translateY(-4px);
+        }
+        .f-icon-wrap {
+            width: 48px; height: 48px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;
+        }
+        .feature-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; color: var(--text-primary); }
+        .feature-card p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; }
+
+        /* Feature Colors */
+        .f-seo .f-icon-wrap { color: #3b82f6; background: rgba(59,130,246,0.1); }
+        .f-perf .f-icon-wrap { color: #f59e0b; background: rgba(245,158,11,0.1); }
+        .f-a11y .f-icon-wrap { color: #22c55e; background: rgba(34,197,94,0.1); }
+        .f-struct .f-icon-wrap { color: #8b5cf6; background: rgba(139,92,246,0.1); }
+        .f-llm .f-icon-wrap { color: #14b8a6; background: rgba(20,184,166,0.1); }
+
+        /* How It Works Steps */
+        .steps-section { background: var(--bg-secondary); border-top: 1px solid var(--border-primary); border-bottom: 1px solid var(--border-primary); }
+        .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; position: relative; }
+        .steps-grid::before {
+            content: ''; position: absolute; top: 32px; left: 10%; right: 10%; height: 2px;
+            background: repeating-linear-gradient(90deg, var(--border-primary) 0, var(--border-primary) 6px, transparent 6px, transparent 12px);
+            z-index: 0;
+        }
+        .step-item { text-align: center; position: relative; z-index: 1; }
+        .step-num {
+            width: 64px; height: 64px; background: var(--bg-secondary); border: 2px solid var(--border-hover); border-radius: var(--radius-full);
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; color: var(--accent-main);
+            margin: 0 auto 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .step-item h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; }
+        .step-item p { font-size: 0.95rem; color: var(--text-secondary); }
+
+        /* Local Privacy Banner */
+        .privacy { padding: 80px 0; }
+        .privacy .section-header { margin-bottom: 48px; }
+        .privacy-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 900px; margin: 0 auto;
+        }
+        .privacy-card {
+            background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: var(--radius-lg);
+            padding: 28px 24px; text-align: center; transition: all 0.3s ease;
+        }
+        .privacy-card:hover {
+            background: var(--bg-card-hover); border-color: rgba(20,184,166,0.3); transform: translateY(-4px);
+        }
+        .privacy-card .pc-icon {
+            width: 48px; height: 48px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px; background: rgba(20,184,166,0.1); color: var(--accent-tertiary);
+        }
+        .privacy-card .pc-icon svg { width: 24px; height: 24px; }
+        .privacy-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+        .privacy-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+        /* Pricing */
+        .pricing-section { padding-bottom: 160px; }
+        .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 800px; margin: 0 auto; }
+        .price-card {
+            background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: var(--radius-lg);
+            padding: 48px 32px; display: flex; flex-direction: column;
+        }
+        .price-card.premium {
+            border-color: rgba(139,92,246,0.4); background: linear-gradient(180deg, rgba(139,92,246,0.05) 0%, transparent 100%);
+            position: relative;
+        }
+        .badge-premium {
+            position: absolute; top: -14px; right: 24px; background: var(--gradient-brand); color: white;
+            padding: 4px 16px; border-radius: var(--radius-full); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em;
+        }
+        .p-name { font-size: 1.25rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 16px; }
+        .premium .p-name { color: var(--text-primary); }
+        .p-price { font-size: 3rem; font-weight: 800; margin-bottom: 8px; color: white; display: flex; align-items: baseline; gap: 8px; }
+        .premium .p-price { background: var(--gradient-brand); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .p-price span { font-size: 1rem; font-weight: 500; color: var(--text-muted); -webkit-text-fill-color: var(--text-muted); }
+        .p-desc { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 32px; border-bottom: 1px solid var(--border-primary); padding-bottom: 32px; }
+        
+        .p-features { list-style: none; display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; flex-grow: 1; }
+        .p-features li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.95rem; color: var(--text-primary); }
+        .p-features li svg { width: 20px; height: 20px; color: var(--accent-main); flex-shrink: 0; margin-top: 2px;}
+        .premium .p-features li svg { color: var(--accent-secondary); }
+        .p-features li.disabled { color: var(--text-muted); }
+        .p-features li.disabled svg { color: var(--bg-tertiary); }
+
+        /* FAQ */
+        .faq { max-width: 800px; margin: 0 auto; }
+        .faq-item { margin-bottom: 24px; border-bottom: 1px solid var(--border-primary); padding-bottom: 24px; }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-q { font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; color: white; display: flex; gap: 16px; }
+        .faq-q::before { content: 'Q.'; color: var(--accent-main); font-weight: 800; }
+        .faq-a { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; padding-left: 36px; }
+
+        /* CTA Footer Section */
+        .cta-bottom {
+            max-width: 1000px; margin: 0 auto 80px; padding: 80px 40px; border-radius: var(--radius-lg);
+            background: var(--gradient-brand); text-align: center; position: relative; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        /* Pattern Overlay */
+        .cta-bottom::before {
+            content:''; position:absolute; top:0; left:0; width:100%; height:100%;
+            background-image: radial-gradient(rgba(255,255,255,0.2) 1px, transparent 1px);
+            background-size: 20px 20px; opacity: 0.5; z-index: 0;
+        }
+        .cta-content { position: relative; z-index: 1; }
+        .cta-bottom h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: white; margin-bottom: 24px; letter-spacing: -0.02em; }
+        .cta-bottom p { font-size: 1.125rem; color: rgba(255,255,255,0.9); margin-bottom: 40px; }
+        .cta-bottom .btn-primary {
+            background: white; color: var(--bg-primary); font-size: 1.125rem; padding: 16px 36px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: none;
+        }
+        .cta-bottom .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
+
+        /* Footer */
+        .footer { border-top: 1px solid var(--border-primary); padding: 80px 0 40px; background: var(--bg-primary); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 64px; margin-bottom: 64px; }
+        .f-brand { font-size: 1.5rem; font-weight: 800; color: white; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .f-brand-desc { color: var(--text-muted); font-size: 0.95rem; max-width: 300px; line-height: 1.6; }
+        
+        .f-col h4 { color: white; font-weight: 600; margin-bottom: 24px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .f-links { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+        .f-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+        .f-links a:hover { color: white; }
+        
+        .footer-bottom {
+            border-top: 1px solid var(--border-primary); padding-top: 32px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .footer-copy { color: var(--text-muted); font-size: 0.9rem; }
+        .footer-social { display: flex; gap: 16px; }
+        .footer-social a { color: var(--text-muted); transition: color 0.2s; }
+        .footer-social a:hover { color: white; }
+
+        /* Reveal Utils */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .section { padding: 80px 0; }
+            .hero { padding: 120px 0 80px; min-height: auto; text-align: center; }
+            .hero .container { grid-template-columns: 1fr; gap: 48px; }
+            .hero p { margin: 0 auto 40px; }
+            .hero-metrics { justify-content: center; flex-wrap: wrap; }
+            
+            .hero-mockup { transform: none; max-width: 500px; margin: 0 auto; }
+            .hero-mockup:hover { transform: none; }
+            
+            /* Nav Mobile */
+            .nav-menu-wrapper {
+                display: none; position: absolute; top: 100%; left: 0; width: 100%;
+                background: rgba(9, 9, 11, 0.98); border-bottom: 1px solid var(--border-primary);
+                flex-direction: column; padding: 24px; align-items: flex-start;
+            }
+            .nav-menu-wrapper.active { display: flex; }
+            .mobile-toggle { display: block; }
+
+            .steps-grid { grid-template-columns: 1fr; gap: 48px; }
+            .steps-grid::before { display: none; }
+            
+            .pricing-grid { grid-template-columns: 1fr; }
+            .privacy-grid { grid-template-columns: 1fr; gap: 16px; }
+            
+            .footer-grid { grid-template-columns: 1fr; gap: 48px; }
+            .footer-bottom { flex-direction: column; gap: 24px; text-align: center; }
+
+            .cta-bottom { margin: 0 16px 80px; padding: 60px 24px; }
+            .cta-bottom h2 { font-size: 1.75rem; }
+        }
+        @media (max-width: 600px) {
+            .section { padding: 64px 0; }
+            .container { padding: 0 16px; }
+            .hero { padding: 100px 0 60px; }
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 1rem; }
+            .hero-metrics { gap: 24px; }
+            .hero-metric strong { font-size: 1.25rem; }
+
+            .section-title { font-size: 1.5rem; }
+            .section-desc { font-size: 1rem; }
+            .section-header { margin-bottom: 40px; }
+
+            .features-grid { grid-template-columns: 1fr; gap: 16px; }
+            .feature-card { padding: 24px; }
+
+            .price-card { padding: 32px 24px; }
+            .p-price { font-size: 2.25rem; }
+
+            .privacy { padding: 64px 0; }
+            .privacy-grid { grid-template-columns: 1fr; gap: 16px; }
+
+            .faq-q { font-size: 1rem; }
+            .footer-grid { gap: 32px; }
+        }
+        @media (max-width: 400px) {
+            .hero h1 { font-size: 1.75rem; }
+            .btn { padding: 12px 20px; font-size: 0.875rem; }
+            .hero-metrics { gap: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NDF8CV6Z"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Navigation -->
+    <nav class="nav glass" id="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand">
+                PagePulse
+            </a>
+            
+            <a href="/" class="nav-link" style="font-size:0.85rem; opacity:0.7;">🇯🇵 日本語</a>
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button> <!-- Hamburger Icon -->
+
+            <div class="nav-menu-wrapper" id="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+                    <li><a href="#pricing" class="nav-link">Pricing</a></li>
+                    <li><a href="#faq" class="nav-link">FAQ</a></li>
+                    <li><a href="#ga4-checklist" class="nav-link">Templates</a></li>
+                </ul>
+                <a href="https://chrome.google.com/webstore/detail/biihgmkmmdihocjmdfedmhmkdmepfcoc" target="_blank" rel="noopener" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.9rem;">
+                    Add to Chrome — Free
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-glow-1"></div>
+        <div class="hero-glow-2"></div>
+        <div class="container">
+            <div class="hero-content reveal">
+                <div class="hero-badge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    Free Chrome Extension
+                </div>
+                <h1>Your Website<br>Health Check,<br class="pc-only"><span class="text-gradient">in 2 Seconds.</span></h1>
+                <p>Leveraging Chrome nativeAPIs and the latest Lighthouse metrics,<br class="pc-only">analyze SEO, performance, and accessibility<br class="sp-only">entirely in your browser.<br class="pc-only">Stop wasting time<br class="sp-only">hunting for issues.</p>
+                
+                <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: inherit;">
+                    <a href="https://chrome.google.com/webstore/detail/biihgmkmmdihocjmdfedmhmkdmepfcoc" class="btn btn-primary" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/></svg>
+                        Add to Chrome — Free
+                    </a>
+                    <a href="#features" class="btn btn-outline" style="padding-left: 20px; padding-right: 20px;">
+                        Explore Features
+                    </a>
+                </div>
+
+                <div class="hero-metrics">
+                    <div class="hero-metric">
+                        <strong>30+</strong>
+                        <span>Checks</span>
+                    </div>
+                    <div class="hero-metric">
+                        <strong>100%</strong>
+                        <span>Local Processing</span>
+                    </div>
+                    <div class="hero-metric">
+                        <strong>0 sec</strong>
+                        <span>Data Latency</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual reveal">
+                <div class="hero-mockup-wrapper">
+                    <div class="hero-mockup">
+                        <div class="mockup-header">
+                            <div class="mockup-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-main)" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                                PagePulse Report
+                            </div>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        </div>
+                        <div class="mockup-body">
+                            <div class="m-card good">
+                                <div class="m-info">
+                                    <span class="m-label">SEO Optimization</span>
+                                    <span style="font-size:0.8rem; color:#a1a1aa;">Meta Tags, H1 Structure</span>
+                                </div>
+                                <span class="m-score">95 / 100</span>
+                            </div>
+                            <div class="m-card warn">
+                                <div class="m-info">
+                                    <span class="m-label">Core Web Vitals</span>
+                                    <span style="font-size:0.8rem; color:#a1a1aa;">Render-blocking resources</span>
+                                </div>
+                                <span class="m-score">62 / 100</span>
+                            </div>
+                            <div class="m-card err">
+                                <div class="m-info">
+                                    <span class="m-label">Accessibility</span>
+                                    <span class="m-err-desc">Missing alt text on 3 images</span>
+                                </div>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--error);"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                            </div>
+                            <div class="m-card good" style="border-left-color: var(--accent-secondary);">
+                                <div class="m-info">
+                                    <span class="m-label" style="color:#a1a1aa;">Structured Data</span>
+                                    <span style="font-size:0.8rem; color:#a1a1aa;">JSON-LD Detected</span>
+                                </div>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-secondary)" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Features</div>
+                <h2 class="section-title">Comprehensive Site Analysis<br class="sp-only">from 5 Perspectives</h2>
+                <p class="section-desc">Rankings, bounce rates, compliance risks.<br class="sp-only">Visualize performance from every angle<br class="pc-only">and get<br class="sp-only">actionable improvement suggestions.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card f-seo reveal">
+                    <div class="f-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    </div>
+                    <h3>On-Page SEO</h3>
+                    <p>Instantly verify title tags, meta descriptions, heading hierarchy, canonical URLs, and other critical elements that directly impact search rankings.</p>
+                </div>
+                
+                <div class="feature-card f-perf reveal">
+                    <div class="f-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    </div>
+                    <h3>Page Performance</h3>
+                    <p>Detect render-blocking scripts and unoptimized image settings, and get speed optimization hints to prevent user bounce.</p>
+                </div>
+                
+                <div class="feature-card f-a11y reveal">
+                    <div class="f-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    </div>
+                    <h3>Accessibility</h3>
+                    <p>Audit image alt text, contrast ratios, and more against WCAG standards to ensure all users can comfortably browse your site.</p>
+                </div>
+                
+                <div class="feature-card f-struct reveal">
+                    <div class="f-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                    </div>
+                    <h3>Markup Structure</h3>
+                    <p>Verify robots directives, OGP settings, and rich results (Schema.org) to ensure proper communication with social platforms and crawlers.</p>
+                </div>
+                
+                <div class="feature-card f-llm reveal">
+                    <div class="f-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+                    </div>
+                    <h3>LLM Optimization (LLMO)</h3>
+                    <p>Evaluate content clarity and data readability for the AI search era — ChatGPT, Perplexity, and beyond.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section steps-section" id="how-it-works">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Workflow</div>
+                <h2 class="section-title">Accelerate Your<br class="sp-only">Improvement Cycle Today</h2>
+                <p class="section-desc">No complex setup or manuals.<br class="sp-only">Just install the extension<br class="pc-only">and click on any page<br class="sp-only">you want to analyze.</p>
+            </div>
+            
+            <div class="steps-grid reveal">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <h3>Add to Chrome</h3>
+                    <p>Free install from the Chrome Web Store. No account registration required — start using it immediately.</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <h3>Pin to Toolbar</h3>
+                    <p>After installing, pin it from the extensions menu (puzzle icon) for one-click access anytime.</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <h3>Run Analysis</h3>
+                    <p>Competitor sites, staging environments, localhost — open any page and click the icon.</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4</div>
+                    <h3>Instant Action Items</h3>
+                    <p>Errors, warnings, and passes are color-coded, making your next action items crystal clear.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Local Privacy Highlight -->
+    <section class="section privacy">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Privacy</div>
+                <h2 class="section-title">Your Data Stays<br class="sp-only">in Your Browser.<br class="sp-only">Period.</h2>
+                <p class="section-desc">PagePulse runs 100% locally.<br class="sp-only">Your analyzed URLs and content<br class="pc-only">are never sent to<br class="sp-only">external servers. Ever.</p>
+            </div>
+            
+            <div class="privacy-grid reveal">
+                <div class="privacy-card">
+                    <div class="pc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                    </div>
+                    <h3>Zero Data Transmission</h3>
+                    <p>All analysis is completed within your browser. No external API calls or data collection whatsoever.</p>
+                </div>
+                <div class="privacy-card">
+                    <div class="pc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <h3>No Account Required</h3>
+                    <p>No email, no login. Start using it the moment you install.</p>
+                </div>
+                <div class="privacy-card">
+                    <div class="pc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h3>Secure by Design</h3>
+                    <p>Minimal permissions required. Safe to use on corporate networks and local environments.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="section usecases-section" id="usecases" style="background: var(--bg-secondary); border-top: 1px solid var(--border-primary);">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Use Cases</div>
+                <h2 class="section-title">Streamline Pro Workflows<br class="sp-only">with One Click</h2>
+                <p class="section-desc">Dramatically boost productivity for web professionals across roles.</p>
+            </div>
+            <div class="features-grid reveal">
+                <div class="feature-card" style="text-align: center;">
+                    <div class="f-icon-wrap" style="margin: 0 auto 20px; color: #3b82f6; background: rgba(59,130,246,0.1);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    </div>
+                    <h3>Developers & Engineers</h3>
+                    <p style="text-align: left;">Automate pre-launch quality checks (SEO/A11y/Core Web Vitals) and catch implementation gaps before they ship.</p>
+                </div>
+                <div class="feature-card" style="text-align: center;">
+                    <div class="f-icon-wrap" style="margin: 0 auto 20px; color: #f59e0b; background: rgba(245,158,11,0.1);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    </div>
+                    <h3>Marketers & SEO Specialists</h3>
+                    <p style="text-align: left;">Instantly reveal competitor meta tags and structured data. Accelerate your optimization cycle at unprecedented speed.</p>
+                </div>
+                <div class="feature-card" style="text-align: center;">
+                    <div class="f-icon-wrap" style="margin: 0 auto 20px; color: #8b5cf6; background: rgba(139,92,246,0.1);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/></svg>
+                    </div>
+                    <h3>Project Managers</h3>
+                    <p style="text-align: left;">Diagnose and report client site health on the spot — no complex tools needed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="section pricing-section" id="pricing">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Pricing</div>
+                <h2 class="section-title">Simple &<br class="sp-only">Transparent Pricing</h2>
+                <p class="section-desc">From indie developers to enterprise web teams,<br class="sp-only">the best experience<br class="pc-only">tailored to your needs.</p>
+            </div>
+            
+            <div class="pricing-grid reveal">
+                <!-- Free Plan -->
+                <div class="price-card">
+                    <div class="p-name">Free</div>
+                    <div class="p-price">$0 <span>/ Free Forever</span></div>
+                    <div class="p-desc">For those who want to automate basic site analysis</div>
+                    
+                    <ul class="p-features">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            5 categories with 30+ analysis checks
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Scoring display & auto-prioritization
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            100% secure, fully local processing
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            CSV / JSON export
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Pro analysis preview (1 top item shown free)
+                        </li>
+                        <li class="disabled">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            CRO / E-commerce analysis (22 items) & PDF reports
+                        </li>
+                    </ul>
+                    
+                    <a href="https://chrome.google.com/webstore/detail/biihgmkmmdihocjmdfedmhmkdmepfcoc" class="btn btn-outline" target="_blank" rel="noopener" style="width: 100%;">
+                        Add to Chrome — Free
+                    </a>
+                </div>
+                
+                <!-- Pro Plan -->
+                <div class="price-card premium">
+                    <div class="badge-premium">MOST POPULAR</div>
+                    <div class="p-name">Pro</div>
+                    <div class="p-price">$7.99 <span>/ mo</span></div>
+                    <div class="p-desc">Accelerate improvements with 22 deep CRO & e-commerce analyses</div>
+                    
+                    <ul class="p-features">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Everything in Free
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            CRO analysis: 11 items (CTA, Sticky CTA, heading structure, alt text, text density, etc.)
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            E-commerce analysis: 11 items (cart system detection, payment methods, cross-sell, SKU, etc.)
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            PDF report export (client-ready)
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Analysis history (up to 50 saved)
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Copy-paste HTML code examples for every item
+                        </li>
+                    </ul>
+                    
+                    <a href="https://chrome.google.com/webstore/detail/biihgmkmmdihocjmdfedmhmkdmepfcoc" class="btn btn-primary" target="_blank" rel="noopener" style="width: 100%;">
+                        Add to Chrome & Upgrade to Pro
+                    </a>
+                    <p style="margin-top: 12px; font-size: 0.8rem; color: var(--text-muted); text-align: center;">One-click upgrade from within the extension</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" id="faq" style="padding-top: 0;">
+        <div class="container reveal">
+            <h2 class="section-title" style="text-align: center; margin-bottom: 48px;">FAQ</h2>
+            <div class="faq">
+                <div class="faq-item">
+                    <div class="faq-q">Can I use it for free forever?</div>
+                    <div class="faq-a">Yes, all Free plan features (30+ analysis checks and export) are completely free forever. You will never be charged automatically.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Does it work on intranets and local development environments?</div>
+                    <div class="faq-a">Yes. PagePulse analyzes the rendered DOM directly without external APIs. It works perfectly behind Basic Auth, corporate VPNs, and on localhost.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">How is it different from Lighthouse or other SEO tools?</div>
+                    <div class="faq-a">The key difference is real-time evaluation of the final rendered state (post-JS execution). It accurately analyzes dynamically generated elements in SPAs (React/Vue) and identifies specific actions in seconds.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Digital Product: GA4 Checklist -->
+    <section class="section" id="ga4-checklist" style="background: var(--bg-secondary); border-top: 1px solid var(--border-primary); border-bottom: 1px solid var(--border-primary);">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Digital Product</div>
+                <h2 class="section-title">GA4 E-commerce<br class="sp-only">Tracking Checklist</h2>
+                <p class="section-desc">Is your GA4 e-commerce tracking<br class="sp-only">truly set up correctly?<br class="pc-only">Achieve zero tracking gaps<br class="sp-only">with this professional checklist.</p>
+            </div>
+            <div style="max-width: 600px; margin: 0 auto;" class="reveal">
+                <div class="price-card premium" style="text-align: center;">
+                    <div class="badge-premium">Instant PDF Download</div>
+                    <div style="margin-bottom: 24px;">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent-secondary)" stroke-width="1.5" style="margin: 0 auto;">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                    </div>
+                    <div class="p-price" style="justify-content: center;"><span style="text-decoration: line-through; opacity: 0.5; font-size: 0.7em;">$9.99</span> $4.99 <span>(one-time purchase)</span></div>
+                    <div style="background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(168,85,247,0.15)); border: 1px solid rgba(99,102,241,0.3); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; text-align: center;">
+                        <span style="font-size: 0.85rem; color: var(--accent-secondary); font-weight: 600;">🎉 Launch Special Price</span><br>
+                        <span style="font-size: 0.8rem; color: var(--text-secondary);">Use code <strong style="color: var(--accent-primary); letter-spacing: 1px;">LAUNCH500</strong> at checkout</span>
+                    </div>
+                    <div class="p-desc">A comprehensive checklist covering every item needed for GA4 e-commerce tracking — ready for immediate use</div>
+                    <ul class="p-features" style="text-align: left;">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Full GA4 recommended events (view_item to purchase)
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Includes dataLayer sample code
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Covers GTM setup & debugging procedures
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Includes progress tracker for project management
+                        </li>
+                    </ul>
+                    <a href="https://buy.stripe.com/bJedR8bF55ylgkF4V95ZC03" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; padding: 16px 32px;" id="cta-ga4-checklist">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Buy Checklist — $4.99
+                    </a>
+                    <p style="margin-top: 16px; font-size: 0.8rem; color: var(--text-muted);">Instant PDF download after payment</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Digital Product: AI Video Prompt Templates -->
+    <section class="section" id="ai-video-templates" style="border-bottom: 1px solid var(--border-primary);">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Digital Product</div>
+                <h2 class="section-title">AI Video Prompt<br class="sp-only">Template Collection</h2>
+                <p class="section-desc">Compatible with Seedance 2.0 / Kling AI 3.0 / Runway Gen-4.5.<br class="pc-only">Copy-paste templates to generate<br class="sp-only">professional AI videos instantly.</p>
+            </div>
+            <div style="max-width: 600px; margin: 0 auto;" class="reveal">
+                <div class="price-card premium" style="text-align: center;">
+                    <div class="badge-premium">Instant PDF Download</div>
+                    <div style="margin-bottom: 24px;">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent-tertiary)" stroke-width="1.5" style="margin: 0 auto;">
+                            <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                        </svg>
+                    </div>
+                    <div class="p-price" style="justify-content: center;"><span style="text-decoration: line-through; opacity: 0.5; font-size: 0.7em;">$19.99</span> $14.99 <span>(one-time purchase)</span></div>
+                    <div style="background: linear-gradient(135deg, rgba(20,184,166,0.15), rgba(59,130,246,0.15)); border: 1px solid rgba(20,184,166,0.3); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; text-align: center;">
+                        <span style="font-size: 0.85rem; color: var(--accent-tertiary); font-weight: 600;">🎉 Launch Special Price</span><br>
+                        <span style="font-size: 0.8rem; color: var(--text-secondary);">Use code <strong style="color: var(--accent-primary); letter-spacing: 1px;">LAUNCH2980</strong> at checkout</span>
+                    </div>
+                    <div class="p-desc">6 industries × 18 templates + Camera Work Dictionary.<br>Ready-to-use English prompts you can copy-paste directly.</div>
+                    <ul class="p-features" style="text-align: left;">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            6 industries: E-commerce / Food & Beverage / Real Estate / Education / SaaS / Social Ads
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Fill-in-the-blank templates — beginners can start immediately
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Camera Work Dictionary (angles, lenses, lighting, motion)
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            AI tool comparison chart + troubleshooting guide included
+                        </li>
+                    </ul>
+                    <a href="https://buy.stripe.com/fZuaEWeRh3qdgkFgDR5ZC04" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; padding: 16px 32px;" id="cta-ai-video-templates">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Buy Templates — $14.99
+                    </a>
+                    <p style="margin-top: 16px; font-size: 0.8rem; color: var(--text-muted);">Instant PDF download after payment</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container reveal">
+            <div class="cta-bottom">
+                <div class="cta-content">
+                    <h2>Professional Analysis,<br class="sp-only">Right in Your Browser.</h2>
+                    <p>Don't miss improvement opportunities.<br class="sp-only">Start your site health check<br class="pc-only">in seconds.</p>
+                    <a href="https://chrome.google.com/webstore/detail/biihgmkmmdihocjmdfedmhmkdmepfcoc" class="btn btn-primary" target="_blank" rel="noopener" style="display:inline-flex;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/></svg>
+                        Add to Chrome — Free
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer reveal">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="f-col" style="grid-column: 1;">
+                    <a href="/" class="f-brand">
+                        PagePulse
+                    </a>
+                    <p class="f-brand-desc">AI Website Analyzer. Instantly diagnose SEO, performance, and accessibility — entirely in your browser.</p>
+                </div>
+                <div class="f-col">
+                    <h4>Product</h4>
+                    <ul class="f-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="f-col">
+                    <h4>Support & Legal</h4>
+                    <ul class="f-links">
+                        <li><a href="https://x.com/pulsedigitaldev" target="_blank" rel="noopener">X (Twitter)</a></li>
+                        <li><a href="mailto:contact@pulse-digital.dev">Contact</a></li>
+                        <li><a href="/privacy-policy">Privacy Policy</a></li>
+                        <li><a href="/en/terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-copy">&copy; Pulse Digital. All rights reserved.</div>
+                <div class="footer-social">
+                    <a href="https://x.com/pulsedigitaldev" aria-label="X (Twitter)" target="_blank" rel="noopener">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Scroll Reveal Animation
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+            
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // Navbar Blur & Background on Scroll
+            const nav = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.style.background = 'rgba(9, 9, 11, 0.85)';
+                    nav.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.5)';
+                } else {
+                    nav.style.background = 'rgba(9, 9, 11, 0.7)';
+                    nav.style.boxShadow = 'none';
+                }
+            });
+
+            // Mobile Menu Toggle
+            const mobileBtn = document.getElementById('mobile-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            
+            if (mobileBtn && navMenu) {
+                mobileBtn.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                });
+
+                // Close menu when clicking a link
+                const navLinks = navMenu.querySelectorAll('a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        navMenu.classList.remove('active');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NDF8CV6Z');</script>
+    <!-- End Google Tag Manager -->
+    <title>Thank You for Your Purchase | Pulse Digital</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #09090b;
+            --bg-secondary: #18181b;
+            --bg-tertiary: #27272a;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border-primary: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.15);
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent-main: #3b82f6;
+            --accent-secondary: #8b5cf6;
+            --accent-tertiary: #14b8a6;
+            --gradient-brand: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #14b8a6 100%);
+            --gradient-subtle: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(139,92,246,0.15));
+            --success: #34d399;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-full: 9999px;
+            --font-sans: 'Inter', system-ui, sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-family: var(--font-sans); background-color: var(--bg-primary); color: var(--text-primary); }
+        body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; line-height: 1.6; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        a { text-decoration: none; color: inherit; }
+
+        .text-gradient {
+            background: var(--gradient-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+
+        .bg-glow { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 0; }
+        .bg-glow::before {
+            content: '';
+            position: absolute;
+            top: -20%; left: 50%; transform: translateX(-50%);
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, rgba(139,92,246,0.04) 40%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .thank-you-container { position: relative; z-index: 1; max-width: 640px; width: 100%; padding: 48px 24px; text-align: center; }
+
+        .success-icon {
+            width: 80px; height: 80px; margin: 0 auto 32px;
+            background: linear-gradient(135deg, rgba(52,211,153,0.15), rgba(52,211,153,0.05));
+            border: 1px solid rgba(52,211,153,0.3); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            animation: scaleIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+        }
+        .success-icon svg { width: 40px; height: 40px; color: var(--success); }
+
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .thank-you-title { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 12px; animation: fadeUp 0.6s 0.2s both; }
+        .thank-you-subtitle { font-size: 1.05rem; color: var(--text-secondary); margin-bottom: 40px; animation: fadeUp 0.6s 0.35s both; }
+
+        .download-card {
+            background: var(--bg-card); border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg); padding: 32px; margin-bottom: 24px;
+            animation: fadeUp 0.6s 0.5s both;
+        }
+        .download-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+        .download-card p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 24px; }
+
+        .download-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 14px 32px; background: var(--gradient-brand); color: #fff;
+            font-size: 1rem; font-weight: 700; border-radius: var(--radius-full);
+            border: none; cursor: pointer; transition: all 0.3s; text-decoration: none;
+        }
+        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(59,130,246,0.3); }
+        .download-btn svg { width: 20px; height: 20px; }
+
+        .info-section { animation: fadeUp 0.6s 0.65s both; }
+        .info-card {
+            background: var(--bg-card); border: 1px solid var(--border-primary);
+            border-radius: var(--radius-md); padding: 20px 24px; margin-bottom: 12px;
+            display: flex; align-items: flex-start; gap: 14px; text-align: left;
+        }
+        .info-card .icon {
+            flex-shrink: 0; width: 36px; height: 36px;
+            background: var(--gradient-subtle); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .info-card .icon svg { width: 18px; height: 18px; color: var(--accent-main); }
+        .info-card .content h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+        .info-card .content p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
+
+        .footer-links {
+            margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border-primary);
+            display: flex; justify-content: center; gap: 24px; animation: fadeUp 0.6s 0.8s both;
+        }
+        .footer-links a { font-size: 0.85rem; color: var(--text-muted); transition: color 0.2s; }
+        .footer-links a:hover { color: var(--text-primary); }
+
+        @media (max-width: 480px) {
+            .thank-you-title { font-size: 1.5rem; }
+            .download-card { padding: 24px 20px; }
+            .footer-links { flex-direction: column; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NDF8CV6Z" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="bg-glow"></div>
+
+    <main class="thank-you-container">
+        <!-- Success Icon -->
+        <div class="success-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+        </div>
+
+        <!-- Heading -->
+        <h1 class="thank-you-title">
+            <span class="text-gradient">Thank You for Your Purchase</span>
+        </h1>
+        <p class="thank-you-subtitle">
+            Your payment was successful.<br>
+            Click the button below to download your file.
+        </p>
+
+        <!-- Download Card (dynamic) -->
+        <div class="download-card" id="download-card">
+            <h3 id="product-title">Loading...</h3>
+            <p id="product-desc"></p>
+            <a href="#" class="download-btn" id="btn-download-pdf" download>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                </svg>
+                Download PDF
+            </a>
+        </div>
+
+        <!-- Info Cards -->
+        <div class="info-section">
+            <div class="info-card">
+                <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                    </svg>
+                </div>
+                <div class="content">
+                    <h4>Receipt via Email</h4>
+                    <p>A receipt from Stripe will be sent to the email address you provided at checkout.</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+                    </svg>
+                </div>
+                <div class="content">
+                    <h4>Need Help?</h4>
+                    <p>For questions about your download or content, contact us at <a href="mailto:contact@pulse-digital.dev" style="color: var(--accent-main);">contact@pulse-digital.dev</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-links">
+            <a href="/en/">Back to Home</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+        </div>
+    </main>
+
+    <!-- Product routing & GA4 conversion -->
+    <script>
+        (function() {
+            var params = new URLSearchParams(window.location.search);
+            var sessionId = params.get('session_id');
+            var product = params.get('product');
+
+            // Redirect to home if no session_id
+            if (!sessionId) {
+                window.location.replace('/en/');
+                return;
+            }
+
+            // EN Product catalog
+            var catalog = {
+                'ga4-checklist': {
+                    title: 'GA4 E-commerce Tracking Checklist',
+                    desc: 'PDF (13 pages) — 7 sections, 70+ items',
+                    url: '/downloads/GA4_Ecommerce_Checklist_EN_v1.0.pdf',
+                    itemId: 'ga4-ecommerce-checklist-en',
+                    price: 4.99,
+                    category: 'Digital Template'
+                },
+                'ai-video-templates': {
+                    title: 'AI Video Prompt Template Collection',
+                    desc: 'PDF (13 pages) — 6 industries × 18 templates + Camera Work Dictionary',
+                    url: '/downloads/AI_Video_Prompt_Templates_EN_v1.0.pdf',
+                    itemId: 'ai-video-prompt-templates-en',
+                    price: 14.99,
+                    category: 'Digital Template'
+                }
+            };
+
+            // Default to GA4 checklist (backward compat)
+            var p = catalog[product] || catalog['ga4-checklist'];
+
+            // Update DOM
+            document.getElementById('product-title').textContent = p.title;
+            document.getElementById('product-desc').textContent = p.desc;
+            document.getElementById('btn-download-pdf').href = p.url;
+
+            // GA4: Purchase conversion
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'purchase',
+                'ecommerce': {
+                    'transaction_id': sessionId,
+                    'value': p.price,
+                    'currency': 'USD',
+                    'items': [{
+                        'item_id': p.itemId,
+                        'item_name': p.title,
+                        'price': p.price,
+                        'quantity': 1,
+                        'item_category': p.category
+                    }]
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
