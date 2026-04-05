@@ -1,5 +1,6 @@
-// PagePulse - Content Script Analyzer
+// PagePulse - Content Script Analyzer (i18n-ready)
 // Injected into the active tab to analyze the page
+// Returns machine-readable results; UI text is resolved via chrome.i18n in popup.js
 
 (function() {
   'use strict';
@@ -19,46 +20,46 @@
     // Title
     const title = document.title;
     if (!title) {
-      results.seo.push({ id: 'title-missing', status: 'fail', title: '\u30bf\u30a4\u30c8\u30eb\u30bf\u30b0 (Title) \u306a\u3057', body: '\u30da\u30fc\u30b8\u306b<title>\u30bf\u30b0\u304c\u3042\u308a\u307e\u305b\u3093\u3002\u691c\u7d22\u30a8\u30f3\u30b8\u30f3\u3084\u30d6\u30e9\u30a6\u30b6\u306b\u4e0d\u53ef\u6b20\u306a\u8981\u7d20\u3067\u3059\u3002', action: '30\u301c60\u6587\u5b57\u306e\u308f\u304b\u308a\u3084\u3059\u3044<title>\u30bf\u30b0\u3092\u8ffd\u52a0\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <title>\u30da\u30fc\u30b8\u306e\u5185\u5bb9\u3092\u8868\u3059\u30ad\u30fc\u30ef\u30fc\u30c9 | \u30b5\u30a4\u30c8\u540d</title>' });
+      results.seo.push({ id: 'title-missing', status: 'fail', titleKey: 'seoTitleMissing', bodyKey: 'seoTitleMissingBody', actionKey: 'seoTitleMissingAction' });
     } else if (title.length < 30) {
-      results.seo.push({ id: 'title-short', status: 'warn', title: '\u30bf\u30a4\u30c8\u30eb\u304c\u77ed\u3059\u304e\u307e\u3059', body: `"${title}" (${title.length}\u6587\u5b57)`, action: `\u73fe\u5728\u306e\u30bf\u30a4\u30c8\u30eb\u306f${title.length}\u6587\u5b57\u3067\u3059\u3002\u691c\u7d22\u7d50\u679c\u306e\u8996\u8a8d\u6027\u3092\u9ad8\u3081\u308b\u305f\u3081\u300130\u301c60\u6587\u5b57\u3092\u76ee\u5b89\u306b\u3057\u3066\u304f\u3060\u3055\u3044\u3002` });
+      results.seo.push({ id: 'title-short', status: 'warn', titleKey: 'seoTitleShort', body: `"${title}" (${title.length})`, bodyData: { chars: title.length, title: title } });
     } else if (title.length > 60) {
-      results.seo.push({ id: 'title-long', status: 'warn', title: '\u30bf\u30a4\u30c8\u30eb\u304c\u9577\u3059\u304e\u307e\u3059', body: `"${title}" (${title.length}\u6587\u5b57)`, action: `\u73fe\u5728\u306e\u30bf\u30a4\u30c8\u30eb\u306f${title.length}\u6587\u5b57\u3042\u308a\u3001\u691c\u7d22\u7d50\u679c\u3067\u7701\u7565\u3055\u308c\u308b\u53ef\u80fd\u6027\u304c\u3042\u308a\u307e\u3059\u300260\u6587\u5b57\u4ee5\u5185\u306b\u53ce\u3081\u3066\u304f\u3060\u3055\u3044\u3002` });
+      results.seo.push({ id: 'title-long', status: 'warn', titleKey: 'seoTitleLong', body: `"${title}" (${title.length})`, bodyData: { chars: title.length, title: title } });
     } else {
-      results.seo.push({ id: 'title-ok', status: 'pass', title: '\u30da\u30fc\u30b8\u30bf\u30a4\u30c8\u30eb', body: `"${title}" (${title.length}\u6587\u5b57)`, action: '' });
+      results.seo.push({ id: 'title-ok', status: 'pass', titleKey: 'seoTitleOk', body: `"${title}" (${title.length})` });
     }
 
     // Meta Description
     const metaDesc = document.querySelector('meta[name="description"]');
     if (!metaDesc || !metaDesc.content) {
-      results.seo.push({ id: 'meta-desc-missing', status: 'fail', title: '\u30e1\u30bf\u30c7\u30a3\u30b9\u30af\u30ea\u30d7\u30b7\u30e7\u30f3\u306a\u3057', body: '\u30e1\u30bf\u30c7\u30a3\u30b9\u30af\u30ea\u30d7\u30b7\u30e7\u30f3\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3002\u691c\u7d22\u7d50\u679c\u306e\u30af\u30ea\u30c3\u30af\u7387(CTR)\u306b\u76f4\u7d50\u3059\u308b\u91cd\u8981\u9805\u76ee\u3067\u3059\u3002', action: '\u30da\u30fc\u30b8\u5185\u5bb9\u3092\u8981\u7d04\u3057\u305f120\u301c160\u6587\u5b57\u7a0b\u5ea6\u306e\u30e1\u30bf\u30c7\u30a3\u30b9\u30af\u30ea\u30d7\u30b7\u30e7\u30f3\u3092\u8ffd\u52a0\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <meta name="description" content="\u3053\u306e\u30da\u30fc\u30b8\u306e\u5185\u5bb9\u3092\u8981\u7d04\u3057\u305f\u8aac\u660e\u6587\u3002\u30e6\u30fc\u30b6\u30fc\u306e\u691c\u7d22\u610f\u56f3\u306b\u5fdc\u3048\u308b120\u301c160\u6587\u5b57">' });
+      results.seo.push({ id: 'meta-desc-missing', status: 'fail', titleKey: 'seoMetaDescMissing', bodyKey: 'seoMetaDescMissingBody' });
     } else {
       const len = metaDesc.content.length;
       if (len < 120) {
-        results.seo.push({ id: 'meta-desc-short', status: 'warn', title: '\u30e1\u30bf\u30c7\u30a3\u30b9\u30af\u30ea\u30d7\u30b7\u30e7\u30f3\u304c\u77ed\u3059\u304e\u307e\u3059', body: `${len}\u6587\u5b57`, value: metaDesc.content, action: `120\u301c160\u6587\u5b57\u306b\u62e1\u5f35\u3057\u3066\u304f\u3060\u3055\u3044\u3002\u77ed\u3059\u304e\u308b\u3068Google\u304c\u81ea\u52d5\u751f\u6210\u3057\u305f\u30c6\u30ad\u30b9\u30c8\u306b\u7f6e\u304d\u63db\u3048\u3089\u308c\u308b\u53ef\u80fd\u6027\u304c\u3042\u308a\u307e\u3059\u3002` });
+        results.seo.push({ id: 'meta-desc-short', status: 'warn', titleKey: 'seoMetaDescShort', body: `${len} chars`, value: metaDesc.content });
       } else if (len > 160) {
-        results.seo.push({ id: 'meta-desc-long', status: 'warn', title: '\u30e1\u30bf\u30c7\u30a3\u30b9\u30af\u30ea\u30d7\u30b7\u30e7\u30f3\u304c\u9577\u3059\u304e\u307e\u3059', body: `${len}\u6587\u5b57\uff08\u7701\u7565\u3055\u308c\u308b\u53ef\u80fd\u6027\u3042\u308a\uff09`, value: metaDesc.content, action: `\u691c\u7d22\u7d50\u679c\u3067\u306e\u7701\u7565\u3092\u9632\u3050\u305f\u3081\u3001160\u6587\u5b57\u4ee5\u5185\u306b\u77ed\u7e2e\u3057\u3066\u304f\u3060\u3055\u3044\u3002` });
+        results.seo.push({ id: 'meta-desc-long', status: 'warn', titleKey: 'seoMetaDescLong', body: `${len} chars`, value: metaDesc.content });
       } else {
-        results.seo.push({ id: 'meta-desc-ok', status: 'pass', title: '\u30e1\u30bf\u30c7\u30a3\u30b9\u30af\u30ea\u30d7\u30b7\u30e7\u30f3', body: `${len}\u6587\u5b57`, value: metaDesc.content, action: '' });
+        results.seo.push({ id: 'meta-desc-ok', status: 'pass', titleKey: 'seoMetaDescOk', body: `${len} chars`, value: metaDesc.content });
       }
     }
 
     // H1
     const h1s = document.querySelectorAll('h1');
     if (h1s.length === 0) {
-      results.seo.push({ id: 'h1-missing', status: 'fail', title: 'H1\u30bf\u30b0\u306a\u3057', body: 'H1\u898b\u51fa\u3057\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3002\u3059\u3079\u3066\u306e\u30da\u30fc\u30b8\u306b\u306fH1\u30bf\u30b0\u304c1\u3064\u5fc5\u8981\u3067\u3059\u3002', action: '\u30da\u30fc\u30b8\u306e\u4e3b\u8981\u306a\u30c6\u30fc\u30de\u3092\u8868\u3059H1\u30bf\u30b0\u30921\u3064\u8ffd\u52a0\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <h1>\u30da\u30fc\u30b8\u306e\u30e1\u30a4\u30f3\u30c6\u30fc\u30de\u3092\u8868\u3059\u898b\u51fa\u3057</h1>' });
+      results.seo.push({ id: 'h1-missing', status: 'fail', titleKey: 'seoH1Missing', bodyKey: 'seoH1MissingBody' });
     } else if (h1s.length > 1) {
-      results.seo.push({ id: 'h1-multiple', status: 'warn', title: '\u8907\u6570\u306eH1\u30bf\u30b0', body: `${h1s.length}\u500b\u306eH1\u30bf\u30b0\u304c\u898b\u3064\u304b\u308a\u307e\u3057\u305f\u3002H1\u306f1\u30da\u30fc\u30b8\u306b\u3064\u304d1\u3064\u304c\u6700\u9069\u3067\u3059\u3002`, action: '\u6700\u3082\u91cd\u8981\u306a\u898b\u51fa\u3057\u3092H1\u3068\u3057\u3001\u305d\u308c\u4ee5\u5916\u306fH2\u3084H3\u306b\u5909\u66f4\u3057\u3066\u304f\u3060\u3055\u3044\u3002' });
+      results.seo.push({ id: 'h1-multiple', status: 'warn', titleKey: 'seoH1Multiple', body: `${h1s.length} H1 tags found` });
     } else {
-      results.seo.push({ id: 'h1-ok', status: 'pass', title: 'H1\u30bf\u30b0', body: 'H1\u304c1\u3064\u898b\u3064\u304b\u308a\u307e\u3057\u305f', value: h1s[0].textContent.trim().substring(0, 100), action: '' });
+      results.seo.push({ id: 'h1-ok', status: 'pass', titleKey: 'seoH1Ok', value: h1s[0].textContent.trim().substring(0, 100) });
     }
 
     // Canonical
     const canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) {
-      results.seo.push({ id: 'canonical-missing', status: 'warn', title: 'Canonical URL\u306a\u3057', body: 'Canonical URL\u304c\u5b9a\u7fa9\u3055\u308c\u3066\u3044\u307e\u305b\u3093\u3002\u91cd\u8907\u30b3\u30f3\u30c6\u30f3\u30c4\u306e\u554f\u984c\u3092\u5f15\u304d\u8d77\u3053\u3059\u53ef\u80fd\u6027\u304c\u3042\u308a\u307e\u3059\u3002', action: '<link rel="canonical"> \u3092\u8ffd\u52a0\u3057\u3001\u3053\u306e\u30da\u30fc\u30b8\u306e\u6b63\u898fURL\u3092\u6307\u5b9a\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <link rel="canonical" href="' + window.location.origin + window.location.pathname + '">' });
+      results.seo.push({ id: 'canonical-missing', status: 'warn', titleKey: 'seoCanonicalMissing' });
     } else {
-      results.seo.push({ id: 'canonical-ok', status: 'pass', title: 'Canonical URL', body: 'Canonical\u30bf\u30b0\u3042\u308a', value: canonical.href, action: '' });
+      results.seo.push({ id: 'canonical-ok', status: 'pass', titleKey: 'seoCanonicalOk', value: canonical.href });
     }
 
     // OGP
@@ -69,11 +70,11 @@
     if (!ogTitle) ogMissing.push('og:title');
     if (!ogDesc) ogMissing.push('og:description');
     if (!ogImage) ogMissing.push('og:image');
-    
+
     if (ogMissing.length === 0) {
-      results.seo.push({ id: 'ogp-ok', status: 'pass', title: 'OGP\u30bf\u30b0 (SNS\u30b7\u30a7\u30a2\u8a2d\u5b9a)', body: 'og:title, og:description, og:image \u304c\u3059\u3079\u3066\u8a2d\u5b9a\u3055\u308c\u3066\u3044\u307e\u3059', action: '' });
+      results.seo.push({ id: 'ogp-ok', status: 'pass', titleKey: 'seoOgpOk' });
     } else {
-      results.seo.push({ id: 'ogp-missing', status: 'warn', title: 'OGP\u30bf\u30b0\u304c\u4e0d\u5b8c\u5168\u3067\u3059', body: `\u4e0d\u8db3: ${ogMissing.join(', ')}`, action: 'SNS\u7b49\u3067\u30b7\u30a7\u30a2\u3055\u308c\u305f\u969b\u306e\u8868\u793a\u3092\u6700\u9069\u5316\u3059\u308b\u305f\u3081\u3001\u3053\u308c\u3089\u306eOGP\u30bf\u30b0\u3092\u8ffd\u52a0\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <meta property="og:title" content="\u30da\u30fc\u30b8\u30bf\u30a4\u30c8\u30eb">\n<meta property="og:description" content="\u8aac\u660e\u6587">\n<meta property="og:image" content="https://example.com/image.jpg">' });
+      results.seo.push({ id: 'ogp-missing', status: 'warn', titleKey: 'seoOgpMissing', body: `Missing: ${ogMissing.join(', ')}` });
     }
 
     // Heading hierarchy
@@ -86,16 +87,15 @@
       prevLevel = level;
     });
     if (!hierarchyOk) {
-      results.seo.push({ id: 'heading-skip', status: 'warn', title: '\u898b\u51fa\u3057\u69cb\u9020\u306e\u30b9\u30ad\u30c3\u30d7', body: `\u898b\u51fa\u3057\u30ec\u30d9\u30eb\u304c\u98db\u3093\u3067\u3044\u307e\u3059\uff08\u4f8b: H1\u304b\u3089H3\u306a\u3069\uff09\u3002\u5408\u8a08${headings.length}\u500b\u306e\u898b\u51fa\u3057\u3002`, action: 'H1\u2192H2\u2192H3\u3068\u3001\u968e\u5c64\u3092\u30b9\u30ad\u30c3\u30d7\u305b\u305a\u306b\u9806\u756a\u306b\u30bf\u30ae\u30f3\u30b0\u3057\u3066\u304f\u3060\u3055\u3044\u3002' });
+      results.seo.push({ id: 'heading-skip', status: 'warn', titleKey: 'seoHeadingSkip', body: `${headings.length} headings` });
     } else if (headings.length > 0) {
-      results.seo.push({ id: 'heading-ok', status: 'pass', title: '\u898b\u51fa\u3057\u69cb\u9020', body: `${headings.length}\u500b\u306e\u898b\u51fa\u3057\uff08\u968e\u5c64\u69cb\u9020\u306b\u554f\u984c\u306a\u3057\uff09`, action: '' });
+      results.seo.push({ id: 'heading-ok', status: 'pass', titleKey: 'seoHeadingOk', body: `${headings.length} headings` });
     }
   }
 
   // ============ Performance Analysis ============
 
   function analyzePerformance() {
-    // Images without dimensions
     const images = document.querySelectorAll('img');
     const imgsNoDims = [];
     let totalImages = images.length;
@@ -107,21 +107,18 @@
     });
 
     results.performance.push({
-      id: 'img-count', status: 'info', title: '\u7dcf\u753b\u50cf\u6570',
-      body: `\u30da\u30fc\u30b8\u5185\u306b${totalImages}\u679a\u306e\u753b\u50cf\u304c\u898b\u3064\u304b\u308a\u307e\u3057\u305f`,
-      action: ''
+      id: 'img-count', status: 'info', titleKey: 'perfImgCount',
+      body: `${totalImages} images`
     });
 
     if (imgsNoDims.length > 0) {
       results.performance.push({
-        id: 'img-no-dims', status: 'warn', title: '\u753b\u50cf\u30b5\u30a4\u30ba\u306e\u6307\u5b9a\u306a\u3057',
-        body: `\u5168${totalImages}\u679a\u4e2d\u3001${imgsNoDims.length}\u679a\u306e\u753b\u50cf\u306b width/height \u5c5e\u6027\u304c\u3042\u308a\u307e\u305b\u3093`,
-        action: `\u30ec\u30a4\u30a2\u30a6\u30c8\u30b7\u30d5\u30c8(CLS)\u3092\u9632\u3050\u305f\u3081\u3001\u660e\u793a\u7684\u306bwidth\u3068height\u3092\u8ffd\u52a0\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <img src="image.jpg" width="800" height="600" alt="\u8aac\u660e">`
+        id: 'img-no-dims', status: 'warn', titleKey: 'perfImgNoDims',
+        body: `${imgsNoDims.length} / ${totalImages} missing width/height`
       });
     } else if (totalImages > 0) {
       results.performance.push({
-        id: 'img-dims-ok', status: 'pass', title: '\u753b\u50cf\u30b5\u30a4\u30ba\u306e\u6307\u5b9a',
-        body: '\u3059\u3079\u3066\u306e\u753b\u50cf\u306bwidth/height\u6307\u5b9a\u304c\u3042\u308a\u307e\u3059', action: ''
+        id: 'img-dims-ok', status: 'pass', titleKey: 'perfImgDimsOk'
       });
     }
 
@@ -134,14 +131,12 @@
     const lazyCount = belowFoldImgs.filter(img => img.loading === 'lazy').length;
     if (belowFoldImgs.length > 0 && lazyCount < belowFoldImgs.length) {
       results.performance.push({
-        id: 'img-lazy', status: 'warn', title: '\u9045\u5ef6\u8aad\u307f\u8fbc\u307f (Lazy Load) \u306a\u3057',
-        body: `\u30d5\u30a1\u30fc\u30b9\u30c8\u30d3\u30e5\u30fc\u4ee5\u4e0b\u306e${belowFoldImgs.length}\u679a\u4e2d\u3001${belowFoldImgs.length - lazyCount}\u679a\u304c\u9045\u5ef6\u8aad\u307f\u8fbc\u307f\u3055\u308c\u3066\u3044\u307e\u305b\u3093`,
-        action: '\u521d\u671f\u8aad\u307f\u8fbc\u307f\u901f\u5ea6\u3092\u5411\u4e0a\u3055\u305b\u308b\u305f\u3081\u3001\u30b9\u30af\u30ed\u30fc\u30eb\u3055\u308c\u306a\u3044\u3068\u898b\u3048\u306a\u3044\u753b\u50cf\u306b\u306f loading="lazy" \u3092\u8ffd\u52a0\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <img src="image.jpg" loading="lazy" alt="\u8aac\u660e">'
+        id: 'img-lazy', status: 'warn', titleKey: 'perfLazyMissing',
+        body: `${belowFoldImgs.length - lazyCount} / ${belowFoldImgs.length} below fold without lazy`
       });
     } else if (belowFoldImgs.length > 0) {
       results.performance.push({
-        id: 'img-lazy-ok', status: 'pass', title: '\u9045\u5ef6\u8aad\u307f\u8fbc\u307f (Lazy Load)',
-        body: '\u30d5\u30a1\u30fc\u30b9\u30c8\u30d3\u30e5\u30fc\u4ee5\u4e0b\u306e\u5168\u753b\u50cf\u306b\u9045\u5ef6\u8aad\u307f\u8fbc\u307f\u304c\u9069\u7528\u3055\u308c\u3066\u3044\u307e\u3059', action: ''
+        id: 'img-lazy-ok', status: 'pass', titleKey: 'perfLazyOk'
       });
     }
 
@@ -151,14 +146,13 @@
     const blockingScripts = Array.from(headScripts).filter(s => !s.async && !s.defer && !s.type?.includes('module'));
     if (blockingScripts.length > 0) {
       results.performance.push({
-        id: 'script-blocking', status: 'warn', title: '\u30ec\u30f3\u30c0\u30ea\u30f3\u30b0\u30d6\u30ed\u30c3\u30af\u30fb\u30b9\u30af\u30ea\u30d7\u30c8',
-        body: `<head> \u30bf\u30b0\u5185\u306b\u30da\u30fc\u30b8\u63cf\u753b\u3092\u30d6\u30ed\u30c3\u30af\u3059\u308b\u30b9\u30af\u30ea\u30d7\u30c8\u304c${blockingScripts.length}\u500b\u3042\u308a\u307e\u3059`,
-        action: '\u30ec\u30f3\u30c0\u30ea\u30f3\u30b0\u30d6\u30ed\u30c3\u30af\u3092\u9632\u3050\u305f\u3081\u3001\u7dca\u6025\u3067\u306a\u3044\u30b9\u30af\u30ea\u30d7\u30c8\u306b\u306f async \u307e\u305f\u306f defer \u5c5e\u6027\u3092\u8ffd\u52a0\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <script src="analytics.js" defer></script>\n<script src="widget.js" async></script>'
+        id: 'script-blocking', status: 'warn', titleKey: 'perfScriptBlocking',
+        body: `${blockingScripts.length} render-blocking in <head>`
       });
     } else {
       results.performance.push({
-        id: 'script-ok', status: 'pass', title: '\u30b9\u30af\u30ea\u30d7\u30c8\u8aad\u307f\u8fbc\u307f',
-        body: `\u5168${allScripts.length}\u500b\u306e\u30b9\u30af\u30ea\u30d7\u30c8 \u2014 \u30ec\u30f3\u30c0\u30ea\u30f3\u30b0\u3092\u30d6\u30ed\u30c3\u30af\u3059\u308b\u3082\u306e\u306f\u3042\u308a\u307e\u305b\u3093`, action: ''
+        id: 'script-ok', status: 'pass', titleKey: 'perfScriptOk',
+        body: `${allScripts.length} scripts, none blocking`
       });
     }
 
@@ -166,9 +160,8 @@
     const inlineStyles = document.querySelectorAll('[style]');
     if (inlineStyles.length > 20) {
       results.performance.push({
-        id: 'inline-styles', status: 'warn', title: '\u30a4\u30f3\u30e9\u30a4\u30f3\u30b9\u30bf\u30a4\u30eb\u306e\u591a\u7528',
-        body: `\u30a4\u30f3\u30e9\u30a4\u30f3\u30b9\u30bf\u30a4\u30eb\u3092\u6301\u3064\u8981\u7d20\u304c${inlineStyles.length}\u500b\u898b\u3064\u304b\u308a\u307e\u3057\u305f`,
-        action: '\u30ad\u30e3\u30c3\u30b7\u30e5\u52b9\u7387\u3068\u30e1\u30f3\u30c6\u30ca\u30f3\u30b9\u6027\u3092\u9ad8\u3081\u308b\u305f\u3081\u3001\u30a4\u30f3\u30e9\u30a4\u30f3\u30b9\u30bf\u30a4\u30eb\u3092CSS\u30af\u30e9\u30b9\u306b\u79fb\u884c\u3057\u3066\u304f\u3060\u3055\u3044\u3002'
+        id: 'inline-styles', status: 'warn', titleKey: 'perfInlineStyles',
+        body: `${inlineStyles.length} elements`
       });
     }
   }
@@ -176,19 +169,17 @@
   // ============ Accessibility Analysis ============
 
   function analyzeAccessibility() {
-    // Images without alt
     const images = document.querySelectorAll('img');
     const noAlt = Array.from(images).filter(img => !img.hasAttribute('alt'));
     if (noAlt.length > 0) {
       results.accessibility.push({
-        id: 'img-alt-missing', status: 'fail', title: '\u753b\u50cf\u306e\u4ee3\u66ff\u30c6\u30ad\u30b9\u30c8(alt)\u306a\u3057',
-        body: `\u5168${images.length}\u679a\u4e2d\u3001${noAlt.length}\u679a\u306e\u753b\u50cf\u306balt\u5c5e\u6027\u304c\u3042\u308a\u307e\u305b\u3093`,
-        action: '\u3059\u3079\u3066\u306e\u753b\u50cf\u306b\u5185\u5bb9\u3092\u8aac\u660e\u3059\u308balt\u30c6\u30ad\u30b9\u30c8\u3092\u8ffd\u52a0\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <img src="photo.jpg" alt="\u5546\u54c1\u306e\u8aac\u660e\u6587">\n<!-- \u88c5\u98fe\u7528 -->\n<img src="bg.png" alt="">'
+        id: 'img-alt-missing', status: 'fail', titleKey: 'a11yAltMissing',
+        body: `${noAlt.length} / ${images.length} missing alt`
       });
     } else if (images.length > 0) {
       results.accessibility.push({
-        id: 'img-alt-ok', status: 'pass', title: '\u753b\u50cf\u306e\u4ee3\u66ff\u30c6\u30ad\u30b9\u30c8(alt)',
-        body: `\u3059\u3079\u3066\u306e\u753b\u50cf\uff08${images.length}\u679a\uff09\u306balt\u5c5e\u6027\u304c\u8a2d\u5b9a\u3055\u308c\u3066\u3044\u307e\u3059`, action: ''
+        id: 'img-alt-ok', status: 'pass', titleKey: 'a11yAltOk',
+        body: `${images.length} images`
       });
     }
 
@@ -196,14 +187,12 @@
     const htmlLang = document.documentElement.lang;
     if (!htmlLang) {
       results.accessibility.push({
-        id: 'lang-missing', status: 'fail', title: '\u8a00\u8a9e\u8a2d\u5b9a\u306a\u3057',
-        body: '<html> \u30bf\u30b0\u306b lang \u5c5e\u6027\u304c\u3042\u308a\u307e\u305b\u3093',
-        action: '\u30b9\u30af\u30ea\u30fc\u30f3\u30ea\u30fc\u30c0\u30fc\u304c\u8a00\u8a9e\u3092\u6b63\u3057\u304f\u8a8d\u8b58\u3067\u304d\u308b\u3088\u3046\u3001lang\u5c5e\u6027\u3092\u8ffd\u52a0\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <html lang="ja">'
+        id: 'lang-missing', status: 'fail', titleKey: 'a11yLangMissing'
       });
     } else {
       results.accessibility.push({
-        id: 'lang-ok', status: 'pass', title: '\u8a00\u8a9e\u8a2d\u5b9a',
-        body: `\u8a00\u8a9e\u304c "${htmlLang}" \u306b\u8a2d\u5b9a\u3055\u308c\u3066\u3044\u307e\u3059`, action: ''
+        id: 'lang-ok', status: 'pass', titleKey: 'a11yLangOk',
+        body: `lang="${htmlLang}"`
       });
     }
 
@@ -218,14 +207,13 @@
     });
     if (noLabel.length > 0) {
       results.accessibility.push({
-        id: 'form-label-missing', status: 'warn', title: '\u30e9\u30d9\u30eb\u306e\u306a\u3044\u30d5\u30a9\u30fc\u30e0\u5165\u529b',
-        body: `${noLabel.length}\u500b\u306e\u5165\u529b\u30d5\u30a3\u30fc\u30eb\u30c9\u306b\u30e9\u30d9\u30eb\u304c\u95a2\u9023\u4ed8\u3051\u3089\u308c\u3066\u3044\u307e\u305b\u3093`,
-        action: '\u3059\u3079\u3066\u306e\u5165\u529b\u6b04\u306b label \u307e\u305f\u306f aria-label \u3092\u8ffd\u52a0\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <label for="email">\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9</label>\n<input type="email" id="email">'
+        id: 'form-label-missing', status: 'warn', titleKey: 'a11yFormLabelMissing',
+        body: `${noLabel.length} inputs`
       });
     } else if (inputs.length > 0) {
       results.accessibility.push({
-        id: 'form-label-ok', status: 'pass', title: '\u30d5\u30a9\u30fc\u30e0\u30e9\u30d9\u30eb',
-        body: `\u3059\u3079\u3066\u306e\u5165\u529b\u30d5\u30a3\u30fc\u30eb\u30c9\uff08${inputs.length}\u500b\uff09\u306b\u30e9\u30d9\u30eb\u304c\u8a2d\u5b9a\u3055\u308c\u3066\u3044\u307e\u3059`, action: ''
+        id: 'form-label-ok', status: 'pass', titleKey: 'a11yFormLabelOk',
+        body: `${inputs.length} inputs`
       });
     }
 
@@ -234,9 +222,8 @@
     const emptyLinks = Array.from(links).filter(a => !a.textContent.trim() && !a.getAttribute('aria-label') && !a.querySelector('img[alt]'));
     if (emptyLinks.length > 0) {
       results.accessibility.push({
-        id: 'link-empty', status: 'warn', title: '\u30c6\u30ad\u30b9\u30c8\u306e\u306a\u3044\u30ea\u30f3\u30af',
-        body: `${emptyLinks.length}\u500b\u306e\u30ea\u30f3\u30af\u306b\u30a2\u30af\u30bb\u30b9\u53ef\u80fd\u306a\u30c6\u30ad\u30b9\u30c8\u304c\u3042\u308a\u307e\u305b\u3093`,
-        action: '\u30ea\u30f3\u30af\u5148\u304c\u4f55\u3067\u3042\u308b\u304b\u3092\u30e6\u30fc\u30b6\u30fc\u304c\u7406\u89e3\u3067\u304d\u308b\u3088\u3046\u3001\u8aac\u660e\u30c6\u30ad\u30b9\u30c8\u307e\u305f\u306f aria-label \u3092\u8ffd\u52a0\u3057\u3066\u304f\u3060\u3055\u3044\u3002'
+        id: 'link-empty', status: 'warn', titleKey: 'a11yLinkEmpty',
+        body: `${emptyLinks.length} links`
       });
     }
 
@@ -244,37 +231,30 @@
     const viewport = document.querySelector('meta[name="viewport"]');
     if (!viewport) {
       results.accessibility.push({
-        id: 'viewport-missing', status: 'warn', title: 'Viewport\u30e1\u30bf\u30bf\u30b0\u306a\u3057',
-        body: 'Viewport\u30e1\u30bf\u30bf\u30b0\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093',
-        action: '\u30e2\u30d0\u30a4\u30eb\u5bfe\u5fdc\u306b\u3059\u308b\u305f\u3081\u3001viewport\u30e1\u30bf\u30bf\u30b0\u3092\u8ffd\u52a0\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <meta name="viewport" content="width=device-width, initial-scale=1">'
+        id: 'viewport-missing', status: 'warn', titleKey: 'a11yViewportMissing'
       });
     } else {
       results.accessibility.push({
-        id: 'viewport-ok', status: 'pass', title: 'Viewport\u30e1\u30bf\u30bf\u30b0',
-        body: 'Viewport\u30e1\u30bf\u30bf\u30b0\u306b\u3088\u308b\u30e2\u30d0\u30a4\u30eb\u6700\u9069\u5316\u8a2d\u5b9a\u3042\u308a', action: ''
+        id: 'viewport-ok', status: 'pass', titleKey: 'a11yViewportOk'
       });
     }
 
-    // Focus indicators (basic check)
+    // Focus indicators
     const buttons = document.querySelectorAll('button, [role="button"]');
     const totalInteractive = links.length + buttons.length + inputs.length;
     results.accessibility.push({
-      id: 'interactive-count', status: 'info', title: '\u30a4\u30f3\u30bf\u30e9\u30af\u30c6\u30a3\u30d6\u8981\u7d20',
-      body: `\u30a4\u30f3\u30bf\u30e9\u30af\u30c6\u30a3\u30d6\u8981\u7d20\u306e\u5408\u8a08: ${totalInteractive}\u500b\uff08\u30ea\u30f3\u30af: ${links.length}, \u30dc\u30bf\u30f3: ${buttons.length}, \u5165\u529b: ${inputs.length}\uff09`,
-      action: ''
+      id: 'interactive-count', status: 'info', titleKey: 'a11yInteractive',
+      body: `Links: ${links.length}, Buttons: ${buttons.length}, Inputs: ${inputs.length} (Total: ${totalInteractive})`
     });
   }
 
   // ============ Structure Analysis ============
 
   function analyzeStructure() {
-    // Schema.org / JSON-LD
     const jsonLd = document.querySelectorAll('script[type="application/ld+json"]');
     if (jsonLd.length === 0) {
       results.structure.push({
-        id: 'schema-missing', status: 'warn', title: '\u69cb\u9020\u5316\u30c7\u30fc\u30bf (Schema.org) \u306a\u3057',
-        body: 'JSON-LD\u5f62\u5f0f\u306e\u69cb\u9020\u5316\u30c7\u30fc\u30bf\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093',
-        action: 'Schema.org\u69cb\u9020\u5316\u30c7\u30fc\u30bf\u3092\u8ffd\u52a0\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <script type="application/ld+json">\n{"@context":"https://schema.org",\n "@type":"WebPage",\n "name":"\u30da\u30fc\u30b8\u540d",\n "description":"\u8aac\u660e"}\n</script>'
+        id: 'schema-missing', status: 'warn', titleKey: 'strSchemaMissing'
       });
     } else {
       let types = [];
@@ -285,13 +265,12 @@
           if (Array.isArray(data['@graph'])) {
             data['@graph'].forEach(item => { if (item['@type']) types.push(item['@type']); });
           }
-        } catch(e) { /* ignore parse errors */ }
+        } catch(e) {}
       });
       results.structure.push({
-        id: 'schema-ok', status: 'pass', title: '\u69cb\u9020\u5316\u30c7\u30fc\u30bf (Schema.org)',
-        body: `${jsonLd.length}\u500b\u306eJSON-LD\u30d6\u30ed\u30c3\u30af\u3092\u691c\u51fa\u3057\u307e\u3057\u305f`,
-        value: types.length > 0 ? `\u691c\u51fa\u3055\u308c\u305f\u30bf\u30a4\u30d7: ${types.join(', ')}` : '',
-        action: ''
+        id: 'schema-ok', status: 'pass', titleKey: 'strSchemaOk',
+        body: `${jsonLd.length} JSON-LD blocks`,
+        value: types.length > 0 ? `Types: ${types.join(', ')}` : ''
       });
     }
 
@@ -301,14 +280,13 @@
       const content = robots.content.toLowerCase();
       if (content.includes('noindex')) {
         results.structure.push({
-          id: 'robots-noindex', status: 'warn', title: 'Noindex\u8a2d\u5b9a\u3042\u308a',
-          body: `\u8a18\u8ff0\u5185\u5bb9: "${robots.content}"`,
-          action: '\u3053\u306e\u30da\u30fc\u30b8\u306f\u691c\u7d22\u7d50\u679c\u306b\u8868\u793a\u3055\u308c\u307e\u305b\u3093\u3002\u30a4\u30f3\u30c7\u30c3\u30af\u30b9\u3055\u305b\u305f\u3044\u5834\u5408\u306f noindex \u3092\u524a\u9664\u3057\u3066\u304f\u3060\u3055\u3044\u3002'
+          id: 'robots-noindex', status: 'warn', titleKey: 'strRobotsNoindex',
+          body: `"${robots.content}"`
         });
       } else {
         results.structure.push({
-          id: 'robots-ok', status: 'pass', title: 'Robots \u30e1\u30bf\u30bf\u30b0',
-          body: `\u8a18\u8ff0\u5185\u5bb9: "${robots.content}"`, action: ''
+          id: 'robots-ok', status: 'pass', titleKey: 'strRobotsOk',
+          body: `"${robots.content}"`
         });
       }
     }
@@ -317,28 +295,23 @@
     const favicon = document.querySelector('link[rel="icon"], link[rel="shortcut icon"]');
     if (!favicon) {
       results.structure.push({
-        id: 'favicon-missing', status: 'warn', title: '\u30d5\u30a1\u30d3\u30b3\u30f3 (Favicon) \u306a\u3057',
-        body: '\u30d5\u30a1\u30d3\u30b3\u30f3\u306e\u30ea\u30f3\u30af\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093',
-        action: '\u30d6\u30e9\u30a6\u30b6\u306e\u30bf\u30d6\u3084\u304a\u6c17\u306b\u5165\u308a\u3067\u30d6\u30e9\u30f3\u30c9\u3092\u8a8d\u8b58\u3057\u3084\u3059\u304f\u3059\u308b\u305f\u3081\u3001\u30d5\u30a1\u30d3\u30b3\u30f3\u3092\u8ffd\u52a0\u3057\u3066\u304f\u3060\u3055\u3044\u3002'
+        id: 'favicon-missing', status: 'warn', titleKey: 'strFaviconMissing'
       });
     } else {
       results.structure.push({
-        id: 'favicon-ok', status: 'pass', title: '\u30d5\u30a1\u30d3\u30b3\u30f3 (Favicon)',
-        body: '\u30d5\u30a1\u30d3\u30b3\u30f3\u8a2d\u5b9a\u3042\u308a', action: ''
+        id: 'favicon-ok', status: 'pass', titleKey: 'strFaviconOk'
       });
     }
 
     // HTTPS check
     if (window.location.protocol !== 'https:') {
       results.structure.push({
-        id: 'https-missing', status: 'fail', title: 'HTTPS\u975e\u5bfe\u5fdc',
-        body: `\u30d7\u30ed\u30c8\u30b3\u30eb: ${window.location.protocol}`,
-        action: 'HTTPS\u306b\u79fb\u884c\u3057\u3066\u304f\u3060\u3055\u3044\u3002Google\u30e9\u30f3\u30ad\u30f3\u30b0\u30b7\u30b0\u30ca\u30eb\u3068\u3057\u3066\u5fc5\u9808\u3067\u3059\u3002\n\ud83d\udcdd # .htaccess\u3067\u306e\u30ea\u30c0\u30a4\u30ec\u30af\u30c8\u4f8b\nRewriteEngine On\nRewriteCond %{HTTPS} off\nRewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]'
+        id: 'https-missing', status: 'fail', titleKey: 'strHttpsMissing',
+        body: `Protocol: ${window.location.protocol}`
       });
     } else {
       results.structure.push({
-        id: 'https-ok', status: 'pass', title: 'HTTPS\u5bfe\u5fdc',
-        body: '\u5b89\u5168\u306a\u63a5\u7d9a (\u30bb\u30ad\u30e5\u30a2\u901a\u4fe1)', action: ''
+        id: 'https-ok', status: 'pass', titleKey: 'strHttpsOk'
       });
     }
 
@@ -347,24 +320,21 @@
     const sizeKB = (docSize / 1024).toFixed(0);
     const status = docSize > 500 * 1024 ? 'warn' : 'pass';
     results.structure.push({
-      id: 'page-size', status: status, title: 'HTML\u30c9\u30ad\u30e5\u30e1\u30f3\u30c8\u30b5\u30a4\u30ba',
-      body: `${sizeKB} KB`,
-      action: docSize > 500 * 1024 ? 'HTML\u30b5\u30a4\u30ba\u304c\u904e\u5927\u3067\u3059\u3002\u672a\u4f7f\u7528\u306e\u30b3\u30fc\u30c9\u3084\u3001\u5de8\u5927\u306a\u30a4\u30f3\u30e9\u30a4\u30f3SVG\u30fb\u30b9\u30bf\u30a4\u30eb\u306a\u3069\u3092\u524a\u6e1b\u3057\u3066\u304f\u3060\u3055\u3044\u3002' : ''
+      id: 'page-size', status: status, titleKey: 'strPageSize',
+      body: `${sizeKB} KB`
     });
   }
 
   // ============ LLMO (AI Readiness) Analysis ============
 
   function analyzeLLMO() {
-    // 1. EC Schema Check (Product, Offer, etc.)
     const jsonLd = document.querySelectorAll('script[type="application/ld+json"]');
     const ecSchemas = ['Product', 'Offer', 'AggregateRating', 'Review', 'FAQPage', 'HowTo', 'Organization'];
     let foundEcSchemas = [];
-    
+
     jsonLd.forEach(script => {
       try {
         const data = JSON.parse(script.textContent);
-        
         const checkType = (typeVal) => {
           if (!typeVal) return;
           const t = Array.isArray(typeVal) ? typeVal : [typeVal];
@@ -376,42 +346,34 @@
             });
           });
         };
-
         checkType(data['@type']);
         if (Array.isArray(data['@graph'])) {
           data['@graph'].forEach(item => checkType(item['@type']));
         }
-      } catch(e) { /* ignore parse errors */ }
+      } catch(e) {}
     });
 
     if (foundEcSchemas.length > 0) {
       results.llmo.push({
-        id: 'llmo-ec-schema-ok', status: 'pass', title: 'EC\u7528\u69cb\u9020\u5316\u30c7\u30fc\u30bf (Schema)',
-        body: `\u691c\u51fa: ${foundEcSchemas.join(', ')}`,
-        action: 'ChatGPT\u7b49\u306eAI\u691c\u7d22\u3067\u5546\u54c1\u60c5\u5831\u3068\u3057\u3066\u6b63\u78ba\u306b\u8a8d\u8b58\u30fb\u5f15\u7528\u3055\u308c\u3084\u3059\u304f\u306a\u308a\u307e\u3059\u3002'
+        id: 'llmo-ec-schema-ok', status: 'pass', titleKey: 'llmoEcSchemaOk',
+        body: `Found: ${foundEcSchemas.join(', ')}`
       });
     } else {
       results.llmo.push({
-        id: 'llmo-ec-schema-missing', status: 'fail', title: 'EC\u7528\u69cb\u9020\u5316\u30c7\u30fc\u30bf\u306a\u3057',
-        body: 'Product\u3084Offer\u306a\u3069\u306eEC\u5411\u3051Schema\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093',
-        action: 'AI\u304c\u5546\u54c1\u30da\u30fc\u30b8\u3092\u6b63\u78ba\u306b\u7406\u89e3\u3067\u304d\u308b\u3088\u3046\u69cb\u9020\u5316\u30c7\u30fc\u30bf\u3092\u8ffd\u52a0\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <script type="application/ld+json">\n{"@context":"https://schema.org",\n "@type":"Product",\n "name":"\u5546\u54c1\u540d",\n "image":"https://example.com/img.jpg",\n "offers":{"@type":"Offer",\n  "price":"1980",\n  "priceCurrency":"JPY"}}\n</script>'
+        id: 'llmo-ec-schema-missing', status: 'fail', titleKey: 'llmoEcSchemaMissing'
       });
     }
 
-    // 2. E-E-A-T Signals (Author / Date / Trust)
+    // E-E-A-T Signals
     const author = document.querySelector('meta[name="author"], link[rel="author"], .author, .company-name');
     const pubDate = document.querySelector('meta[property="article:published_time"], time[pubdate]');
     if (author || pubDate) {
       results.llmo.push({
-        id: 'llmo-eeat-ok', status: 'pass', title: 'E-E-A-T \u30b7\u30b0\u30ca\u30eb',
-        body: '\u8457\u4f5c\u8005/\u904b\u55b6\u5143\u60c5\u5831 \u307e\u305f\u306f \u65e5\u4ed8\u60c5\u5831 \u3092\u691c\u51fa',
-        action: 'AI\u306f\u60c5\u5831\u306e\u4fe1\u983c\u6027\u3092\u8a55\u4fa1\u3059\u308b\u305f\u3081\u3001\u660e\u78ba\u306a\u904b\u55b6\u5143\u60c5\u5831\u3068\u66f4\u65b0\u65e5\u306f\u5f15\u7528\u306e\u969b\u306b\u6709\u5229\u306b\u50cd\u304d\u307e\u3059\u3002'
+        id: 'llmo-eeat-ok', status: 'pass', titleKey: 'llmoEeatOk'
       });
     } else {
       results.llmo.push({
-        id: 'llmo-eeat-missing', status: 'warn', title: 'E-E-A-T \u30b7\u30b0\u30ca\u30eb\u4e0d\u8db3',
-        body: '\u904b\u55b6\u5143\u3084\u516c\u958b\u65e5\u30fb\u66f4\u65b0\u65e5\u304c\u660e\u78ba\u306b\u30de\u30fc\u30af\u30a2\u30c3\u30d7\u3055\u308c\u3066\u3044\u307e\u305b\u3093',
-        action: 'AI\u306b\u5f15\u7528\u3055\u308c\u308b\u78ba\u7387\u3092\u4e0a\u3052\u308b\u305f\u3081\u3001\u904b\u55b6\u8005\u60c5\u5831\u3092\u30de\u30fc\u30af\u30a2\u30c3\u30d7\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n\ud83d\udcdd <meta name="author" content="\u4f1a\u793e\u540d">\n<meta property="article:published_time" content="2024-01-15">'
+        id: 'llmo-eeat-missing', status: 'warn', titleKey: 'llmoEeatMissing'
       });
     }
   }
